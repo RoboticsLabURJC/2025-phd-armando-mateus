@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 4</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Inicio</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+<h2>Week 4 - Establishing the MobileNet Training Pipeline</h2>
+<p class="date">October 14, 2025</p>
+<p><strong>Preliminary Implementation of MobileNet Architecture for Autonomous Driving Applications in CARLA</strong></p>
+      
+      <p>Last week presented several technical challenges. Although I had access to a dataset for the CARLA Simulator from [1], it was not immediately usable. A significant issue was an improper mixture of original and augmented images, which required resolution before proceeding.</p>
+      
+      <p>Following this, I began my initial work with PyTorch. I was particularly impressed by its flexibility, as it can run on a CPU without exclusive GPU requirements, and its remarkably low system specifications.</p>
+      
+      <p>To date, I have successfully executed PyTorch and MobileNet examples using pre-trained classification models on two different setups:</p>
+      
+      <ul>
+        <li><strong>CPU Configuration:</strong> Octa-core Core i7 with Ubuntu 20.04</li>
+        <li><strong>GPU Configuration:</strong> Nvidia RTX 2080 Ti with Ubuntu 22.04</li>
+      </ul>
+      
+      <p>The results consistently aligned with the documented performance metrics, and the execution speed was satisfactory on both systems.</p>
+            
+	<p>Unfortunately, the completed tasks required a significant amount of time. Therefore, the upcoming challenge will be to train an autonomous driving model using imitation learning, based on the available dataset, and attempt to replicate the results obtained by Alejandro Moncalvillo [2].</p>
+
+	<p>Additionally, this week I began studying the work by Zhao et al. [3], which provides a comprehensive overview of the different techniques currently employed in Autonomous Driving.</p>
+      <div class="references">
+        <p><strong>References:</strong></p>
+        <p>[1] W. Aristizabal, S. Amaya, and J. M. Calderon, "End-to-End Deep Learning Approach for Comprehensive Autonomous Driving in Simulated Environments," in <em>SoutheastCon 2025</em>, pp. 983-988, Mar. 2025.</p>
+        
+        <p>[2] A. Moncalvillo González, "Seguimiento de carril por visión y conducción autónoma con Aprendizaje por Imitación (Vision-based Lane Keeping and Autonomous Driving using Imitation Learning)," Master's thesis, Universidad Rey Juan Carlos, Madrid, Spain, 2024.</p>
+        
+        <p>[3] Zhao, R., Li, Y., Fan, Y., Gao, F., Tsukada, M., & Gao, Z. (2024). A survey on recent advancements in autonomous driving using deep reinforcement learning: Applications, challenges, and solutions. IEEE Transactions on Intelligent Transportation Systems.</p>
+        
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - Academic Blog by Armando Mateus</p>
+  </footer>
+</body>
+</html>
