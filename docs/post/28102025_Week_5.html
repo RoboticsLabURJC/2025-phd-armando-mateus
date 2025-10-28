@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 4</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Inicio</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+<h2>Week 5 - Establishing the MobileNet Training Pipeline</h2>
+<p class="date">October 28, 2025</p>
+<p><strong>A goal: line follower replication with Mobilenet</strong></p>
+      
+
+    <p>This week marks significant technical advancements in our autonomous driving research project, focusing on the development and refinement of our training pipeline for imitation learning systems.</p>
+
+    <p>The primary objective of our current work is to replicate the research conducted by A. Moncalvillo [1], with a strategic modification to implement an end-to-end training approach using MobileNet architecture. While complete implementation remains in progress, we have achieved substantial technical milestones that demonstrate meaningful progress toward this goal.</p>
+
+    <p>We have successfully configured and operationalized a Logitech G-driving steering wheel system within the CARLA simulation environment. Initial driving tests have been conducted, though further calibration is required to optimize steering sensitivity parameters. Ensuring driver comfort and natural control response is paramount for collecting high-quality expert demonstration data. The current test bench configuration is illustrated in Figure 1 below.</p>
+
+<center>
+    <div class="image-container">
+        <img src="Driving setup.png 	" alt="Expert driving setup with Logitech G-driving wheel in CARLA simulator">
+        <div class="caption">Figure 1. Expert driving setup configuration with Logitech G-driving wheel system.</div>
+    </div>
+</center>
+
+    <p>With this established setup, we have successfully recorded our first expert driving demonstration video, providing the foundational dataset for subsequent training iterations.</p>
+
+    <p>Concurrently, we have initiated comprehensive dataset analysis procedures aimed at achieving optimal class balance and representation. During this preliminary phase, we generated initial distribution histograms for the critical control parameters—"throttle," "steer" and "speed"—across a sample dataset of 100 images, as shown in Figure 2.</p>
+
+<center>
+    <div class="image-container">
+        <img src="histogram.jpg" alt="Histogram analysis of throttle, steer and speed classes across 100-image dataset">
+        <div class="caption">Figure 2. Initial histogram analysis of throttle, steer, and speed parameter distributions across a 100-image dataset sample.</div>
+    </div>
+</center>
+
+    <p>A significant paradigm shift has been implemented in our frame acquisition methodology for training data generation. We have transitioned from the previously used image.save_to_disk(filename) function, which failed to guarantee consistent temporal intervals between frames, to a more robust approach utilizing CARLA's logging and replay capabilities.</p>
+
+    <p>Our new pipeline employs the client.start_recorder(LOG_FILE_NAME) function to capture simulation states during manual driving sessions, followed by asynchronous frame generation using client.replay_file(LOG_FILE_NAME, start_time, duration, 0). This advanced approach ensures precise temporal consistency across extracted frames, significantly improving dataset quality for temporal learning models.</p>
+
+    <div class="reference">
+        <p><strong>Reference:</strong></p>
+        <p>[1] A. Moncalvillo González, "Seguimiento de carril por visión y conducción autónoma con Aprendizaje por Imitación (Vision-based Lane Keeping and Autonomous Driving using Imitation Learning)," Master's thesis, Universidad Rey Juan Carlos, Madrid, Spain, 2024.</p>
+      
+        
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - Academic Blog by Armando Mateus</p>
+  </footer>
+</body>
+</html>
