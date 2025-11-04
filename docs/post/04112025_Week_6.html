@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 6</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Inicio</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h2>Week 6 - Dataset Analysis and Initial Model Training</h2>
+      <p class="date">November 4, 2025</p>
+      <p><strong>Advancing towards balanced datasets and functional autonomous driving</strong></p>
+
+      <p>This week represents a significant milestone in our autonomous driving research project, with substantial progress in dataset management, analysis techniques, and the development of our first functional autonomous driving model.</p>
+
+      <h3>CARLA Replay System Implementation</h3>
+      <p>We have successfully implemented and tested CARLA's replay functionality, enabling the reproduction of previously recorded driving routes. This capability allows for systematic capture of synchronized image sequences from multiple perspectives. However, we identified a critical technical constraint: the image capture resolution directly impacts the minimum achievable time interval between frames. Higher resolution settings introduce processing latency that can result in temporal inconsistencies and occasional capture errors within the image sequences.</p>
+
+      <h3>Advanced 3D Histogram Analysis</h3>
+      <p>To gain deeper insights into our dataset characteristics, we developed comprehensive 3D histogram visualizations that provide multidimensional analysis of parameter distributions. Figure 1 presents a consolidated summary histogram showing the overall distribution patterns across our dataset parameters.</p>
+
+      <center>
+        <div class="image-container">
+            <img src="Histograms3.png" alt="Consolidated histogram summary showing parameter distributions">
+            <div class="caption">Figure 1. Consolidated histogram summary across the complete dataset.</div>
+        </div>
+      </center>
+
+      <p>Building upon this foundation, Figure 2 illustrates our advanced 3D histogram analysis, which reveals the complex interrelationships between steering angles, throttle values, and vehicle speed across different driving scenarios.</p>
+
+      <center>
+        <div class="image-container">
+            <img src="Histograms2.png" alt="Three-dimensional histogram analysis showing parameter correlations">
+            <div class="caption">Figure 2. Three-dimensional histogram analysis revealing correlations between steering, throttle, and speed parameters in various driving conditions.</div>
+        </div>
+      </center>
+
+      <h3>Dataset Imbalance Identification</h3>
+      <p>Our comprehensive analysis has confirmed that the current dataset exhibits significant class imbalance, particularly in steering angle distributions where straight-line driving scenarios dominate. This imbalance presents a substantial challenge for model training, as it can lead to biased predictions favoring the majority classes. Addressing this dataset imbalance through strategic sampling techniques and data augmentation constitutes our primary objective for the upcoming week.</p>
+
+      <h3>Initial Model Training and Performance Metrics</h3>
+      <p>Despite the dataset imbalance challenges, we proceeded with initial model training using our MobileNet-based architecture. The training process yielded promising results, with the performance metrics detailed in Figure 3 demonstrating the model's learning capability across key parameters.</p>
+
+      <center>
+        <div class="image-container">
+            <img src="ModelMetrics2.png" alt="Performance metrics from initial model training">
+            <div class="caption">Figure 3. Training performance metrics showing loss convergence and parameter prediction accuracy across training epochs.</div>
+        </div>
+      </center>
+
+      <h3>Autonomous Driving Validation in CARLA Simulation</h3>
+      <p>We conducted comprehensive testing of our trained model within the CARLA simulation environment to evaluate its autonomous driving capabilities. The model demonstrated functional right-turn identification and execution, successfully recognizing turning scenarios in approximately 50% of test cases. However, as illustrated in Figure 4, the model exhibits inconsistent performance in turn execution, highlighting areas for improvement in our next development cycle.</p>
+
+      <center>
+        <div class="image-container">
+            <img src="AutonomousDriving_turnRigth2.gif" alt="Autonomous vehicle testing results in CARLA simulator">
+            <div class="caption">Figure 4. Autonomous driving test results showing successful right-turn identification with partial execution success rate in CARLA simulation environment.</div>
+        </div>
+      </center>
+
+      <p>These results, while preliminary, validate our architectural approach and provide a solid foundation for iterative improvement through dataset refinement and model optimization in subsequent development phases.</p>
+
+      <div class="reference">
+        <p><strong>Reference:</strong></p>
+        <p>[1] A. Moncalvillo González, "Seguimiento de carril por visión y conducción autónoma con Aprendizaje por Imitación (Vision-based Lane Keeping and Autonomous Driving using Imitation Learning)," Master's thesis, Universidad Rey Juan Carlos, Madrid, Spain, 2024.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - Academic Blog by Armando Mateus</p>
+  </footer>
+</body>
+</html>
