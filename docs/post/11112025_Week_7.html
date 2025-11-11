@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 7</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Inicio</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+<h2>Week 7 - Dataset Expansion and Training Pipeline Optimization</h2>
+<p class="date">November 11, 2025</p>
+<p><strong>Advancing towards robust lane following with MobileNet</strong></p>
+      
+
+    <p>This week represents a significant milestone in our autonomous driving research project, with major progress in dataset creation and important learnings regarding the stability of the CARLA simulation environment under heavy data collection workloads.</p>
+
+    <p>We have successfully created an extensive new dataset comprising over 100,000 images, representing a substantial expansion of our training data. The image acquisition was conducted at a consistent frequency of 20 Hz while maintaining a vehicle speed of 15 km/h within the CARLA simulator. This systematic approach ensures temporal consistency and provides comprehensive coverage of various driving scenarios essential for robust imitation learning.</p>
+
+    <p>During the data collection process, we encountered significant stability challenges with the CARLA simulation environment. The system experienced frequent crashes, particularly during turning maneuvers, manifested through the "Dumped cores" error. This issue appears to be environment-dependent, as it consistently occurs in towns other than Town01, where the simulation remains stable. After extensive testing, we implemented a workaround by reducing the resolution and image quality settings specifically for driving sessions. This compromise allowed us to maintain simulator operability while continuing our data collection efforts, though it represents a trade-off between visual fidelity and system stability that will require further optimization.</p>
+
+    <p>The newly expanded dataset now includes comprehensive examples of right and left turns, as well as challenging lane change maneuvers from the left to right lanes. This diversity in driving scenarios is crucial for training a robust autonomous driving system capable of handling real-world navigation complexities. The inclusion of explicit lane change examples addresses a critical gap in our previous dataset and should significantly improve the model's ability to perform safe and natural lane transitions.</p>
+
+    <p>Due to the persistent stability issues with CARLA, we have not yet been able to perform the comprehensive dataset balancing that we had initially planned. The frequent crashes during extended data collection sessions have made it challenging to systematically balance the distribution of steering angles, throttle values, and specific maneuver types. However, our preliminary training with a subset of 25,000 images containing balanced right and left turn examples has shown promising results. This smaller-scale experiment suggests that even without perfect dataset balance, the inclusion of diverse turning scenarios leads to improved model performance and generalization capabilities.</p>
+
+    <p>The current focus remains on stabilizing the data collection pipeline while continuing to expand the dataset with high-quality, diverse driving examples. Once we achieve consistent simulator stability, we will implement systematic dataset balancing procedures to ensure optimal training performance for our MobileNet-based imitation learning system.</p>
+
+>
+
+    <div class="reference">
+        <p><strong>Reference:</strong></p>
+        <p>[1] A. Moncalvillo González, "Seguimiento de carril por visión y conducción autónoma con Aprendizaje por Imitación (Vision-based Lane Keeping and Autonomous Driving using Imitation Learning)," Master's thesis, Universidad Rey Juan Carlos, Madrid, Spain, 2024.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - Academic Blog by Armando Mateus</p>
+  </footer>
+</body>
+</html>
