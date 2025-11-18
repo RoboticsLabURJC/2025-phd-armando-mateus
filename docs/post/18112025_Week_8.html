@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 8</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Inicio</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+<h2>Week 8 - Technical Challenges and Multi-Town Dataset Expansion</h2>
+<p class="date">November 18, 2025</p>
+<p><strong>Overcoming CARLA stability issues and implementing DAgger approach for robust imitation learning</strong></p>
+      
+
+    <p>This week has presented significant technical challenges with the CARLA simulation environment, while also marking important advancements in our dataset diversification strategy and the implementation of sophisticated imitation learning techniques.</p>
+
+    <p>We have encountered persistent instability issues with our established pipeline of driving session → log creation → offline reproduction for image capture. During reproduction phases, CARLA consistently experiences crashes due to an unexpected town reconfiguration phenomenon. Specifically, when reproducing driving sessions in Town2, after moderate operation duration, the simulation spontaneously switches to Town1. This abrupt environment transition causes immediate reproduction termination as the ego vehicle undergoes a "teleportation" effect, appearing at coordinates occupied by buildings and structures in the new town, resulting in collision errors and simulation failure.</p>
+
+    <p>To enhance our model's generalization capabilities and improve current training results, we have significantly expanded our original dataset by incorporating driving samples from Town2 and Town5, complementing the initial Town1 data. This multi-town approach aims to develop a more robust autonomous driving system capable of navigating the target environment: Town4. The strategic exclusion of Town3 is deliberate, as it features superior detail levels that cause frequent and well-documented failures in CARLA version 0.9.15, making it unsuitable for stable data collection.</p>
+
+    <p>Concurrently, we have initiated implementation of the DAgger (Dataset Aggregation) paradigm to introduce controlled entropy into our training dataset. This approach generates short bursts of "random" driving commands designed to populate the dataset with examples of error recovery and unexpected driving situations. The human driver remains the expert reference base for managing these scenarios, providing optimal correction maneuvers.</p>
+
+    <p>Our current DAgger implementation employs fixed-duration perturbation events of 1 second, during which steering commands receive artificial modifications with random directional inputs of either +1 (sharp right) or -1 (sharp left). These intentional deviations create valuable scenarios where the vehicle begins to depart from the intended path, allowing the human expert to demonstrate appropriate recovery maneuvers. This methodology enriches our dataset with crucial examples of error correction and unexpected situation handling.</p>
+
+    <p>The combination of multi-town dataset expansion and DAgger paradigm implementation represents a comprehensive strategy to enhance our model's robustness. By training on diverse environments and incorporating error recovery examples, we aim to develop an autonomous driving system capable of reliable performance in the challenging Town4 environment, despite the persistent technical limitations of the CARLA simulation platform.</p>
+
+    <div class="reference">
+        <p><strong>Reference:</strong></p>
+        <p>[1] A. Moncalvillo González, "Seguimiento de carril por visión y conducción autónoma con Aprendizaje por Imitación (Vision-based Lane Keeping and Autonomous Driving using Imitation Learning)," Master's thesis, Universidad Rey Juan Carlos, Madrid, Spain, 2024.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - Academic Blog by Armando Mateus</p>
+  </footer>
+</body>
+</html>
