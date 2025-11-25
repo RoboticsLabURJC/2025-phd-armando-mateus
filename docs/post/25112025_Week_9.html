@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 9</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Inicio</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h2>Week 9 - Enhanced CARLA Performance and D.A.G.G.E.R. Dataset Implementation</h2>
+      <p class="date">November 25, 2025</p>
+      <p><strong>Improved simulation stability and advanced dataset aggregation for robust autonomous driving</strong></p>
+
+      <p>This week marks significant progress in both technical performance with the CARLA simulator and the implementation of the D.A.G.G.E.R. (Dataset Aggregation) methodology for training data generation.</p>
+
+      <p>We have successfully improved our technical workflow with CARLA, achieving stable driving sessions in Towns 01, 02, and 04 without crashes, while utilizing "Epic" quality settings for high-definition image capture. This enhancement significantly increases visual detail and consequently introduces greater variability into our training data. Using this improved setup, we generated a comprehensive dataset comprising 178,000 images representing key lane-following maneuvers: forward driving and lane recovery from the left lane back to the right lane.</p>
+
+      <p>However, during autonomous driving tests, we observed a critical limitation: the vehicle demonstrates uncertainty when approaching the right side of multi-lane roads, particularly evident in Town 04. This issue frequently manifests when encountering right-turn lanes and dividers. This observation raises an important question: Could the driving style (aggressive versus defensive) of the human expert provide better response velocities in these challenging scenarios?</p>
+
+      <p>Our second major task involved preparing a specialized dataset using the D.A.G.G.E.R. methodology. We implemented an approach that generates controlled steering perturbations through pulse bursts, modifying the vehicle's steering according to the following equation:</p>
+
+      <p style="text-align: center; font-style: italic;">steering = raw_steering × (1 - δ(t-τ)) + 0.5 × δ(t-τ)</p>
+
+      <p>In this implementation, the delta function δ(t-τ) corresponds to pulses of variable duration between 0.5 and 1.0 seconds. The term 0.5 × δ(t-τ) initially limits steering modifications to two discrete values: +0.5 and -0.5.</p>
+
+      <p>The construction of this dataset has proven particularly challenging due to the inherent randomness that can force the vehicle into frontal collisions with obstacles. This necessitates the development of a more systematic methodology for perturbation application to ensure meaningful training examples while maintaining vehicle safety during data collection.</p>
+
+      <div class="reference">
+        <p><strong>Reference:</strong></p>
+        <p>[1] A. Moncalvillo González, "Seguimiento de carril por visión y conducción autónoma con Aprendizaje por Imitación (Vision-based Lane Keeping and Autonomous Driving using Imitation Learning)," Master's thesis, Universidad Rey Juan Carlos, Madrid, Spain, 2024.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - Academic Blog by Armando Mateus</p>
+  </footer>
+</body>
+</html>
