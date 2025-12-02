@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 10</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Inicio</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h2>Week 10 - Initial DAGGER Steering Implementation and Autonomous Driving Characterization</h2>
+      <p class="date">December 2, 2025</p>
+      <p><strong>First DAGGER steering trials and systematic evaluation of autonomous driving inference parameters</strong></p>
+
+      <p>This week focused on the initial implementation of a steering-based DAGGER (Dataset Aggregation) approach and a detailed characterization of the autonomous driving inference pipeline. These steps are crucial for understanding the current system's limitations and guiding future improvements in data collection and model robustness.</p>
+
+      <p><strong>1. Initial DAGGER Steering Implementation:</strong><br>
+      A preliminary DAGGER steering perturbation strategy was implemented, introducing randomized steering inputs at five discrete levels: full left, moderate left, center, moderate right, and full right. Each perturbation is applied for a duration of 3 seconds while the vehicle maintains a speed of 15 km/h. Under this configuration, for a total driving session of 30 seconds, approximately 10% of the trajectory is not controlled by the expert driver, representing the "non-expert" data collection phase. The results and methodology from this trial are pending comparison and potential integration with the parallel proposal being developed by Luis Daniel Guerrero, aiming to consolidate a unified and more effective perturbation framework.</p>
+
+      <p><strong>2. Challenges in Low-DAGGER Training:</strong><br>
+      Training with limited DAGGER interventions continues to present significant challenges. The inherent randomness of the applied perturbations, while necessary for exploring the state-action space, often leads to low representativeness in the collected corrective data. This sparse and uneven distribution of recovery trajectories suggests that significantly larger and more strategically sampled datasets may be required to train a robust policy capable of generalizing across diverse driving scenarios.</p>
+
+      <p><strong>3. Autonomous Driving Pipeline Characterization:</strong><br>
+      To better understand the system's operational boundaries, a comprehensive verification of the autonomous driving pipeline was conducted:</p>
+      <ul>
+        <li><strong>a. MobileNet Inference Speed:</strong> The average inference time for the MobileNet-based perception model is 0.012 seconds, enabling real-time processing.</li>
+        <li><strong>b. Image Capture Frequency:</strong> The camera operates at a stable 20 frames per second (FPS), providing a consistent visual input stream.</li>
+        <li><strong>c. Steering Command Frequency:</strong> Control commands are issued at 20 FPS, synchronized with the perception cycle.</li>
+        <li><strong>d. Determinism in CARLA:</strong> When repeating autonomous driving tests under identical conditions (environment, time of day, initial position, and orientation), the resulting trajectories, while similar, were never identical. This suggests an inherent entropy or non-deterministic element within the CARLA simulator's physics or sensor simulation.</li>
+        <li><strong>e. Speed Independence Test:</strong> Experiments were repeated at speeds of 5 km/h, 10 km/h, 15 km/h, 30 km/h, and 50 km/h. The lane-following performance demonstrated convergence with minimal differences in tracking accuracy, indicating that the learned policy's steering behavior is largely independent of the vehicle's longitudinal velocity within the tested range.</li>
+      </ul>
+
+      <p>The findings from this week underscore the importance of a methodical approach to dataset aggregation and provide a clear performance baseline for the current autonomous driving stack. The next steps involve refining the DAGGER strategy based on the comparative analysis and scaling the data collection process to address the representativeness challenge.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - Academic Blog by Armando Mateus</p>
+  </footer>
+</body>
+</html>
