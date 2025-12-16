@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 12</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h2>Week 12 - Dataset Refinement and Error Correction in Autonomous Steering Control</h2>
+      <p class="date">December 16, 2025</p>
+      <p><strong>Systematic analysis and correction of steering (w) timing errors through strategic dataset balancing and augmentation</strong></p>
+
+      <p>This week focused on diagnosing and resolving critical errors identified in the autonomous steering (w) control system. Through a methodical approach of dataset analysis, targeted augmentation, and strategic rebalancing, significant improvements were achieved in the model's ability to accurately replicate expert driving behavior, particularly during turning maneuvers.</p>
+
+      <!-- Image placeholder for initial error visualization -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_Errors_last_week.png" alt="Expert driving (blue) vs autonomous driving (red) showing timing errors" class="blog-image" style="width: 300px; height: auto;">
+        <p class="image-caption">Figure 1: Expert driving (blue) vs autonomous driving (red). The initial zero error and delayed start/early termination in autonomous control are evident.</p>
+      </div>
+
+      <p><strong>1. Error Analysis and Problem Identification:</strong><br>
+        This week's work addressed specific errors visible in Figure 1, particularly two critical issues: (1) The initial autonomous steering (w) value should be zero (matching the expert) since driving begins in the right lane moving forward; and (2) Errors in the start and stop timing of steering (w) commands, resulting in shorter execution times for autonomous commands compared to their expert equivalents. Additionally, the peak value of autonomous commands was consistently lower than the expert's. In practice, this means the vehicle correctly detects when a turn should be made, but the steering (w) command starts late, doesn't reach the necessary value, and ends before the turn is completed, ultimately causing the vehicle to leave the road.</p>
+
+      <p><strong>2. Dataset Composition Analysis - Week 11 Baseline:</strong><br>
+        To address these issues, the dataset was analyzed along two key variables: vehicle deviation and steering (w) angle. The original Week 11 dataset composition revealed significant imbalances:</p>
+
+      <div class="dataset-stats">
+        <h4>DATASET GENERAL INFORMATION (Week 11):</h4>
+        <p>Total samples: 112,488 | Number of bins per variable: 7</p>
+        
+        <h4>DEVIATION STATISTICS:</h4>
+        <p>Minimum: -89.989 | Maximum: 89.998 | Mean: 6.875 | Std Dev: 29.544</p>
+        
+        <h4>STEERING (w) STATISTICS:</h4>
+        <p>Minimum: -0.490 | Maximum: 0.779 | Mean: 0.018 | Std Dev: 0.117</p>
+      </div>
+
+      <!-- Image placeholder for Week 11 dataset composition -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_OldDatasetComposition.png" alt="Week 11 vehicle deviation dataset composition for 7 categories" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 2: Week 11 dataset composition for vehicle deviation across 7 categories.</p>
+      </div>
+
+      <!-- Image placeholder for Week 11 steering composition -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_OldDatasetCompositionSteering.png" alt="Week 11 steering dataset composition for 7 categories" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 3: Week 11 dataset composition for steering (w) across 7 categories.</p>
+      </div>
+
+      <p>The statistical analysis revealed clear dataset imbalance. During Week 11, automatic balancing was performed for steering (w) data (Figure 4), but no balancing was applied to deviation data. This partial approach limited the model's ability to learn proper correction timing.</p>
+
+      <!-- Image placeholder for Week 11 balancing -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_OldDatasetBalance.png" alt="Week 11 steering dataset balancing" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 4: Week 11 steering (w) dataset balancing results.</p>
+      </div>
+
+      <p><strong>3. Systematic Workflow for Dataset Improvement:</strong><br>
+        To comprehensively address the imbalance issues and improve model performance, the following workflow was implemented:</p>
+
+      <p><strong>Step 1 - General Sample Increase:</strong> Extended normal driving time in CARLA's Town01 and Town02 environments to capture more diverse driving conditions.</p>
+
+      <p><strong>Step 2 - Focus on Right and Left Turns:</strong> Added specific short driving sequences for right and left turns, starting from positions or directions requiring corrective steering (w).</p>
+
+      <div class="dataset-stats">
+        <h4>DATASET GENERAL INFORMATION (Enhanced):</h4>
+        <p>Total samples: 197,372 | Number of bins per variable: 7</p>
+        
+        <h4>DEVIATION STATISTICS:</h4>
+        <p>Minimum: -89.999 | Maximum: 89.998 | Mean: 5.537 | Std Dev: 32.981</p>
+        
+        <h4>STEERING (w) STATISTICS:</h4>
+        <p>Minimum: -0.689 | Maximum: 0.779 | Mean: 0.018 | Std Dev: 0.138</p>
+      </div>
+
+      <!-- Image placeholder for enhanced deviation composition -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_DatasetCompositionDeviation.png" alt="Enhanced vehicle deviation dataset composition from Steps 1 and 2" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 5: Enhanced vehicle deviation dataset composition resulting from Steps 1 and 2.</p>
+      </div>
+
+      <!-- Image placeholder for enhanced steering composition -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_DatasetCompositionSteering.png" alt="Enhanced steering dataset composition from Steps 1 and 2" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 6: Enhanced steering (w) dataset composition resulting from Steps 1 and 2.</p>
+      </div>
+
+      <p><strong>Step 3 - Category-Based Balancing:</strong> Applied strategic undersampling of overrepresented categories while oversampling underrepresented ones. (Note: Preliminary analyses suggest SMOTE balancing may yield better results, but time constraints prevented implementation this week.)</p>
+
+      <!-- Image placeholder for final balanced composition -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_DatasetAfterBalancing.png" alt="Final balanced steering dataset composition" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 7: Final balanced steering (w) dataset composition after Step 3.</p>
+      </div>
+
+      <p><strong>Step 4 - Training with Balanced Dataset:</strong> The model was trained using the balanced dataset with the following characteristics:</p>
+
+      <div class="training-stats">
+        <h4>TRAINING INFORMATION:</h4>
+        <p>• Duration: 3h 42m 41.9s (13,361.9 seconds)</p>
+        <p>• Architecture: MobileNetV2 + Custom Regression</p>
+        <p>• Total parameters: 2,880,257 | Trainable parameters: 656,385</p>
+        <p>• Batch size: 32 | Learning rate: 0.001</p>
+        <p>• Epochs completed: 63 of 200 planned | Early stopping: Yes (patience: 20 epochs)</p>
+        
+        <h4>TRAINING METRICS:</h4>
+        <p>• Final training loss: 0.013404 (75.4% improvement from initial 0.054513)</p>
+        <p>• Minimum training loss: 0.013287 (epoch 54)</p>
+        <p>• Final validation loss: 0.007106 | Minimum validation loss: 0.007073 (epoch 60)</p>
+        
+        <h4>PREDICTION METRICS:</h4>
+        <p>• MAE: 0.061401 | MSE: 0.006675 | RMSE: 0.081699 | R²: 0.898359</p>
+      </div>
+
+      <!-- Image placeholder for training loss curves -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_TriningProgress.png" alt="Training and validation loss curves" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 8: Training and validation loss curves during model training.</p>
+      </div>
+
+      <p><strong>Step 5 - Results and Comparative Analysis:</strong> The impact of the enhanced dataset and balancing strategy is clearly visible in the comparative analysis of autonomous driving performance.</p>
+
+      <!-- Image placeholder for Week 11 vs expert comparison -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_Week11Results.png" alt="Expert vs autonomous driving with Week 11 steering-only balanced dataset" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 9: Expert driving vs autonomous driving with Week 11 steering (w)-only balanced dataset.</p>
+      </div>
+
+      <!-- Image placeholder for Week 12 vs expert comparison -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_Week12Results.png" alt="Expert vs autonomous driving with enhanced and balanced dataset" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 10: Expert driving vs autonomous driving with enhanced deviation and steering (w) balanced dataset (current week) + critical sample augmentation.</p>
+      </div>
+
+      <p>The comprehensive dataset refinement has enabled the autonomous vehicle to correctly execute turns and lane returns, demonstrating that with more representative and balanced samples, the trained model can infer steering (w) commands much more accurately. With the increase in samples and appropriate balancing of not only steering (w) but also vehicle deviation relative to the road, it has been possible to improve all three previously identified errors: the offset error (non-zero initial value), the error of excessively low peak values, and the command timing errors.</p>
+
+      <!-- Image placeholder for autonomous driving demonstration -->
+      <div class="image-placeholder">
+        <img src="2025_12_16_autonomousDriving.gif" alt="Autonomous driving demonstration" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 11: Autonomous driving demonstration showing improved turning and lane-keeping performance.</p>
+      </div>
+
+      <p><strong>Conclusion:</strong> This week's work demonstrates the critical importance of dataset quality and balance in imitation learning for autonomous driving. By systematically addressing the timing and magnitude errors through targeted data augmentation and strategic balancing, significant improvements were achieved in the model's ability to replicate expert steering (w) behavior. The results indicate that further improvements can be expected with continued dataset refinement and potentially more advanced balancing techniques like SMOTE in future iterations.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - Academic Blog by Armando Mateus</p>
+  </footer>
+
+  <style>
+    .dataset-stats, .training-stats {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    
+    .dataset-stats h4, .training-stats h4 {
+      margin-top: 0;
+      color: #2c3e50;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    
+    .image-caption {
+      font-style: italic;
+      color: #666;
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.9em;
+    }
+  </style>
+</body>
+</html>
