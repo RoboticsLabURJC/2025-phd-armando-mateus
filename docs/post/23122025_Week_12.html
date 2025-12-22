@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 13</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h2>Week 13 - PilotNet Deployment and Real-Time Performance Evaluation</h2>
+      <p class="date">December 23, 2025</p>
+      <p><strong>Comparative analysis of PilotNet inference performance and real-world autonomous driving behavior</strong></p>
+
+      <p>This week focused on deploying the PilotNet architecture using the enhanced dataset from Week 12 and evaluating its performance in both offline and online testing environments. The work included training and benchmarking Keras (h5) and TensorFlow Lite (tflite) models, followed by real-time autonomous driving tests to identify behavioral challenges and define future dataset augmentation strategies.</p>
+
+      <!-- Image placeholder for dataset composition -->
+      <div class="image-placeholder">
+        <img src="2025_12_23_DatasetCompositionSteering.png" alt="Week 12 enhanced dataset composition for steering across 7 categories" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 1: Week 12 enhanced dataset composition for steering across 7 categories.</p>
+      </div>
+
+      <p><strong>1. Model Training and Deployment:</strong><br>
+        Using the enhanced dataset from Week 12 (Figure 1), the PilotNet architecture was implemented in both Keras (h5) and TensorFlow Lite (tflite) formats. A dedicated Python environment was set up to install the required packages and ensure compatibility across frameworks. The training process successfully produced both model formats, which were subsequently evaluated for inference performance.</p>
+
+      <p><strong>2. Inference Time Benchmarking:</strong><br>
+        Inference times were measured for each model variant. The complete control loop—including camera capture, inference, and control action—must not exceed 50ms to guarantee a 20Hz execution rate. The results are summarized below, with MobileNet (PyTorch) included as a reference:</p>
+
+      <div class="inference-stats">
+        <h4>INFERENCE TIME COMPARISON:</h4>
+        
+        <h5>MobileNet - PyTorch Model (pth)</h5>
+        <p>• Minimum inference time: 15ms</p>
+        <p>• Maximum inference time: 32ms</p>
+        <p>• Average inference time: 18ms</p>
+        
+        <h5>PilotNet - Keras Model (h5)</h5>
+        <p>• Minimum inference time: 150ms</p>
+        <p>• Maximum inference time: 315ms</p>
+        <p>• Average inference time: 240ms</p>
+        
+        <h5>PilotNet - TensorFlow Lite Model (tflite)</h5>
+        <p>• Minimum inference time: 1ms</p>
+        <p>• Maximum inference time: 2ms</p>
+        <p>• Average inference time: 2ms</p>
+      </div>
+
+      <p>The TensorFlow Lite model was selected for real-time deployment due to its ability to meet the 20Hz requirement, whereas the Keras model exceeded the allowable inference window.</p>
+
+      <p><strong>3. Offline Testing Results:</strong><br>
+        Offline verification tests showed identical behavior between the h5 and tflite PilotNet models, as illustrated in Figure 2. For reference, the MobileNet performance under the same conditions is shown in Figure 3.</p>
+
+      <!-- Image placeholder for PilotNet offline comparison -->
+      <div class="image-placeholder">
+        <img src="2025_12_23_PilotNet_Offline.png" alt="Expert driving vs autonomous driving for enhanced dataset of week 12: autonomous driving based on PilotNet with same results for H5 and tflite models" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 2: Expert driving vs autonomous driving for enhanced dataset of week 12: autonomous driving based on PilotNet with same results for H5 and tflite models.</p>
+      </div>
+
+      <!-- Image placeholder for MobileNet offline comparison -->
+      <div class="image-placeholder">
+        <img src="2025_12_23_MobileNet_Offline.png" alt="Expert driving vs autonomous driving for enhanced dataset of week 12: autonomous driving based on MobileNet" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 3: Expert driving vs autonomous driving for enhanced dataset of week 12: autonomous driving based on MobileNet.</p>
+      </div>
+
+      <p><strong>4. Online Testing and Behavioral Analysis:</strong><br>
+        The TensorFlow Lite model was deployed for real-time autonomous driving tests. The following driving characteristics were observed:</p>
+
+      <ul>
+        <li><strong>Oscillations during straight driving:</strong> Possibly caused by variability in "straight driving examples" within the dataset due to inconsistencies in expert driving behavior.</li>
+        <li><strong>Straight driving in non-permitted areas:</strong> Instances where the vehicle drives too close to or slightly onto sidewalks or lane dividers, and instead of correcting back to the right lane, it continues straight.</li>
+        <li><strong>Early turns:</strong> In some right and left turns, the system initiates steering action prematurely, leading to sidewalk invasion or collisions with obstacles.</li>
+      </ul>
+
+      <p>Given the nature of these issues, the next step is to augment the dataset with a significant number of examples covering these challenging scenarios. This approach aligns with the recommendations from Carlos Andrés Velasquez’s work (https://roboticslaburjc.github.io/2023-phd-carlos-velasquez/weekly%20log/week74/), whose insights are being incorporated into this project.</p>
+
+      <p><strong>5. Autonomous Driving Demonstration:</strong><br>
+        Below is a video showing the autonomous vehicle in operation using the PilotNet/tflite model:</p>
+
+      <!-- Embedded YouTube video -->
+      <div class="video-placeholder">
+        <iframe width="800" height="450" src="https://www.youtube.com/embed/pRsr25HfoGM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p class="image-caption">Figure 4: Autonomous driving with PilotNet/tflite.</p>
+      </div>
+
+      <p><strong>Conclusion:</strong><br>
+        This week’s evaluation confirmed the superior inference speed of the TensorFlow Lite version of PilotNet, making it suitable for real-time deployment at 20Hz. However, behavioral issues during online tests highlight the need for further dataset refinement. The next steps will focus on targeted data collection to address oscillations, improper lane-keeping, and premature turning, following established research recommendations to improve model robustness and driving safety.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - Academic Blog by Armando Mateus</p>
+  </footer>
+
+  <style>
+    .inference-stats {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    
+    .inference-stats h4, .inference-stats h5 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+    
+    .inference-stats h5 {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+      margin-top: 10px;
+    }
+    
+    .image-caption, .video-caption {
+      font-style: italic;
+      color: #666;
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.9em;
+    }
+    
+    .video-placeholder {
+      text-align: center;
+      margin: 30px 0;
+    }
+  </style>
+</body>
+</html>
