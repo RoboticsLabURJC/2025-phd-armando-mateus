@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 14</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h2>Week 14 - Dataset Refinement and Comparative Evaluation of MobileNet and PilotNet</h2>
+      <p class="date">December 30, 2025</p>
+      <p><strong>Enhancing dataset with challenging scenarios and comprehensive offline/online validation of both architectures</strong></p>
+
+      <p>This week's work focused on refining the dataset to address autonomous driving issues identified during online testing. While offline tests for both PilotNet (TensorFlow) and MobileNet (PyTorch) models were satisfactory, online evaluations revealed errors in lane-return behavior and steering stability. To address these issues, the dataset was augmented with specific driving scenarios that exemplify cases where the autonomous controller performed poorly.</p>
+
+      <!-- Image placeholder for dataset composition -->
+      <div class="image-placeholder">
+        <img src="30122025_fig1.png" alt="Week 14 balanced dataset composition for steering across 7 categories" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 1: Balanced dataset composition. The "raw steering" distribution indicates that only 5 of the 7 originally defined categories represent the majority of actions. This differs from vehicle deviation, which requires all 7 categories.</p>
+      </div>
+
+      <p><strong>1. Dataset Enhancement and Balancing:</strong><br>
+        The resulting balanced dataset (Figure 1) shows enrichment in the number of samples per category compared to Week 13. The steering data composition reveals that only 5 of the 7 original categories contain significant samples, while vehicle deviation data utilizes all 7 categories effectively. The balanced dataset contains 28,784 samples distributed across steering categories to address previous performance gaps.</p>
+
+      <p><strong>2. Offline Testing Methodology:</strong><br>
+        Two evaluation scenarios were designed for offline testing:</p>
+      
+      <div class="scenario-description">
+        <h4>SCENARIO 1: STRAIGHT - RIGHT - STRAIGHT - RIGHT</h4>
+        <p>Evaluates the model's ability to follow expert driving commands in a sequence of straight driving followed by right turns.</p>
+        
+        <h4>SCENARIO 2: SOFT LEFT - STRAIGHT LEFT</h4>
+        <p>Tests correction capability from a right-biased vehicle position, followed by straight driving and a left turn.</p>
+      </div>
+
+      <p><strong>3. Offline Test Results:</strong></p>
+      
+      <h4>Scenario 1: STRAIGHT - RIGHT - STRAIGHT - RIGHT</h4>
+      
+      <!-- Image placeholder for MobileNet Scenario 1 -->
+      <div class="image-placeholder">
+        <img src="30122025_fig2.png" alt="Offline results for MobileNet model in Scenario 1" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 2: Offline results for MobileNet model in Scenario 1.</p>
+      </div>
+
+      <!-- Image placeholder for PilotNet Scenario 1 -->
+      <div class="image-placeholder">
+        <img src="30122025_fig3.png" alt="Offline results for PilotNet model in Scenario 1" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 3: Offline results for PilotNet model in Scenario 1.</p>
+      </div>
+
+      <h4>Scenario 2: SOFT LEFT - STRAIGHT - LEFT</h4>
+      
+      <!-- Image placeholder for MobileNet Scenario 2 -->
+      <div class="image-placeholder">
+        <img src="30122025_fig4.png" alt="Offline results for MobileNet model in Scenario 2" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 4: Offline results for MobileNet model in Scenario 2.</p>
+      </div>
+
+      <!-- Image placeholder for PilotNet Scenario 2 -->
+      <div class="image-placeholder">
+        <img src="30122025_fig5.png" alt="Offline results for PilotNet model in Scenario 2" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 5: Offline results for PilotNet model in Scenario 2.</p>
+      </div>
+
+      <p><strong>4. Online Testing Results:</strong><br>
+        Both trained models (MobileNet and PilotNet) were tested in CARLA Simulator to validate their online performance:</p>
+
+      <div class="online-results">
+        <h4>MOBILENET (PYTORCH):</h4>
+        <p>• Stable driving with appropriate lane correction</p>
+        <p>• Correct execution of turns</p>
+        <p>• <strong>Area for improvement:</strong> Response speed occasionally causes road departure and collisions with obstacles</p>
+        
+        <h4>PILOTNET (TENSORFLOW):</h4>
+        <p>• Faster maneuver execution but less stable driving</p>
+        <p>• Correct turns but occasional premature turn initiation</p>
+        <p>• <strong>Issue:</strong> Early turns cause lane departure from the inner side</p>
+      </div>
+
+      <p><strong>5. Preliminary Comparative Analysis:</strong></p>
+      
+      <div class="comparative-table">
+        <h4>PRELIMINARY COMPARATIVE TABLE</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Characteristic</th>
+              <th>PilotNet (TensorFlow)</th>
+              <th>MobileNet (PyTorch)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Framework</td>
+              <td>TensorFlow 2.13.0</td>
+              <td>PyTorch</td>
+            </tr>
+            <tr>
+              <td>Architecture</td>
+              <td>Specific CNN (NVIDIA)</td>
+              <td>Pre-trained CNN (MobileNet)</td>
+            </tr>
+            <tr>
+              <td>Parameters</td>
+              <td>804,203</td>
+              <td>~3-5 million (estimated)</td>
+            </tr>
+            <tr>
+              <td>Model Size</td>
+              <td>3.07 MB</td>
+              <td>~12-20 MB (estimated)</td>
+            </tr>
+            <tr>
+              <td>Training Approach</td>
+              <td>From scratch</td>
+              <td>Transfer Learning</td>
+            </tr>
+            <tr>
+              <td>Test MAE</td>
+              <td>0.0462</td>
+              <td>0.0313337229</td>
+            </tr>
+            <tr>
+              <td>Test Loss</td>
+              <td>0.0051</td>
+              <td>0.006225</td>
+            </tr>
+            <tr>
+              <td>Inference Speed</td>
+              <td>Fast (lightweight CNN)</td>
+              <td>Moderate</td>
+            </tr>
+            <tr>
+              <td>Resources</td>
+              <td>CPU only</td>
+              <td>CUDA/GPU</td>
+            </tr>
+            <tr>
+              <td>Dataset Used</td>
+              <td>28,784 samples (balanced)</td>
+              <td>28,784 samples (balanced)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>Conclusion:</strong><br>
+        This week's work successfully enhanced the dataset with challenging driving scenarios, resulting in improved model performance. The comparative analysis reveals complementary strengths: MobileNet offers stable driving with appropriate corrections but requires optimization for response speed, while PilotNet provides faster inference but exhibits stability issues and premature turns. The next phase will focus on model-specific optimizations—improving MobileNet's response time and refining PilotNet's turning behavior—while continuing to expand the dataset with edge cases to enhance overall autonomous driving robustness.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - Academic Blog by Armando Mateus</p>
+  </footer>
+
+  <style>
+    .scenario-description, .online-results {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    
+    .scenario-description h4, .online-results h4 {
+      margin-top: 0;
+      color: #2c3e50;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    
+    .comparative-table {
+      margin: 30px 0;
+      overflow-x: auto;
+    }
+    
+    .comparative-table h4 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+    
+    .comparative-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    
+    .comparative-table th {
+      background-color: #4a6fa5;
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .comparative-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .comparative-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    .comparative-table tr:hover {
+      background-color: #f1f1f1;
+    }
+    
+    .image-caption {
+      font-style: italic;
+      color: #666;
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.9em;
+    }
+  </style>
+</body>
+</html>
