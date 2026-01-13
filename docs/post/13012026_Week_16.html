@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 16</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h2>Week 16 – Dataset Granularity Analysis and Model Comparison</h2>
+      <p class="date">January 13, 2026</p>
+      <p><strong>Evaluating the impact of dataset granularity on autonomous driving performance using categorized steering and deviation data</strong></p>
+
+      <p>This week’s work focused on analyzing how dataset granularity affects model performance. Experiments were conducted using three levels of categorization for steering and vehicle deviation values. Models were trained on MobileNet and PilotNet architectures to compare stability, lane-keeping ability, and overall driving quality.</p>
+
+      <p><strong>1. Experimental Setup:</strong><br>
+        The dataset was balanced and categorized according to the following criteria:<br>
+        • <strong>Steering (W)</strong>: categorized into 3, 5, and 7 classes.<br>
+        • <strong>Deviation (position/orientation)</strong>: categorized into 3, 5, and 7 classes.<br>
+        Models were trained for each combination, resulting in 12 distinct trained models for comparative analysis.</p>
+
+      <p><strong>2. Results by Steering Categorization:</strong></p>
+
+      <div class="image-placeholder">
+        <img src="Week16_fig1.png" alt="Dataset balancing for 3 steering categories" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 1: Dataset balanced for 3 steering categories.</p>
+      </div>
+
+      <div class="video-container">
+        <h4>MOBILENET – 3 STEERING CATEGORIES</h4>
+        <div class="video-placeholder">
+          <iframe width="800" height="450" 
+                  src="https://www.youtube.com/embed/-iTySrwzln4" 
+                  frameborder="0" 
+                  allowfullscreen>
+          </iframe>
+          <p class="video-caption">MobileNet demonstration with 3 steering categories.</p>
+        </div>
+      </div>
+
+      <div class="video-container">
+        <h4>PILOTNET – 3 STEERING CATEGORIES</h4>
+        <div class="video-placeholder">
+          <iframe width="800" height="450" 
+                  src="https://www.youtube.com/embed/PbARkN2F9AY" 
+                  frameborder="0" 
+                  allowfullscreen>
+          </iframe>
+          <p class="video-caption">PilotNet demonstration with 3 steering categories.</p>
+        </div>
+      </div>
+
+      <div class="image-placeholder">
+        <img src="Week16_fig2.png" alt="Dataset balancing for 5 steering categories" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 2: Dataset balanced for 5 steering categories.</p>
+      </div>
+
+      <div class="video-container">
+        <h4>MOBILENET – 5 STEERING CATEGORIES</h4>
+        <div class="video-placeholder">
+          <iframe width="800" height="450" 
+                  src="https://www.youtube.com/embed/TC7yhvybPg" 
+                  frameborder="0" 
+                  allowfullscreen>
+          </iframe>
+          <p class="video-caption">MobileNet demonstration with 5 steering categories.</p>
+        </div>
+      </div>
+
+      <div class="video-container">
+        <h4>PILOTNET – 5 STEERING CATEGORIES</h4>
+        <div class="video-placeholder">
+          <iframe width="800" height="450" 
+                  src="https://www.youtube.com/embed/OTg19nbkPhs" 
+                  frameborder="0" 
+                  allowfullscreen>
+          </iframe>
+          <p class="video-caption">PilotNet demonstration with 5 steering categories.</p>
+        </div>
+      </div>
+
+      <div class="image-placeholder">
+        <img src="Week16_fig3.png" alt="Dataset balancing for 7 steering categories" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 3: Dataset balanced for 7 steering categories.</p>
+      </div>
+
+      <div class="video-container">
+        <h4>MOBILENET – 7 STEERING CATEGORIES</h4>
+        <div class="video-placeholder">
+          <iframe width="800" height="450" 
+                  src="https://www.youtube.com/embed/ohr4AVn4WDa" 
+                  frameborder="0" 
+                  allowfullscreen>
+          </iframe>
+          <p class="video-caption">MobileNet demonstration with 7 steering categories.</p>
+        </div>
+      </div>
+
+      <div class="video-container">
+        <h4>PILOTNET – 7 STEERING CATEGORIES</h4>
+        <div class="video-placeholder">
+          <iframe width="800" height="450" 
+                  src="https://www.youtube.com/embed/4YraAAoi5b0" 
+                  frameborder="0" 
+                  allowfullscreen>
+          </iframe>
+          <p class="video-caption">PilotNet demonstration with 7 steering categories.</p>
+        </div>
+      </div>
+
+      <p><strong>3. Results by Deviation Categorization:</strong></p>
+
+      <div class="image-placeholder">
+        <img src="Week16_fig4.png" alt="Dataset balancing for 3 deviation categories" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 4: Dataset balanced for 3 deviation categories.</p>
+      </div>
+
+      <div class="image-placeholder">
+        <img src="Week16_fig5.png" alt="Dataset balancing for 5 deviation categories" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 5: Dataset balanced for 5 deviation categories.</p>
+      </div>
+
+      <div class="image-placeholder">
+        <img src="Week16_fig6.png" alt="Dataset balancing for 7 deviation categories" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 6: Dataset balanced for 7 deviation categories.</p>
+      </div>
+
+      <p><strong>4. Analysis and Conclusions:</strong></p>
+      <div class="online-results">
+        <h4>KEY FINDINGS:</h4>
+        <p>• <strong>MobileNet</strong> consistently demonstrated better path tracking and higher stability, maintaining smooth lane changes compared to PilotNet.</p>
+        <p>• <strong>PilotNet</strong> showed less stability and inadequate lane-return behavior, especially when trained only on steering data.</p>
+        <p>• Including <strong>deviation data</strong> (position/orientation) improved PilotNet’s ability to stay on the road longer, though driving remained less stable with more time spent outside the right lane.</p>
+        <p>• Increased granularity (more categories) improved model responsiveness but also raised the probability of lane departures and collisions when only steering was used.</p>
+        <p>• Combining steering and deviation data with higher granularity (5×5 or 7×7 categories) yielded the most balanced performance, as shown in Figures 5–7.</p>
+      </div>
+
+      <div class="next-steps">
+        <h4>PLANNED METRICS FOR FUTURE EVALUATION:</h4>
+        <p>• Percentage of driving time outside the right lane</p>
+        <p>• Number of lane departures during straight driving</p>
+        <p>• Number of left/right turns that result in lane exits</p>
+        <p>• Crash rate with static and dynamic obstacles</p>
+      </div>
+
+      <p><strong>5. Next Steps:</strong><br>
+        Future work will focus on quantifying the observed behaviors with the proposed metrics and further refining dataset balancing strategies. Hybrid approaches combining the stability of MobileNet with the responsiveness of PilotNet will also be explored, along with continued dataset expansion using DAgger methodology to capture edge cases and failure scenarios.</p>
+
+      <p><strong>Conclusion:</strong><br>
+        Week 16 provided valuable insights into the role of dataset granularity in autonomous driving models. MobileNet proved more reliable for stable lane-keeping, while PilotNet benefited significantly from the inclusion of deviation data. Higher granularity generally improved model nuance but required careful balancing to avoid overfitting to steering extremes. These findings will guide the next phase of model optimization and dataset enrichment.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus</p>
+  </footer>
+
+  <style>
+    .online-results, .next-steps {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    
+    .online-results h4, .next-steps h4 {
+      margin-top: 0;
+      color: #2c3e50;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    
+    .video-container {
+      margin: 30px 0;
+    }
+    
+    .video-container h4 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-size: 1.1em;
+    }
+    
+    .video-placeholder {
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .image-caption, .video-caption {
+      font-style: italic;
+      color: #666;
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.9em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .video-caption {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 4px;
+    }
+  </style>
+</body>
+</html>
