@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 17</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h2>Week 17 – Single‑Lane Driving Focus and BehaviorMetrics Introduction</h2>
+      <p class="date">January 20, 2026</p>
+      <p><strong>Initiating a focused dataset for lane‑following and exploring BehaviorMetrics pipelines for structured evaluation</strong></p>
+
+      <p>Week 17 marks the start of a new research focus aimed at achieving reliable single‑lane driving without special maneuvers, alongside initial work with BehaviorMetrics for systematic performance assessment.</p>
+
+      <p><strong>1. New Dataset for Lane‑Following:</strong><br>
+        Unlike previous datasets that combined lane‑keeping, turns, and strict right‑lane adherence, the new dataset is specifically designed for lane‑following behavior. It includes examples of driving in any lane across Carla’s Town01, Town02, and Town04 environments, with both left and right turns represented. The current dataset consists of 20,100 samples—still limited for robust performance—distributed as shown in Figure 1.</p>
+
+      <div class="image-placeholder">
+        <img src="comparacion_distribuciones_7bins.png" alt="Dataset distribution for lane‑following objective" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 1: Current dataset distribution under the new lane‑following objective.</p>
+      </div>
+
+      <p><strong>2. Model Training and Preliminary Results:</strong><br>
+        Both MobileNet and PilotNet were trained on this new dataset. PilotNet demonstrated good performance in urban environments with two‑lane roads but showed deviation issues on roads with three or more lanes. MobileNet performed slightly better on multi‑lane highways but still underperformed on two‑lane roads. Video 1 illustrates PilotNet’s behavior in Town04.</p>
+
+      <div class="video-container">
+        <h4>PILOTNET Carla Agent for 20,100 Samples on Town04</h4>
+        <div class="video-placeholder">
+          <iframe width="800" height="450" 
+                  src="https://www.youtube.com/embed/Skm-tlT0dz8"
+                  frameborder="0" 
+                  allowfullscreen>
+          </iframe>
+          <p class="video-caption">PilotNet Carla agent for 20,100 samples on Town04: good performance in two‑lane roads but less stable on highways.</p>
+        </div>
+      </div>
+
+      <p><strong>3. Introduction to BehaviorMetrics:</strong><br>
+        Following the suggestion of Carlos Velasquez, initial conceptual study of BehaviorMetrics pipelines has begun, based on the documentation available at <a href="https://jderobot.github.io/BehaviorMetrics/carla/quick_start/" target="_blank">https://jderobot.github.io/BehaviorMetrics/carla/quick_start/</a>. Pipeline examples have not yet been executed because computational resources with Carla were dedicated to dataset construction and model training this week.</p>
+
+      <div class="online-results">
+        <h4>KEY PROGRESS THIS WEEK:</h4>
+        <p>• New lane‑following dataset created with 20,100 samples across multiple Carla towns.</p>
+        <p>• PilotNet and MobileNet trained on the new dataset; both show lane‑dependent performance gaps.</p>
+        <p>• Preliminary BehaviorMetrics pipeline review initiated—execution planned for Week 18.</p>
+        <p>• Dataset size remains a limiting factor; expansion is required for improved generalization.</p>
+      </div>
+
+      <p><strong>4. Next Steps:</strong><br>
+        Immediate priorities include expanding the lane‑following dataset to improve model robustness across different lane configurations. BehaviorMetrics pipelines will be implemented to quantitatively assess driving performance using predefined metrics. Additionally, hybrid training strategies combining the stability of MobileNet with the responsiveness of PilotNet will be explored further.</p>
+
+      <p><strong>Conclusion:</strong><br>
+        Week 17 established a clearer focus on single‑lane driving and introduced the framework for structured evaluation via BehaviorMetrics. While initial dataset results show promising directional behavior, lane‑generalization remains a challenge. The coming weeks will concentrate on dataset scaling, metric‑driven evaluation, and pipeline‑based experimentation to systematically advance toward reliable lane‑following autonomy.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus</p>
+  </footer>
+
+  <style>
+    .online-results, .next-steps {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    
+    .online-results h4, .next-steps h4 {
+      margin-top: 0;
+      color: #2c3e50;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    
+    .video-container {
+      margin: 30px 0;
+    }
+    
+    .video-container h4 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-size: 1.1em;
+    }
+    
+    .video-placeholder {
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .image-caption, .video-caption {
+      font-style: italic;
+      color: #666;
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.9em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .video-caption {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 4px;
+    }
+  </style>
+</body>
+</html>
