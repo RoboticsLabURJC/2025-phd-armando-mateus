@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus Week 18</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h2>Week 18 – Dataset Rebalancing and Training with Refined Data Strategy</h2>
+      <p class="date">January 27, 2026</p>
+      <p><strong>Redesigning the Carla dataset using a three‑method balancing approach and incorporating expert guidelines for smoother and more structured driving data.</strong></p>
+
+      <p>Week 18 focused on redesigning the dataset for Carla with the goal of applying three different data balancing methods (work is still in progress):</p>
+      <ol>
+        <li>Downsampling of over‑represented classes.</li>
+        <li>Augmentation of under‑represented classes.</li>
+        <li>Weighting for under‑represented classes.</li>
+      </ol>
+
+      <p>The dataset reconstruction also followed the recommendations from Carlos Velasquez:</p>
+      <ol>
+        <li><strong>Smooth Driving:</strong> Steering (W) was limited to the range between -0.4 (150° left) and 0.4 (150° right).</li>
+        <li><strong>Target Distribution:</strong> 
+          <ul>
+            <li>60% straight driving samples</li>
+            <li>30% smooth turns</li>
+            <li>10% sharp turns</li>
+          </ul>
+        </li>
+        <li>Avoid flattening the dataset.</li>
+      </ol>
+
+      <p>The initial balanced dataset composition based on these recommendations is shown in Figure 1.</p>
+
+      <div class="image-placeholder">
+        <!-- Replace with actual image path if available -->
+        <img src="Week18Fig1.png" alt="Initial balanced dataset composition" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 1: Initial balanced dataset composition based on the recommended structure.</p>
+      </div>
+
+      <p><strong>Training Setup:</strong><br>
+        The dataset from Figure 1 was split as follows for training:
+      </p>
+      <ul>
+        <li><strong>Training:</strong> 56,530 images (80%)</li>
+        <li><strong>Validation:</strong> 14,132 images (20%)</li>
+      </ul>
+      <p>Training with the dataset balanced using the three suggested methods (Figure 2) is currently ongoing and has been slower.</p>
+
+      <div class="image-placeholder">
+        <!-- Replace with actual image path if available -->
+        <img src="Week18Fig2.png" alt="Dataset balanced via three methods" class="blog-image" style="width: 800px; height: auto;">
+        <p class="image-caption">Figure 2: Dataset composition after applying the three balancing methods.</p>
+      </div>
+
+      <h3>Training Results with the Dataset from Figure 1</h3>
+      <p>Overall, offline and online results are similar to those previously obtained, with the following characteristics:</p>
+
+      <h4>MobileNet Results</h4>
+      <ul>
+        <li>The ego vehicle drives stably in lanes within dense environments (large buildings, houses).</li>
+        <li>It becomes "confused" by sidewalks on the sides and tends to drive onto them, leading to frequent road exits.</li>
+        <li>Right turns are initiated at the correct time, but the vehicle fails to stay in the right lane after completing the turn.</li>
+      </ul>
+
+      <h4>PilotNet Results</h4>
+      <ul>
+        <li>The vehicle does not stay in the right lane but oscillates between the right and left lanes.</li>
+        <li>It is less confused than MobileNet, so it does not leave the road and can drive for longer periods.</li>
+        <li>Takes turns too quickly and does not complete them properly, causing lane departure.</li>
+      </ul>
+
+      <h3>Behavior Metrics</h3>
+      <p>A report was submitted regarding broken links on the BehaviorMetrics website. The tool was launched for the first time, and further exploration of its pipeline and results is planned for the following week.</p>
+
+      <div class="online-results">
+        <h4>KEY PROGRESS THIS WEEK:</h4>
+        <p>• Dataset redesigned following a three‑method balancing strategy and expert guidelines.</p>
+        <p>• Initial balanced dataset created and used for training MobileNet and PilotNet.</p>
+        <p>• Training with the three‑method balanced dataset is still in progress.</p>
+        <p>• BehaviorMetrics tool launched; initial pipeline exploration planned for next week.</p>
+        <p>• Both models show specific failure modes: MobileNet exits on sidewalks, PilotNet oscillates and misses turn completion.</p>
+      </div>
+
+      <p><strong>Next Steps:</strong><br>
+        Complete the training with the three‑method balanced dataset and compare results with the initial balanced version. Implement BehaviorMetrics pipelines for quantitative evaluation. Analyze model weaknesses to design targeted data augmentation or architectural adjustments.
+      </p>
+
+      <p><strong>Conclusion:</strong><br>
+        Week 18 involved a significant restructuring of the dataset to improve balance and adhere to smoother driving guidelines. Initial training results reveal persistent challenges in lane‑keeping and turn completion. The upcoming week will focus on completing the balanced training, deploying BehaviorMetrics for structured evaluation, and iterating on the data strategy to address observed failures.
+      </p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus</p>
+  </footer>
+
+  <style>
+    .online-results, .next-steps {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    
+    .online-results h4, .next-steps h4 {
+      margin-top: 0;
+      color: #2c3e50;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    
+    .video-container {
+      margin: 30px 0;
+    }
+    
+    .video-container h4 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-size: 1.1em;
+    }
+    
+    .video-placeholder {
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .image-caption, .video-caption {
+      font-style: italic;
+      color: #666;
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.9em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .video-caption {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 4px;
+    }
+  </style>
+</body>
+</html>
