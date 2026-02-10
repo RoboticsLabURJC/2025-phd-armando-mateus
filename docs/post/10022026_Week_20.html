@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Driving Model Training Report - Week 20</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .date {
+            text-align: right;
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .figure {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .figure img {
+            max-width: 100%;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+        }
+        .caption {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .video-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+        iframe {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        ul, ol {
+            margin-left: 20px;
+        }
+        .highlight {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .conclusion {
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Autonomous Driving Model Training Report</h1>
+        <div class="date">Report Date: May 20, 2024 | Week 20</div>
+
+        <div class="section">
+            <h2>1. First Generated Dataset: Centered Driving + Turns</h2>
+            <p>The main cause of the high repetition of images was the frequency at which images were generated from the driving log file. Once this parameter was reduced, the images were properly generated at a speed of 15 km/h and 20 fps (originally generated at 400x and reduced to 1x). Therefore, images were regenerated and the dataset was built with careful attention to avoid repetition in the system's input images.</p>
+            <p>The model training has just been completed with the following distribution into 5 categories: <strong>hard left, left, centered, right, and hard right</strong> as shown in Figure 1.</p>
+            
+            <div class="figure">
+                <!-- Insert Figure 1 (first uploaded image) here -->
+                <img src="Week1Fig1.png" alt="Figure 1: Distribution into 5 categories">
+                <div class="caption">Figure 1: Steering distribution in 5 categories</div>
+            </div>
+
+            <p>When this same distribution is displayed in 50 categories, as in Enrique's work, it appears as shown in Figure 2. It appears unbalanced because driving tends to the right. However, two improvements are noticeable:</p>
+            <ul>
+                <li>Very few oscillations compared to previous versions (the lowest so far).</li>
+                <li>Correct lane driving for a longer period.</li>
+            </ul>
+            <p>However, the model still does not learn to take curves adequately; generally, the steering command is issued before the curve begins.</p>
+
+            <div class="figure">
+                <!-- Insert Figure 2 (second uploaded image) here -->
+                <img src="Week20Fig2.png" alt="Figure 2: Distribution into 50 categories">
+                <div class="caption">Figure 2: Raw steering distribution in 50 bins (unbalanced due to right-side driving tendency)</div>
+            </div>
+
+      <div class="video-container">
+        <h4>Video 1. Autonomos driver trained with dataset on Figure 1. </h4>
+        <div class="video-placeholder">
+          <iframe width="800" height="450" 
+                  src="https://www.youtube.com/embed/6mFg2bmXesU"
+                  frameborder="0" 
+                  allowfullscreen>
+          </iframe>
+          <p class="video-caption">PilotNet Carla agent for 20,100 samples on Town04: good performance in two‑lane roads but less stable on highways.</p>
+        </div>
+      </div>
+        </div>
+
+        <div class="section">
+            <h2>2. Second Generated Dataset: Centered Driving + Augmentation (Turns + Lane Recovery)</h2>
+            <p>Based on previous results, to mitigate the early curve-taking effect, lane recovery samples were added. Additionally, dataset augmentation was performed using mirroring for turn and recovery samples. As a result, the dataset profile shown in Figure 3 was obtained. The dataset thus achieves balancing and distribution close to that of Enrique Shirahara's work.</p>
+
+            <div class="figure">
+                <!-- Insert Figure 3 (third uploaded image) here -->
+                <img src="Week20Fig3.jpg" alt="Figure 3: Balanced dataset distribution after augmentation">
+                <div class="caption">Figure 3: Balanced dataset distribution after mirror augmentation</div>
+            </div>
+
+            <div class="video-container">
+                <h3>Video 2. Autonomous driver trained with dataset on figure 2.</h3>
+                <iframe width="800" height="450" src="https://www.youtube.com/embed/DKBuv7pvpkE" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <p>In this case, the following results were observed:</p>
+            <ul>
+                <li>The system improves how turns are taken.</li>
+                <li>It corrects its position.</li>
+                <li>It maintains the central lane with low oscillations.</li>
+            </ul>
+
+            <p>However, the following issues remain:</p>
+            <ul>
+                <li>Oscillations cause driving in the center of the road, between the two lanes; this is possibly due to the mirroring process in dataset augmentation, as the system "seems confused" about which is the correct lane. One proposed solution is to avoid mirroring for recovery maneuvers.</li>
+                <li>The steering command is still issued early, causing the vehicle to turn and subsequently perform lane recovery, but resulting in curb invasion. This may be corrected by increasing the number of samples.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>3. Proposed Work for Current Week</h2>
+            <p>For the work of the current week, the following actions are proposed:</p>
+            <ol>
+                <li>Refinement of the dataset by adjusting mirroring strategies (especially for recovery maneuvers).</li>
+                <li>Increase the number of samples for early-turn scenarios to reduce curb invasion.</li>
+                <li>Evaluation of models using BehaviorMetrics for quantitative performance analysis.</li>
+                <li>Implementation of the "Noise Injection" methodology to improve model robustness.</li>
+            </ol>
+
+            <div class="highlight">
+                <strong>Pending Tasks:</strong>
+                <ul>
+                    <li>Complete BehaviorMetrics integration for model comparison.</li>
+                    <li>Implement and test Noise Injection in the training pipeline.</li>
+                    <li>Validate refined dataset with additional driving scenarios.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h3>Summary</h3>
+            <p>Significant progress has been made in dataset generation and model training for autonomous driving. The first dataset showed improvements in oscillation reduction and lane keeping but suffered from early curve-taking. The second dataset, augmented with mirrored turns and lane recovery, achieved better balance and improved turn execution but introduced oscillation-related lane confusion. The upcoming work focuses on dataset refinement, model evaluation with BehaviorMetrics, and implementation of noise injection to enhance model generalization and robustness.</p>
+        </div>
+    </div>
+</body>
+</html>
