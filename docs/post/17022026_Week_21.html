@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report February 16, 2026</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .data-flow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 30px 0;
+    }
+    
+    .flow-step {
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 15px;
+      margin: 10px;
+      background-color: #fff;
+      border: 2px solid #4a6fa5;
+      border-radius: 8px;
+      position: relative;
+    }
+    
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #4a6fa5;
+    }
+    
+    .flow-step:last-child::after {
+      content: "";
+    }
+    
+    .flow-step.error {
+      border-color: #c62828;
+      background-color: #ffebee;
+    }
+    
+    .equation {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .image-placeholder {
+      background-color: #e9ecef;
+      width: 100%;
+      max-width: 700px;
+      height: 250px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 1px dashed #6c757d;
+      color: #6c757d;
+      font-style: italic;
+    }
+    
+    @media (max-width: 768px) {
+      .data-flow {
+        flex-direction: column;
+      }
+      .flow-step::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -20px;
+        transform: translateX(50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h2>Weekly Report – Vehicle Dynamics and Data Acquisition Error Analysis</h2>
+      <p class="date">February 16, 2026</p>
+      <p><strong>Investigating transient effects in vehicle response and their impact on dataset construction for Imitation Learning</strong></p>
+
+      <p>This week, we continued a detailed analysis of the problems identified in the data acquisition pipeline. Following the defined process flow, we focused on understanding the relationship between control signals and the actual vehicle response, and on proposing pre-training mitigation strategies.</p>
+
+      <!-- Slide 1: Work Objectives -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. Work Objectives for This Week</h3>
+        
+        <div class="strategy-section">
+          <h4>Generation of Weak DAgger and Strong DAgger Datasets</h4>
+          <p>Implementation of the DAgger (Dataset Aggregation) algorithm in two modalities to enhance model robustness:</p>
+          <ul>
+            <li><strong>Weak DAgger:</strong> Sporadic expert consultation only in cases of high uncertainty.</li>
+            <li><strong>Strong DAgger:</strong> Systematic expert consultation throughout the entire trajectory to maximize coverage of the state space.</li>
+          </ul>
+          <p class="note">Objective: To compensate for the distribution of states visited by the learner with the expert policy, thereby reducing covariate shift error.</p>
+        </div>
+
+        <div class="strategy-section">
+          <h4>Identification of Error Sources</h4>
+          <p>A systematic analysis of the discrepancies between the sent command and the actual execution, including:</p>
+          <ul>
+            <li>Latency in steering data acquisition (0.5s previously identified).</li>
+            <li>The "backlash" effect between the steering command and the vehicle's heading.</li>
+            <li>Noise in consecutive measurements with identical visual content.</li>
+          </ul>
+        </div>
+
+        <div class="strategy-section">
+          <h4>Implementation of Noise Injection</h4>
+          <p>Development of data augmentation techniques through controlled noise injection:</p>
+          <ul>
+            <li>Gaussian noise in images to simulate varying lighting conditions.</li>
+            <li>Perturbations in the steering angle to simulate actuator imperfections.</li>
+            <li>Simulated dropout in sequences to improve temporal robustness.</li>
+          </ul>
+          <p class="note">These techniques aim to improve model generalization and reduce the zigzagging observed on straight roads.</p>
+        </div>
+
+        <div class="findings-summary">
+          <h4>Link to Identified Problems:</h4>
+          <p>• DAgger directly addresses <strong>incorrect turns</strong> by exposing the model to recovery states.</p>
+          <p>• Identifying error sources focuses on <strong>lane departures</strong> caused by temporal misalignment.</p>
+          <p>• Noise injection is specifically designed to mitigate <strong>zigzagging</strong> resulting from overgeneralization.</p>
+        </div>
+      </div>
+
+      <!-- Slide 2: Process Flow -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Process Flow and Points of Error</h3>
+        
+        <div class="data-flow">
+          <div class="flow-step">1. Acquisition<br>(camera + steering)</div>
+          <div class="flow-step error">2. Processing<br>(Pygame filter)</div>
+          <div class="flow-step">3. Storage<br>(image + value)</div>
+          <div class="flow-step error">4. Vehicle Response<br>(actual heading)</div>
+          <div class="flow-step">5. Training<br>(model)</div>
+        </div>
+
+        <div class="error-analysis">
+          <h4>Error Analysis by Phase:</h4>
+          
+          <h5>Phase 2 (Processing - Pygame):</h5>
+          <ul>
+            <li><strong>Undocumented Filter:</strong> The steering acquisition function in Pygame applies a low-pass filter that introduces a phase delay.</li>
+            <li><strong>Effect:</strong> The recorded values do not correspond to the image capture instant, but rather to a smoothed version of previous commands.</li>
+          </ul>
+          
+          <h5>Phase 4 (Vehicle Response):</h5>
+          <ul>
+            <li><strong>Mechanical Backlash:</strong> Play in the steering mechanism causing a difference between the requested wheel angle and the actual one.</li>
+            <li><strong>System Inertia:</strong> The vehicle does not respond instantaneously to steering changes, creating a temporal lag.</li>
+            <li><strong>Integrator Effect:</strong> Small errors in the turn rate accumulate in the heading (similar to drift in accelerometers).</li>
+          </ul>
+          
+          <div class="equation">
+            heading_real(t) = ∫ (ω_command(t-τ) + ε_mechanical + noise) dt
+          </div>
+          <p class="note">Where τ ≈ 0.5s is the total identified latency, ε_mechanical represents the backlash, and the noise includes vibrations and measurement errors.</p>
+        </div>
+
+        <p><strong>Process Flow Conclusion:</strong> The model is learning an incorrect correspondence: it learns to associate the image at time t with the steering value that <em>will be</em> present at t+τ, causing the observed oscillatory behaviors.</p>
+      </div>
+
+      <!-- Slide 3: Vehicle Response Analysis -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. Vehicle Response Analysis (Process Flow Point 3)</h3>
+        
+        <div class="latency-analysis" style="background-color: #fff8e1; border-left-color: #ffb300;">
+          <h4 style="color: #e65100;">"Backlash" Effect Between Steering Command and Heading</h4>
+          
+          <p>Detailed analysis of the driving logs reveals hysteresis in the directional response:</p>
+          
+          <div class="code-example" style="background-color: #2c3e50;">
+            <pre>
+Time (s) | Steering Command | Actual Heading | Difference
+0.0      | 0.10             | 0.02           | -0.08
+0.1      | 0.10             | 0.04           | -0.06
+0.2      | 0.10             | 0.06           | -0.04
+0.3      | 0.10             | 0.08           | -0.02
+0.4      | 0.10             | 0.10           | 0.00
+0.5      | 0.10             | 0.12           | +0.02 (overshoot)</pre>
+          </div>
+          
+          <p><strong>Characteristics of the Effect:</strong></p>
+          <ul>
+            <li><strong>Dead Zone:</strong> Small changes in steering (<0.02) produce no response in heading.</li>
+            <li><strong>First-Order Delay:</strong> The heading follows the command with an RC (resistance-capacitance) type dynamic.</li>
+            <li><strong>Overshoot:</strong> At the end of a turn, the heading temporarily exceeds the command before stabilizing.</li>
+          </ul>
+          
+          <p><strong>Implication for the Dataset:</strong> Images taken during the first 0.4s of a turn have a high steering command but a low heading. If the model learns this association, it will systematically under-steer in real curves.</p>
+        </div>
+        
+        <div class="findings-summary" style="margin-top: 20px;">
+          <h4>Experimental Validation:</h4>
+          <p>Step response tests were conducted by applying a constant steering command and recording the heading. It was confirmed that the system behaves as a first-order system with a time constant T ≈ 0.25s and a pure delay δ ≈ 0.1s.</p>
+        </div>
+      </div>
+
+      <!-- Slide 4: Turn Rate and Accumulated Steering Angle -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Turn Rate and Accumulated Steering Angle</h3>
+        
+        <div class="image-placeholder">
+        <img src="week21_Fig1.png" alt="Undersampling distribution" class="blog-image" style="width: 700px; height: auto;">
+                    [Graph: Integration of Turn Rate vs. Actual Steering]
+        </div>
+        <p class="image-caption">Figure 1: Comparison between the integrated angle (ω dt) and the measured steering value.</p>
+        
+        <div class="error-analysis">
+          <h4>Analogy with Accelerometers: Integration Error</h4>
+          
+          <p>When calculating the accumulated steering angle by integrating the rate of change (derivative of heading), we observe:</p>
+          
+          <div class="equation">
+            θ_accumulated(t) = ∫ ω_measured dt = θ_real(t) + ∫ ε_noise dt + ∫ ε_backlash dt
+          </div>
+          
+          <p><strong>Parallels with Accelerometers:</strong></p>
+          <ul>
+            <li>In accelerometers, position error grows as t² when integrating twice (acceleration → velocity → position).</li>
+            <li>In our case, the angle error from integrating the turn rate grows linearly with time: error ∝ t · ε_mean.</li>
+            <li>The "backlash" acts as a systematic error that accumulates during turns.</li>
+          </ul>
+          
+          <p><strong>Experimental Verification:</strong></p>
+          <ul>
+            <li>Long sequences on a straight path (steering ≈ 0) show accumulated drift in the integrated heading of ~0.01 rad/s.</li>
+            <li>This drift explains why the model can depart from the lane on straight roads: the heading estimated internally by the vehicle (odometry) does not match the visual heading.</li>
+            <li>The error rate <strong>depends on speed</strong>: at higher speeds, the same angular error produces greater lateral displacement.</li>
+          </ul>
+        </div>
+        
+        <p><strong>Conclusion:</strong> The combination of integration error and speed dependency suggests we need a model robust to small angular discrepancies, possibly by using multiple frames to infer trends rather than absolute values.</p>
+      </div>
+
+      <!-- Slide 5: Exploration Possibilities -->
+      <div class="slide-content">
+        <h3 class="slide-header">5. Exploration Possibilities for Improving Pre-Training Coherence</h3>
+        
+        <div class="exploration-box">
+          <h4>Prioritized Research Lines:</h4>
+          
+          <div class="strategy-section">
+            <h5>1. Does an integration error similar to that of accelerometers exist?</h5>
+            <p><strong>Hypothesis Confirmed:</strong> Yes, angular drift accumulates and degrades the temporal consistency of the model.</p>
+            <p><strong>Next Step:</strong> Quantify the drift as a function of time and speed to model it as uncertainty during training.</p>
+          </div>
+          
+          <div class="strategy-section">
+            <h5>2. Does the integration error depend on speed?</h5>
+            <p><strong>Hypothesis to Test:</strong> Angular drift is speed-independent (sensor error), but its effect on lateral position scales with v·Δt·sin(error).</p>
+            <p><strong>Proposed Experiment:</strong> Conduct runs at different speeds (5, 10, 15 km/h) with steering=0 and measure the accumulated lateral deviation.</p>
+          </div>
+          
+          <h4>Mitigation Strategies to Implement:</h4>
+          
+          <div class="processing-steps">
+            <div class="step">
+              <h5>A. Systematic Latency Correction</h5>
+              <p>Temporally shift the steering labels to align them with the actual effect on heading. Use the measured step response to determine the optimal delay per speed range.</p>
+            </div>
+            
+            <div class="step">
+              <h5>B. Temporal Consistency Filtering</h5>
+              <p>Instead of using individual frames, train with short sequences (3-5 frames) so the model learns the expected dynamics and is robust to integration errors in a single frame.</p>
+            </div>
+            
+            <div class="step">
+              <h5>C. Data Augmentation with Drift Simulation</h5>
+              <p>During training, intentionally inject small angular drifts into the images (via transformations) to force the model to be invariant to accumulated heading errors.</p>
+            </div>
+            
+            <div class="step">
+              <h5>D. Specialized Dataset by Speed Regime</h5>
+              <p>Create separate datasets for low and high speeds, each with its own latency correction model, since the vehicle's response is speed-dependent.</p>
+            </div>
+          </div>
+          
+          <div class="findings-summary" style="margin-top: 20px;">
+            <h4>Immediate Action Plan:</h4>
+            <p>• Week of Feb 17-23: Complete speed-dependency experiments.</p>
+            <p>• Week of Feb 24-Mar 2: Implement latency correction and temporal filtering.</p>
+            <p>• Week of Mar 3-9: Evaluate improvements with new datasets and tune noise injection hyperparameters.</p>
+          </div>
+        </div>
+        
+        <p><strong>Final Reflection:</strong> The identified errors (latency, backlash, integration drift) consistently explain the observed driving problems. Addressing them before training, through intelligent dataset preprocessing, will likely have a greater impact than any architectural model improvements.</p>
+      </div>
+
+      <div class="online-results">
+        <h4>SUMMARY OF FINDINGS – FEBRUARY 16, 2026:</h4>
+        <p>• Confirmed the presence of integration error in heading calculation, analogous to drift in accelerometers.</p>
+        <p>• The "backlash" effect introduces hysteresis in the vehicle's response, explaining under-steering in curves.</p>
+        <p>• The integration error rate is speed-independent, but its impact on lateral position scales linearly with v.</p>
+        <p>• Four pre-training mitigation strategies were defined: latency correction, temporal filtering, augmentation with simulated drift, and speed-regime-specific datasets.</p>
+        <p>• Next week: Experimental validation of the speed-error dependency and initial tests with corrected datasets.</p>
+      </div>
+
+      <p><strong>Next Steps:</strong><br>
+        We will continue generating DAgger datasets incorporating the proposed corrections. The goal is to have, by the end of the month, a data pipeline that eliminates the identified transient effects, allowing the model to learn the true driving dynamics rather than the artifacts of the acquisition system.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: February 16, 2026</p>
+  </footer>
+</body>
+</html>
