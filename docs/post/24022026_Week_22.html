@@ -252,7 +252,7 @@
             <tr><td>Weighting (no resample)</td><td>362,388</td><td>3</td><td>23,792</td><td>8,427.6</td><td>6,494.7</td><td>7,930.7</td></tr>
           </tbody>
         </table>
-        <p><em>Undersampling reduced total data by 23.3%, while oversampling increased it by 17.2%. The imbalance ratio improved from ~7930 to 3347 (under) and 1983 (over).</em></p>
+        <p><em>Undersampling reduced total data by 23.3%, while oversampling increased it by 17.2%.</em></p>
         
         <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; justify-content:center;">
           <figure style="flex:1; min-width:200px;">
@@ -303,10 +303,12 @@
           <div class="video-card"><strong>PilotNet (F):</strong> Missed the first 90° left, but later <strong>executed a sharp right turn</strong> at the intersection with overshoot (off‑road). <a href="https://youtu.be/jglI2dmTwmw" target="_blank">Watch Video 6</a></div>
         </div>
         
-        <h4>🔹 Weighting</h4>
-        <p><strong>MobileNet (G):</strong> Training still in progress – results not available.<br>
-        <strong>PilotNet (H):</strong> Not trained due to time constraints.</p>
-        
+        <h4>🔹 Weighting sampling</h4>
+        <div class="video-listing">
+          <div class="video-card"><strong>MobileNet (G):</strong> Training still in progress - results not available.</div>
+          <div class="video-card"><strong>PilotNet (H):</strong> </strong> the model has low zig-zag and weel performance in soft and 90° turns. It also shows a too early rigth turn command wich leads to lane loses.<a href="https://youtu.be/u6HHO3QJyEw" target="_blank">Watch Video 6</a></div>
+        </div>
+                
         <div class="error-analysis" style="margin-top:20px;">
           <h4>Qualitative summary</h4>
           <ul>
