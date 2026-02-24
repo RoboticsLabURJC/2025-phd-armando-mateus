@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report February 24, 2026</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .data-flow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 30px 0;
+    }
+    
+    .flow-step {
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 15px;
+      margin: 10px;
+      background-color: #fff;
+      border: 2px solid #4a6fa5;
+      border-radius: 8px;
+      position: relative;
+    }
+    
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #4a6fa5;
+    }
+    
+    .flow-step:last-child::after {
+      content: "";
+    }
+    
+    .flow-step.error {
+      border-color: #c62828;
+      background-color: #ffebee;
+    }
+    
+    .equation {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .image-placeholder {
+      background-color: #e9ecef;
+      width: 100%;
+      max-width: 700px;
+      height: 250px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 1px dashed #6c757d;
+      color: #6c757d;
+      font-style: italic;
+    }
+    
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .stats-table th {
+      background-color: #4a6fa5;
+      color: white;
+      padding: 8px;
+      text-align: center;
+    }
+    .stats-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: right;
+    }
+    .stats-table td:first-child {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f2f2f2;
+    }
+    .stats-table tr:last-child td {
+      border-bottom: 2px solid #4a6fa5;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 200px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.8em;
+      margin-left: 8px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    @media (max-width: 768px) {
+      .data-flow {
+        flex-direction: column;
+      }
+      .flow-step::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -20px;
+        transform: translateX(50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 22 · February 24, 2026</div>
+      <h2>Systematic Evaluation of Class Balancing Strategies for Imitation Learning</h2>
+      <p class="date">February 24, 2026</p>
+      <p><strong>Impact of undersampling, oversampling, and weighting on MobileNet and PilotNet using a curated multi‑maneuver dataset</strong></p>
+
+      <p>Following the dynamic error analysis reported on Week 21, this week we focused on dataset curation and the empirical comparison of balancing techniques. A refined dataset was built from CARLA logs (Town04) containing three maneuver types: <strong>straight driving</strong>, <strong>lane recovery (Weak/Strong DAgger)</strong>, and <strong>90° urban turns</strong>. Image frames were generated with a 1‑second margin between samples to avoid temporal redundancy, and extreme steering commands (>45°) were filtered to remove spurious peaks. A 90° right turn repeated 25 times by a human driver is shown in Figure 1 as a qualitative example of the recorded maneuvers.</p>
+
+      <!-- Figure 1 placeholder -->
+      <div class="image-placeholder" style="height: auto; background: none; border: none;">
+        <figure style="width:100%; margin:0; text-align:center;">
+          <img src="Week22_fig01.png" alt="Repeated 90° right turn" style="max-width:100%; border:1px solid #ccc; border-radius:4px;">
+          <figcaption><strong>Figure 1:</strong> 90° right turn maneuver repeated 25 times by human driver (steering angle evolution).</figcaption>
+        </figure>
+      </div>
+
+      <!-- Dataset structure description -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. Dataset Composition and Preprocessing</h3>
+        <ul>
+          <li><strong>Core maneuvers:</strong> centred driving, DAgger‑based recovery (weak/strong), and 90° urban turns (left/right).</li>
+          <li><strong>Frame generation:</strong> extracted from log files with a 1 s safety margin between consecutive frames to avoid burst duplicates.</li>
+          <li><strong>Steering filtering:</strong> removed commands > |45°| to eliminate unrealistic spikes and ensure driving repeatability.</li>
+          <li><strong>Total raw samples:</strong> 362,388 frames, spanning 43 non‑zero steering categories (out of 51 bins, resolution ~1.8° per bin).</li>
+        </ul>
+        <p class="note">The one‑second margin directly addresses the oversampling hypothesis from previous weeks: excessive frame repetition was identified as a major cause of oscillatory behaviour.</p>
+      </div>
+
+      <!-- Balancing results summary -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Balancing Strategies – Dataset Statistics</h3>
+        <p>Four configurations were prepared from the original dataset: <strong>unbalanced</strong>, <strong>undersampling</strong>, <strong>oversampling</strong>, and <strong>class weighting</strong> (applied during training, no sample count change). The table below summarises the resulting distributions.</p>
+
+        <table class="stats-table">
+          <thead><tr><th>Method</th><th>Total samples</th><th>Min per cat.</th><th>Max per cat.</th><th>Mean</th><th>Std.dev</th><th>Imbalance ratio (max/min)</th></tr></thead>
+          <tbody>
+            <tr><td>Original (unbalanced)</td><td>362,388</td><td>3</td><td>23,792</td><td>8,427.6</td><td>6,494.7</td><td>7,930.7</td></tr>
+            <tr><td>Undersampling</td><td>278,066</td><td>3</td><td>10,041</td><td>6,466.7</td><td>4,252.4</td><td>3,347.0</td></tr>
+            <tr><td>Oversampling</td><td>424,831</td><td>12</td><td>23,792</td><td>9,879.8</td><td>5,679.5</td><td>1,982.7</td></tr>
+            <tr><td>Weighting (no resample)</td><td>362,388</td><td>3</td><td>23,792</td><td>8,427.6</td><td>6,494.7</td><td>7,930.7</td></tr>
+          </tbody>
+        </table>
+        <p><em>Undersampling reduced total data by 23.3%, while oversampling increased it by 17.2%. The imbalance ratio improved from ~7930 to 3347 (under) and 1983 (over).</em></p>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; justify-content:center;">
+          <figure style="flex:1; min-width:200px;">
+            <img src="Week22_fig02.png" alt="Original distribution" style="width:100%; border:1px solid #ccc; border-radius:4px;">
+            <figcaption>Figure 2: Original category distribution.</figcaption>
+          </figure>
+          <figure style="flex:1; min-width:200px;">
+            <img src="distribucion_undersampling.png" alt="Undersampling distribution" style="width:100%; border:1px solid #ccc; border-radius:4px;">
+            <figcaption>Figure 3: After undersampling.</figcaption>
+          </figure>
+          <figure style="flex:1; min-width:200px;">
+            <img src="distribucion_oversampling.png" alt="Oversampling distribution" style="width:100%; border:1px solid #ccc; border-radius:4px;">
+            <figcaption>Figure 4: After oversampling.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- Experimental setup: test scenario -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. Evaluation Scenario – Town04 (X=347.87, Y=-160.80, Z=0.01)</h3>
+        <p>A fixed route was selected containing three distinct challenges: a <strong>slight right bend</strong>, followed by a <strong>sharp 90° left turn</strong> and an intersection. This route allows assessment of both smooth curvature handling and abrupt turn manoeuvres. All trained models were tested under identical conditions (weather, traffic‑free).</p>
+        <div class="findings-summary">
+          <h4>Key observation from all videos:</h4>
+          <p>Compared to previous weeks, <strong>oscillations (zigzag) were drastically reduced</strong> across all balancing methods. This supports the hypothesis that the 1 second frame margin eliminated the redundant near‑identical samples that previously caused over‑sensitivity.</p>
+        </div>
+      </div>
+
+      <!-- Video results section -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Training Results: MobileNet vs PilotNet</h3>
+        <p>Eight models were trained (4 balancing treatments × 2 architectures). The weighting runs for MobileNet were still ongoing; PilotNet weighting was not completed due to time constraints. Below we summarise the behavioural outcomes.</p>
+        
+        <h4>🔹 Unbalanced dataset</h4>
+        <div class="video-listing">
+          <div class="video-card"><strong>MobileNet (A):</strong> No oscillations on straight, but <strong>missed the smooth right turn</strong> – vehicle continued straight. <a href="https://youtu.be/QTFEs3B3K-I" target="_blank">Watch Video 1</a></div>
+          <div class="video-card"><strong>PilotNet (B):</strong> Few oscillations, <strong>successfully negotiated the right bend</strong>. <a href="https://youtu.be/uIo1b4D0ouc" target="_blank">Watch Video 2</a></div>
+        </div>
+        
+        <h4>🔹 Undersampling</h4>
+        <div class="video-listing">
+          <div class="video-card"><strong>MobileNet (C):</strong> Turned right but <strong>too late, causing off‑road exit</strong>; low oscillations. <a href="https://youtu.be/oOxdTea0o_U" target="_blank">Watch Video 3</a></div>
+          <div class="video-card"><strong>PilotNet (D):</strong> Early turn, smooth enough to <strong>stay on road</strong>; behaviour similar to unbalanced PilotNet. <a href="https://youtu.be/o8xfrtSsyWo" target="_blank">Watch Video 4</a></div>
+        </div>
+        
+        <h4>🔹 Oversampling</h4>
+        <div class="video-listing">
+          <div class="video-card"><strong>MobileNet (E):</strong> Reacted to the right bend but <strong>too weakly</strong> – understeer, near lane departure. <a href="https://youtu.be/7kAOoyDRHSk" target="_blank">Watch Video 5</a></div>
+          <div class="video-card"><strong>PilotNet (F):</strong> Missed the first 90° left, but later <strong>executed a sharp right turn</strong> at the intersection with overshoot (off‑road). <a href="https://youtu.be/jglI2dmTwmw" target="_blank">Watch Video 6</a></div>
+        </div>
+        
+        <h4>🔹 Weighting</h4>
+        <p><strong>MobileNet (G):</strong> Training still in progress – results not available.<br>
+        <strong>PilotNet (H):</strong> Not trained due to time constraints.</p>
+        
+        <div class="error-analysis" style="margin-top:20px;">
+          <h4>Qualitative summary</h4>
+          <ul>
+            <li><strong>PilotNet consistently outperformed MobileNet</strong> in smooth turn execution, regardless of balancing, but balancing did not dramatically change PilotNet's behaviour.</li>
+            <li><strong>MobileNet was highly sensitive to balancing</strong>: undersampling induced late turns, oversampling produced weak responses. The unbalanced MobileNet failed entirely on the right bend.</li>
+            <li>All models exhibited <strong>far fewer oscillations</strong> than in Week 19/20 experiments, confirming that frame repetition was a major source of zigzag.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Discussion and conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">5. Discussion and Conclusions</h3>
+        <div class="exploration-box">
+          <h4>Main findings</h4>
+          <ul>
+            <li><strong>Frame spacing matters:</strong> introducing a 1 s margin between log‑extracted images practically eliminated the oscillatory behaviour that plagued earlier models. This supports the hypothesis that repeated near‑identical frames create a false attractor in the steering distribution.</li>
+            <li><strong>Maneuver coverage:</strong> the combination of centred driving, recovery (DAgger), and 90° turns provided a sufficiently rich basis, yet the route tested only one scenario; more environments are needed to confirm generalisation.</li>
+            <li><strong>PilotNet vs MobileNet:</strong> PilotNet appears more robust to data distribution skew, while MobileNet’s performance heavily depends on balancing – likely due to its larger capacity and different inductive bias. This aligns with earlier observations (Week 14–17) where MobileNet excelled only with ~600k samples.</li>
+            <li><strong>No single balancing method was universally best:</strong> Undersampling reduced imbalance but removed useful samples (hurting MobileNet). Oversampling inflated minority classes but introduced duplicates, causing weaker turns. Weighting (in‑progress) may offer a trade‑off.</li>
+          </ul>
+        </div>
+        <div class="findings-summary">
+          <h4>Implications for future work</h4>
+          <ul>
+            <li><strong>Expand test routes:</strong> only one Town04 segment was evaluated. Additional smooth curves and intersections will expose differences masked here.</li>
+            <li><strong>Increase dataset size:</strong> Based on Week 14–17 results, MobileNet may need ~600k samples to outperform PilotNet. We aim to augment the current dataset by 50% (to ~540k) by collecting more recovery and turn examples.</li>
+            <li><strong>Refine the 90° turn examples:</strong> Figure 1 shows that some individual turns contain abrupt corrections (right then left spikes). Removing those outliers could improve turn quality.</li>
+          </ul>
+        </div>
+        <p><strong>Conclusion:</strong> The reduction in oscillations confirms that dataset temporal redundancy was a critical factor. Balancing methods affect the two architectures differently, and the optimal strategy may depend on model capacity. PilotNet remains the safer choice for smooth driving, while MobileNet requires larger and carefully balanced data to unlock its potential.</p>
+      </div>
+
+      <!-- Future work -->
+      <div class="slide-content">
+        <h3 class="slide-header">6. Immediate Next Steps</h3>
+        <ul>
+          <li><strong>Complete weighting runs:</strong> finish MobileNet weighting training and evaluate; train PilotNet with weighting for completeness.</li>
+          <li><strong>Multi‑scenario testing:</strong> evaluate all models on at least three different Town04 routes containing varying curvature and intersections.</li>
+          <li><strong>Dataset augmentation:</strong> collect 50% more data focusing on under‑represented steering bins and cleaner 90° turns (remove secondary corrections).</li>
+          <li><strong>Frame‑spacing sensitivity:</strong> systematically study the effect of different margins (0.5s, 1s, 1.5s) to find the optimal trade‑off between diversity and temporal coherence.</li>
+        </ul>
+        <p class="note">A detailed log of all trained models and their behaviours is available in the lab repository. The weighting results for PilotNet will be reported as soon as training finishes.</p>
+      </div>
+
+      <!-- Summary block -->
+      <div class="online-results">
+        <h4>SUMMARY OF FINDINGS – FEBRUARY 24, 2026:</h4>
+        <p>✅ The 1 second frame margin successfully eliminated the high‑frequency zigzag observed in previous models.</p>
+        <p>✅ PilotNet demonstrates robust performance with or without balancing; it handles the smooth right turn correctly in most configurations.</p>
+        <p>✅ MobileNet is more sensitive to class imbalance: undersampling causes late turns, oversampling leads to understeer. It likely requires a larger dataset (~600k) to outperform PilotNet.</p>
+        <p>✅ Oversampling reduced imbalance ratio from 7930 to 1983, but did not translate into better MobileNet performance, possibly due to duplicated samples.</p>
+        <p>🔜 Upcoming: complete weighting experiments, expand test routes, and increase total dataset size by 50%.</p>
+      </div>
+
+      <p><strong>Next Steps:</strong><br>
+      During the week of February 25 – March 4, we will finalise the weighting runs and start multi‑route evaluations. The goal is to consolidate a well‑balanced dataset of approximately 550,000 frames and to derive a clear guideline on which balancing method (if any) should be preferred for each architecture.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: February 24, 2026</p>
+  </footer>
+</body>
+</html>
