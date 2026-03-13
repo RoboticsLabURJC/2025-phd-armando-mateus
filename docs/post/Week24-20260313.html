@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report March 13, 2026 (Week 24)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .data-flow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 30px 0;
+    }
+    
+    .flow-step {
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 15px;
+      margin: 10px;
+      background-color: #fff;
+      border: 2px solid #4a6fa5;
+      border-radius: 8px;
+      position: relative;
+    }
+    
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #4a6fa5;
+    }
+    
+    .flow-step:last-child::after {
+      content: "";
+    }
+    
+    .flow-step.error {
+      border-color: #c62828;
+      background-color: #ffebee;
+    }
+    
+    .equation {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .image-placeholder {
+      background-color: #e9ecef;
+      width: 100%;
+      max-width: 700px;
+      height: 250px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 1px dashed #6c757d;
+      color: #6c757d;
+      font-style: italic;
+    }
+    
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .stats-table th {
+      background-color: #4a6fa5;
+      color: white;
+      padding: 8px;
+      text-align: center;
+    }
+    .stats-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: right;
+    }
+    .stats-table td:first-child {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f2f2f2;
+    }
+    .stats-table tr:last-child td {
+      border-bottom: 2px solid #4a6fa5;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 200px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.8em;
+      margin-left: 8px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    @media (max-width: 768px) {
+      .data-flow {
+        flex-direction: column;
+      }
+      .flow-step::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -20px;
+        transform: translateX(50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 24 · March 13, 2026</div>
+      <h2>Evaluation of Smooth Driving Datasets in CARLA Towns 07 and 12</h2>
+      <p class="date">March 13, 2026</p>
+      <p><strong>Analysis of two dataset construction approaches for imitation learning: balanced curves-only vs. augmented dataset including recovery examples</strong></p>
+
+      <p>Following the systematic balancing study reported in Week 22, this week we initiated the construction of a new dataset focused on smooth routes in CARLA Towns 07 and 12. Two distinct approaches were developed and evaluated using a fixed architecture. This report details the dataset compositions, the behavioural outcomes of the trained agents, and outlines the next steps to improve performance, particularly the inclusion of DAgger recovery examples.</p>
+
+      <!-- Approach 1: Curves Only (Balanced) -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. First Approach: Smooth Curves Only (Towns 07 & 12)</h3>
+        <p>The initial dataset was composed exclusively of smooth driving segments from Town 07 and Town 12. The original distribution was heavily imbalanced towards straight driving. To address this, a weighted balancing technique was applied.</p>
+        
+        <!-- Figure placeholders for original and balanced datasets -->
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; justify-content:center;">
+          <figure style="flex:1; min-width:200px;">
+            <div class="image-placeholder" style="height:180px;">
+            <img src="Week24Fig1.png" alt="Original distribution" style="width:100%; border:1px solid #ccc; border-radius:4px;">
+            </div>
+            <figcaption><strong>Figure 1:</strong> Original composition of dataset (only Town 07 & 12 smooth driving).</figcaption>
+          </figure>
+          <figure style="flex:1; min-width:200px;">
+            <div class="image-placeholder" style="height:180px;">
+            <img src="Week24Fig2.png" alt="Original distribution" style="width:100%; border:1px solid #ccc; border-radius:4px;">
+            </div>
+            <figcaption><strong>Figure 2:</strong> Dataset after weighted balancing.</figcaption>
+          </figure>
+        </div>
+
+        <h4>Behavioural Characteristics of the Agent:</h4>
+        <ul>
+          <li>✅ Centred driving without corrections (stable on straight sections).</li>
+          <li>❌ No recognition of smooth or sharp curves — the agent fails to turn.</li>
+          <li>❌ Does not consider road intersections.</li>
+        </ul>
+        <p><strong>Demonstration video:</strong> <a href="https://youtu.be/yniu2Y_1a7A" target="_blank">https://youtu.be/yniu2Y_1a7A</a></p>
+        <div class="error-analysis">
+          <p><strong>Interpretation:</strong> The model learned to drive straight but failed to generalise to any steering angle > 0°. Weighted balancing alone, without sufficient examples of turning manoeuvres, is insufficient for curve negotiation.</p>
+        </div>
+      </div>
+
+      <!-- Approach 2: Augmented dataset -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Second Approach: Augment Week 12 Dataset with New Town07/Town12 Data</h3>
+        <p>The second approach combined the previous dataset (which already included some curves) with new images from Town 07 and Town 12. The goal was to increase the diversity of turning examples while retaining the original data.</p>
+        
+        <figure style="text-align:center;">
+          <div class="image-placeholder" style="height:180px; max-width:500px;">
+          <img src="Week24Fig3.png" alt="Original distribution" style="width:100%; border:1px solid #ccc; border-radius:4px;">
+          </div>
+          <figcaption><strong>Figure 3:</strong> Composition of augmented dataset (previous curves dataset + new Town07/Town12 images).</figcaption>
+        </figure>
+
+        <h4>Behavioural Characteristics of the Agent:</h4>
+        <ul>
+          <li>✅ Centred driving without corrections.</li>
+          <li>⚠️ Smooth turns are performed, but the system still gets confused and occasionally generates strong steering commands.</li>
+          <li>❌ Does not consider road intersections.</li>
+        </ul>
+        <p><strong>Demonstration video:</strong> <a href="https://youtu.be/S1-p23g03qw" target="_blank">https://youtu.be/S1-p23g03qw</a></p>
+        
+        <div class="exploration-box">
+          <h4>Critical observation</h4>
+          <p>This approach lacks <strong>DAgger (Dataset Aggregation) examples</strong> for lane recovery. The agent was never trained on how to return to the lane centre when it drifts, which explains the intermittent confusion and strong corrections.</p>
+        </div>
+      </div>
+
+      <!-- Comparative summary and link to Week 22 findings -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. Discussion: Placing Results in Context of Week 22</h3>
+        <p>The Week 22 study demonstrated that removing temporal redundancy (1 s frame margin) eliminated oscillatory zigzag. Both Week 24 approaches benefited from that finding — agents show stable straight-line driving. However, the new瓶颈 is <strong>curve handling and intersection awareness</strong>.</p>
+        
+        <div class="findings-summary">
+          <h4>Comparison of the two approaches</h4>
+          <ul>
+            <li><strong>Approach 1 (curves only, balanced):</strong> Straight driving is perfect, but curves are completely ignored. This suggests the balancing weight gave too much importance to straight examples, or the network failed to extract relevant features for steering.</li>
+            <li><strong>Approach 2 (augmented):</strong> Some turning capability emerges, but the model is brittle — it produces both smooth and excessively sharp steering. The absence of recovery data (DAgger) means the agent never learns to correct its mistakes, leading to compounding errors.</li>
+          </ul>
+        </div>
+        <p>Compared to Week 22 PilotNet results (which handled smooth turns robustly), these models underperform. A key difference is the training environment (Town04 vs Towns 07/12) and the lack of diverse turn radii in the new datasets.</p>
+      </div>
+
+      <!-- Future activities -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Immediate Next Steps (Actions to Follow)</h3>
+        <ul>
+          <li><strong>Implement DAgger:</strong> Collect recovery examples when the vehicle deviates from the lane centre. This will teach the agent how to return to the desired path, addressing the confusion observed in Approach 2.</li>
+          <li><strong>Refine the dataset:</strong>
+            <ul>
+              <li>Include a wider variety of curve radii (both smooth and sharp) in Towns 07 and 12.</li>
+              <li>Add intersection examples with clear turning manoeuvres.</li>
+              <li>Maintain the 1 s frame margin to avoid temporal redundancy.</li>
+            </ul>
+          </li>
+          <li><strong>Increase dataset size:</strong> Based on Week 22 observations, MobileNet may require ~600k samples to outperform PilotNet. Currently, our dataset is below that threshold.</li>
+          <li><strong>Multi‑scenario testing:</strong> Evaluate on multiple routes within Towns 07 and 12 to verify generalisation.</li>
+        </ul>
+        <p class="note">The inclusion of DAgger is expected to significantly reduce the occurrence of erratic steering commands by providing on-policy correction data.</p>
+      </div>
+
+      <!-- Conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">5. Conclusions</h3>
+        <div class="error-analysis">
+          <ul>
+            <li>Building a dataset exclusively from smooth curves (even with balancing) leads to an agent that ignores turns — curves are not recognised.</li>
+            <li>Augmenting with additional Town07/Town12 data introduces some turning capability, but the lack of recovery examples (DAgger) results in inconsistent steering and failure at intersections.</li>
+            <li>The 1 s frame margin (inherited from Week 22 best practices) successfully eliminates high-frequency oscillations, confirming that temporal redundancy was a primary cause of zigzag behaviour.</li>
+            <li>Future efforts must prioritise DAgger data collection and a more diverse set of manoeuvres to achieve robust performance in Towns 07 and 12.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Summary block for quick reference -->
+      <div class="online-results">
+        <h4>SUMMARY OF FINDINGS – MARCH 13, 2026 (WEEK 24):</h4>
+        <p>✅ Balanced curves-only dataset yields perfect straight driving but zero curve recognition.</p>
+        <p>✅ Augmented dataset enables some turns, but steering is inconsistent and intersections are ignored.</p>
+        <p>✅ The 1 s frame spacing (validated in Week 22) successfully prevents oscillatory behaviour.</p>
+        <p>❌ Both approaches lack DAgger recovery data — this is the primary cause of confusion when the vehicle deviates from the ideal path.</p>
+        <p>🔜 Upcoming: DAgger implementation, dataset refinement, and expansion to ~600k samples.</p>
+      </div>
+
+      <p><strong>Next Steps (detailed):</strong><br>
+      During the week of March 14–20, we will begin collecting DAgger recovery examples by letting the agent drive and manually intervening when it leaves the lane centre. These interventions will be added to the training set. Simultaneously, we will expand the dataset with more curve radii and intersection turns, aiming for a total of ~500k–600k frames. The refined dataset will then be used to retrain both MobileNet and PilotNet for comparison.</p>
+      
+      <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: March 13, 2026</p>
+  </footer>
+</body>
+</html>
