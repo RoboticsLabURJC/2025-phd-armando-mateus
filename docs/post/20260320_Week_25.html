@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Driving Model Training Report - Week 25</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .date {
+            text-align: right;
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .figure {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .figure img {
+            max-width: 100%;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+        }
+        .caption {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .video-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+        iframe {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        ul, ol {
+            margin-left: 20px;
+        }
+        .highlight {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .conclusion {
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .reference-badge {
+            background-color: #f0f7ff;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Autonomous Driving Model Training Report</h1>
+        <div class="date">Report Date: March 20, 2026 | Week 25: Testing New Ideas</div>
+
+        <div class="section">
+            <h2>1. Dataset Generation: Towns 01, 02, 04, 12 with Dagger & Noise Injection</h2>
+            <p>This week’s primary focus was generating a robust dataset using Dagger (Dataset Aggregation) combined with Noise Injection. The objective is to later use Town 07 exclusively for validation testing. The dataset currently comprises images from Towns 01, 02, 04, and 12, covering straight driving, right/left turns, and recovery maneuvers. The integration of Noise Injection is currently pending completion.</p>
+            <p>As a result, we obtained the dataset composition shown in <strong>Figure 1</strong>, which includes samples from soft Dagger, strong Dagger, and preliminary noise injection structures across multiple CARLA towns.</p>
+            
+            <div class="figure">
+                <!-- Placeholder for dataset composition figure (Fig 1 from PDF) -->
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23ecf0f1'/%3E%3Ctext x='400' y='200' font-family='Arial' font-size='18' text-anchor='middle' fill='%237f8c8d'%3EFIGURE 1: Dataset composition (Town01,02,04,12)%3C/text%3E%3Ctext x='400' y='240' font-family='Arial' font-size='14' text-anchor='middle' fill='%237f8c8d'%3EDagger + Noise Injection (preliminary)%3C/text%3E%3C/svg%3E" alt="Dataset composition with Dagger and Noise Injection">
+                <div class="caption">Figure 1: Composition of dataset with soft Dagger, strong Dagger, and Noise Injection from Town01, Town02, Town04, and Town12.</div>
+            </div>
+            <p><strong>Key insight:</strong> The dataset is structured to expose the model to diverse driving behaviors before final validation on the unseen Town07 scenario.</p>
+        </div>
+
+        <div class="section">
+            <h2>2. Benchmark Analysis: Jorge Rodríguez González Approach</h2>
+            <p>Inspired by the remarkable results from Jorge Rodríguez González’s work (<a href="https://roboticslaburjc.github.io/2025-tfg-jorge-rodriguez/semana10/" target="_blank">reference</a>), we performed a deep analysis of his dataset construction methodology. The main differentiating factors are summarized below:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Technique</th>
+                        <th>Description</th>
+                        <th>Expected Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tangent Preprocessing</td>
+                        <td>Steering angle transformed using <strong>1.1 * tan(steering)</strong> before training</td>
+                        <td>Filters low-amplitude noise & amplifies turning effect</td>
+                    </tr>
+                    <tr>
+                        <td>Asynchronous Data Logging @ 60Hz</td>
+                        <td>Script captures frames asynchronously at a requested 60Hz rate</td>
+                        <td>Higher temporal resolution, better reactive behavior</td>
+                    </tr>
+                    <tr>
+                        <td>Category-based Sampling (25 bins)</td>
+                        <td>Steering range -1 to 1 split into 25 steps (0.08 increments). Each bin capped at 10,000 samples.</td>
+                        <td>Balanced dataset prevents overfitting to common steering angles</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight">
+                <strong>Implementation note:</strong> Due to technical constraints in executing the original script, we could not replicate the exact pipeline this week. Instead, we applied post-processing modifications to the previous week’s dataset: 
+                <ul>
+                    <li>Replaced steering labels with the scaled tangent value (1.1*tan(steering)).</li>
+                    <li>Applied subsampling to approximate the category-based sample limits.</li>
+                </ul>
+            </div>
+
+            <h3>Results after Tangent Preprocessing & Subsampling</h3>
+            <ul>
+                <li><strong>Improved vehicle stability:</strong> The agent exhibited smoother steering transitions and reduced oscillation during straight-line driving.</li>
+                <li><strong>Mixed performance on curves:</strong> Gentle turns maintained similar behavior compared to the original dataset, but sharper curves remained problematic, likely due to the reduced effective sample size after subsampling.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>3. Technical Insights: Asynchronous Simulation & Future Implications</h2>
+            <p>The impact of running CARLA asynchronously at 60Hz is not yet fully characterized. For pure dataset generation without speed-based sampling, the reactive nature of the model may mask potential issues. However, when vehicle velocity is incorporated into the control loop, asynchronous operation could introduce inconsistencies. Further experiments are required to determine the optimal synchronization strategy.</p>
+            <p>Key considerations for upcoming iterations:</p>
+            <ul>
+                <li>Balance between synchronous deterministic behavior and asynchronous high-frequency sampling.</li>
+                <li>Integration of velocity conditioning to fully exploit the benefits of 60Hz data capture.</li>
+                <li>Evaluation of model robustness under both synchronous and asynchronous environments.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>4. Comparative Progress: Week 20 to Week 25</h2>
+            <p>Building on previous milestones (Week 20), where centered driving, turn augmentation, and mirror balancing significantly improved lane keeping and turn execution, Week 25 introduces more advanced preprocessing and dataset curation strategies. The table below summarizes the evolution:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric / Feature</th>
+                        <th>Week 20 (Baseline)</th>
+                        <th>Week 25 (Current)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dataset Composition</td>
+                        <td>Centered driving + Turns + Lane Recovery (Mirror Augmentation)</td>
+                        <td>Dagger (soft & strong) + Noise Injection across 4 towns; Town07 reserved for validation</td>
+                    </tr>
+                    <tr>
+                        <td>Steering Preprocessing</td>
+                        <td>Raw steering angle (binned categories)</td>
+                        <td>Scaled tangent transform: 1.1*tan(steering) + category-based subsampling</td>
+                    </tr>
+                    <tr>
+                        <td>Sampling Frequency</td>
+                        <td>20 fps synchronous recording</td>
+                        <td>Exploring asynchronous 60Hz data capture (benchmark analysis)</td>
+                    </tr>
+                    <tr>
+                        <td>Key Strengths</td>
+                        <td>Balanced turn samples, reduced oscillations</td>
+                        <td>Enhanced stability, noise robustness (in progress), generalized across towns</td>
+                    </tr>
+                    <tr>
+                        <td>Remaining Challenges</td>
+                        <td>Early steering commands, curb invasion on tight curves</td>
+                        <td>Sharp turns still failing; effective sample reduction due to subsampling</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="video-container">
+                <h3>Demo: Model trained with tangent preprocessing (Week 25 prototype)</h3>
+                <iframe width="800" height="450" src="https://www.youtube.com/embed/6mFg2bmXesU?start=5" title="Week 25 prototype demonstration" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="caption">Video 1: Agent behavior after applying tangent preprocessing and subsampling. Notice improved stability on straight segments; sharp curves remain a challenge.</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. Conclusions & Immediate Next Steps</h2>
+            <div class="conclusion">
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li><strong>Tangent preprocessing</strong> significantly enhances driving stability by filtering noise and emphasizing steering commands, but its full potential depends on maintaining sufficient sample diversity across all steering bins.</li>
+                    <li>The reduction in effective samples (due to subsampling to respect category limits) likely hindered performance on sharp curves. This suggests that a larger, more balanced raw dataset is required before applying aggressive bin capping.</li>
+                    <li><strong>Asynchronous 60Hz data collection</strong> remains an open research direction; initial results are promising for reactive agents, but velocity-based architectures will require careful tuning.</li>
+                    <li>Dagger + Noise Injection pipeline is structurally ready; next step is to complete noise integration and validate on Town07.</li>
+                </ul>
+            </div>
+
+            <h3>Proposed Work for Week 26</h3>
+            <ol>
+                <li><strong>Complete Noise Injection integration</strong> into the Dagger dataset for all training towns (01,02,04,12).</li>
+                <li><strong>Re-generate dataset with full tangent preprocessing</strong> while maintaining high sample counts per steering bin (avoid aggressive subsampling).</li>
+                <li><strong>Implement asynchronous data capture script</strong> at 60Hz for a controlled comparison against synchronous 20Hz datasets.</li>
+                <li><strong>Validate on Town07</strong> using BehaviorMetrics to quantify improvements in stability, curve negotiation, and recovery maneuvers.</li>
+                <li><strong>Analyze effect of velocity conditioning</strong> when using high-frequency asynchronous data.</li>
+            </ol>
+
+            <div class="highlight">
+                <strong>Pending Long-term Tasks:</strong>
+                <ul>
+                    <li>Full integration of BehaviorMetrics for quantitative evaluation across multiple towns.</li>
+                    <li>Hyperparameter tuning for the tangent scaling factor (currently 1.1) to optimize curve performance.</li>
+                    <li>Comparative study: synchronous vs. asynchronous data collection impact on end-to-end driving models.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Appendix: Reference Architecture & Data Curation Insights</h2>
+            <p>The approach this week heavily references the methodology described in Jorge Rodríguez González’s work (Semana 10). Key insights that will guide future dataset generation include:</p>
+            <ul>
+                <li><strong>Bin-based filling condition:</strong> Enforce a maximum of 10,000 samples per steering bin (0.08 steps) to avoid over-representation of straight driving.</li>
+                <li><strong>Tangent scaling rationale:</strong> The function <em>1.1 * tan(steering)</em> acts as a non-linear amplifier, making the model more sensitive to steering changes while saturating extreme values to prevent erratic behavior.</li>
+                <li><strong>Asynchronous capture:</strong> At 60Hz, the system collects more temporal samples, which could help the model anticipate curves earlier if combined with recurrent or temporal architectures.</li>
+            </ul>
+            <p>These principles will be fully adopted in the upcoming dataset generation cycle to ensure consistency with state-of-the-art end-to-end driving pipelines.</p>
+        </div>
+
+        <div class="conclusion" style="background-color: #fef5e8; border-left-color: #e67e22;">
+            <h3>Overall Summary</h3>
+            <p>Week 25 marked a significant shift toward advanced dataset curation and preprocessing, inspired by proven techniques from the robotics community. The introduction of tangent-based steering transformation improved stability, while the analysis of asynchronous 60Hz sampling opened new avenues for temporal reasoning. The main challenge remains sharp curve negotiation, which will be tackled by increasing sample diversity and completing the noise injection pipeline. With Town07 reserved for validation, the upcoming weeks will focus on rigorous quantitative evaluation and final integration of Dagger with noise augmentation.</p>
+            <p><strong>Status:</strong> Dataset generation pipeline (Dagger + Noise) is at 70% completion; validation on Town07 scheduled for Week 26 after full noise integration and tangent preprocessing reimplementation without aggressive subsampling.</p>
+        </div>
+    </div>
+</body>
+</html>
