@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report April 07, 2026 (Week 27)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .data-flow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 30px 0;
+    }
+    
+    .flow-step {
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 15px;
+      margin: 10px;
+      background-color: #fff;
+      border: 2px solid #4a6fa5;
+      border-radius: 8px;
+      position: relative;
+    }
+    
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #4a6fa5;
+    }
+    
+    .flow-step:last-child::after {
+      content: "";
+    }
+    
+    .flow-step.error {
+      border-color: #c62828;
+      background-color: #ffebee;
+    }
+    
+    .equation {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .image-placeholder {
+      background-color: #e9ecef;
+      width: 100%;
+      max-width: 700px;
+      height: 250px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 1px dashed #6c757d;
+      color: #6c757d;
+      font-style: italic;
+    }
+    
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .stats-table th {
+      background-color: #4a6fa5;
+      color: white;
+      padding: 8px;
+      text-align: center;
+    }
+    .stats-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: right;
+    }
+    .stats-table td:first-child {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f2f2f2;
+    }
+    .stats-table tr:last-child td {
+      border-bottom: 2px solid #4a6fa5;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 200px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.8em;
+      margin-left: 8px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    @media (max-width: 768px) {
+      .data-flow {
+        flex-direction: column;
+      }
+      .flow-step::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -20px;
+        transform: translateX(50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 27 · April 07, 2026</div>
+      <h2>Evaluation of Recovery Examples and Tangent Preprocessing for Lane Keeping and 90‑Degree Turns</h2>
+      <p class="date">April 07, 2026</p>
+      <p><strong>Analysis of dataset corrections targeting lane departure and turning performance, and an assessment of steering preprocessing using the tangent function.</strong></p>
+
+      <!-- Problem statement -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. Previous Issues and Proposed Corrections</h3>
+        <p>During the previous week (Week 26), the primary limitations of the ego‑vehicle (ecogar) were identified as:</p>
+        <ul>
+          <li>Failure to maintain the right lane (the vehicle consistently drifted toward the left lane).</li>
+          <li>Poor performance when executing 90‑degree turns.</li>
+        </ul>
+        <p>To address these shortcomings, the following corrective actions were implemented:</p>
+        <ol>
+          <li><strong>Addition of recovery examples to the dataset:</strong> 9,800 new samples were collected, representing lane‑recovery manoeuvres from the left lane back to the right lane. These samples were recorded in Towns 01, 02, 04, and 12.</li>
+          <li><strong>Systematic evaluation of tangent‑based steering preprocessing:</strong> Separate datasets were created — one with the standard steering preprocessing (tangent transformation) and one without — to isolate the contribution of this preprocessing step.</li>
+        </ol>
+        <div class="exploration-box">
+          <p><strong>Tangent preprocessing function:</strong> The steering angle <em>θ</em> is transformed as <em>θ' = tan(θ)</em> before being used as the regression target. This nonlinear mapping amplifies large steering angles, potentially improving the model’s sensitivity during sharp turns.</p>
+        </div>
+      </div>
+
+      <!-- Experimental results -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Experimental Results</h3>
+        <p>Both modified datasets were used to train imitation learning agents (same architecture as in previous weeks). The resulting behaviour was evaluated on Towns 01, 02, and 03. The key findings are summarised below:</p>
+        
+        <div class="error-analysis">
+          <ul>
+            <li><strong>Inconclusive improvements:</strong> Neither dataset produced a clear improvement over the previous Week 26 baseline. The vehicle still exhibited difficulty in maintaining the right lane and occasionally drifted over the lane divider.</li>
+            <li><strong>Unclear effect of tangent preprocessing:</strong> Comparison between the datasets with and without tangent preprocessing did not reveal any statistically significant or consistent advantage. The role of this preprocessing remains ambiguous.</li>
+            <li><strong>Best test runs:</strong> Despite the overall inconclusive results, the following video recordings show the best performance obtained for each town:</li>
+          </ul>
+        </div>
+        
+        <div class="video-listing">
+          <div class="video-card">
+            <strong>Town 01</strong><br>
+            <a href="https://youtu.be/F--3oPBMVW4" target="_blank">https://youtu.be/F--3oPBMVW4</a>
+          </div>
+          <div class="video-card">
+            <strong>Town 02</strong><br>
+            <a href="https://youtu.be/Tcfbn-N6Yps" target="_blank">https://youtu.be/Tcfbn-N6Yps</a>
+          </div>
+          <div class="video-card">
+            <strong>Town 03</strong><br>
+            <a href="https://youtu.be/BID15ul2HRg" target="_blank">https://youtu.be/BID15ul2HRg</a>
+          </div>
+        </div>
+        
+        <div class="findings-summary">
+          <h4>Key observation</h4>
+          <p>Although the vehicle no longer stays exclusively in the left lane, it tends to drive <strong>over the lane dividing line</strong> rather than fully recovering to the centre of the right lane. This indicates that the recovery examples, while partially effective, do not yet cover the most critical boundary condition.</p>
+        </div>
+      </div>
+
+      <!-- Proposed work for the coming week -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. Proposed Work for Week 28</h3>
+        <p>Based on the observed behaviour (driving over the lane divider), the following enhancements are planned:</p>
+        <ul>
+          <li><strong>Diverse lane‑recovery examples:</strong> New recovery samples will be collected specifically from the <em>lane dividing line</em> (the position where the vehicle straddles the line). This will teach the agent to correct from that critical off‑centre state back to the right lane.</li>
+          <li><strong>Re‑balancing of direct driving examples:</strong> The addition of 9,800 recovery samples has relatively reduced the proportion of normal straight‑driving examples. To maintain a balanced representation, more direct driving (straight and gentle curve) samples will be added.</li>
+          <li><strong>Postponed tangent preprocessing analysis:</strong> Until the lane‑recovery behaviour is stabilised (i.e., the vehicle reliably returns to the right lane), any evaluation of the tangent preprocessing effect would be confounded. Therefore, a clean ablation study on preprocessing will be conducted once the baseline recovery performance is satisfactory.</li>
+        </ul>
+        <div class="exploration-box">
+          <p><strong>Expected outcome:</strong> Including recovery examples from the lane‑divider position should eliminate the sustained driving‑over‑the‑line behaviour, leading to consistent right‑lane keeping. Re‑balancing with more direct driving samples will prevent the model from over‑specialising on recovery manoeuvres.</p>
+        </div>
+      </div>
+
+      <!-- Huggingface dataset integration -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Huggingface Dataset Integration</h3>
+        <p>Parallel to the behavioural experiments, work has progressed on uploading the most effective datasets to the Huggingface Hub. Access credentials have been shared with Luis Daniel, and the datasets that yielded the best performance (including the balanced recovery sets from Week 26 and Week 27) are currently being prepared for publication. This will facilitate reproducibility and enable external collaboration.</p>
+        <div class="findings-summary">
+          <ul>
+            <li>✅ Access granted and repository structure defined.</li>
+            <li>🔄 Data formatting and metadata annotation in progress.</li>
+            <li>📦 Planned upload: Week 26 baseline, Week 27 recovery‑augmented sets, and future Week 28 refined sets.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Discussion and next steps summary -->
+      <div class="slide-content">
+        <h3 class="slide-header">5. Discussion and Immediate Next Steps</h3>
+        <p>The inconclusive results of Week 27 highlight two important lessons:</p>
+        <ul>
+          <li>Adding recovery examples from the left lane to the right lane is insufficient when the vehicle’s most common failure mode is driving <strong>on</strong> the lane divider, not fully in the left lane.</li>
+          <li>Preprocessing choices (such as the tangent transformation) cannot be properly evaluated until the core behavioural flaws are resolved; otherwise, any observed effect is masked by the dominant error source.</li>
+        </ul>
+        <p>Therefore, the immediate action plan for Week 28 is:</p>
+        <ol>
+          <li>Collect at least 5,000–7,000 new recovery samples starting from the lane‑divider position in Towns 01, 02, 04, and 12.</li>
+          <li>Add 3,000–4,000 additional straight‑driving and gentle‑curve samples to restore the natural distribution of steering commands.</li>
+          <li>Retrain the agent with the enhanced dataset and re‑evaluate on Towns 01–03.</li>
+          <li>Once stable right‑lane keeping is achieved, perform a controlled experiment to compare tangent‑preprocessed vs. raw steering targets using the same improved dataset.</li>
+          <li>Finalise the Huggingface upload of the best‑performing datasets.</li>
+        </ol>
+        <div class="note">
+          <p><strong>Note:</strong> All training will continue to use the 1 s frame margin (temporal redundancy removal) validated in Week 22, which has successfully eliminated oscillatory zigzag behaviour.</p>
+        </div>
+      </div>
+
+      <!-- Conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">6. Conclusions</h3>
+        <div class="error-analysis">
+          <ul>
+            <li>The addition of 9,800 left‑to‑right lane recovery samples did not yield conclusive improvements; the agent still tends to drive over the lane divider.</li>
+            <li>The effect of tangent‑based steering preprocessing remains unclear and requires a dedicated ablation study after the core lane‑keeping behaviour is fixed.</li>
+            <li>Driving‑over‑the‑line behaviour suggests that recovery examples must be collected from the exact off‑centre positions observed during autonomous operation (i.e., the lane dividing line).</li>
+            <li>Balancing the dataset with more direct driving examples is necessary to avoid relative under‑representation of normal driving.</li>
+            <li>Huggingface integration is underway, with the best datasets to be published for open use.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Summary block -->
+      <div class="online-results">
+        <h4>SUMMARY OF FINDINGS – MARCH 20, 2026 (WEEK 27):</h4>
+        <p>❌ 9,800 recovery examples from left lane to right lane did not solve lane‑keeping; vehicle drives over lane divider.</p>
+        <p>❌ Effect of tangent preprocessing is inconclusive – requires cleaner baseline.</p>
+        <p>✅ Huggingface access established; dataset preparation ongoing.</p>
+        <p>🔜 Week 28: collect recovery samples from lane‑divider position, re‑balance with direct driving, then re‑evaluate tangent preprocessing.</p>
+      </div>
+
+      <p><strong>Next steps (detailed):</strong><br>
+      Starting March 21, we will run data collection scripts that trigger when the ego‑vehicle’s centre crosses the lane dividing line. The collected frames and corresponding steering commands (return to right lane) will be added to the training set. At the same time, we will record additional straight and mild‑curve segments to restore dataset balance. After retraining, we will compare performance against the Week 27 model. Once the right‑lane keeping is robust, we will conduct a systematic ablation on the tangent preprocessing function using the improved dataset. Finally, all successful datasets will be uploaded to Huggingface under the URJC Robotics Lab organisation.</p>
+      
+      <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: March 20, 2026</p>
+  </footer>
+</body>
+</html>
