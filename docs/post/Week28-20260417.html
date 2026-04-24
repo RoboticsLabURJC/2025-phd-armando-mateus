@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report April 14, 2026 (Week 28)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .data-flow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 30px 0;
+    }
+    
+    .flow-step {
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 15px;
+      margin: 10px;
+      background-color: #fff;
+      border: 2px solid #4a6fa5;
+      border-radius: 8px;
+      position: relative;
+    }
+    
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #4a6fa5;
+    }
+    
+    .flow-step:last-child::after {
+      content: "";
+    }
+    
+    .flow-step.error {
+      border-color: #c62828;
+      background-color: #ffebee;
+    }
+    
+    .equation {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .stats-table th {
+      background-color: #4a6fa5;
+      color: white;
+      padding: 8px;
+      text-align: center;
+    }
+    .stats-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: right;
+    }
+    .stats-table td:first-child {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f2f2f2;
+    }
+    .stats-table tr:last-child td {
+      border-bottom: 2px solid #4a6fa5;
+    }
+    
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    
+    .target-distribution {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .target-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 15px;
+      flex: 1;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .target-card h4 {
+      margin: 0 0 10px 0;
+      color: #4a6fa5;
+    }
+    .target-percent {
+      font-size: 2em;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    @media (max-width: 768px) {
+      .data-flow {
+        flex-direction: column;
+      }
+      .flow-step::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -20px;
+        transform: translateX(50%);
+      }
+      .target-distribution {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 28 · April 14, 2026</div>
+      <h2>Systematic Dataset Balancing and Active Data Generation for Right‑Lane Keeping</h2>
+      <p class="date">April 14, 2026</p>
+      <p><strong>Investigating the limits of dataset size and the effect of targeted steering distributions to eliminate lane‑divider driving and oscillations.</strong></p>
+
+      <!-- Previous week summary -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. Recap of Week 27 – Incomplete Recovery</h3>
+        <p>In Week 27 we added 9,800 lane‑recovery examples (from left lane back to right lane) to the training set. The goal was to teach the ego‑vehicle to consistently stay in the right lane. However, the agent still drove <strong>over the lane dividing line</strong> rather than fully recovering to the right lane. The effect of tangent‑based steering preprocessing remained inconclusive due to the dominant behavioural flaw.</p>
+        <div class="error-analysis">
+          <p><strong>Key lesson:</strong> Adding recovery examples from the left lane is insufficient when the vehicle’s most common failure mode is driving <em>on</em> the lane divider, not fully in the left lane.</p>
+        </div>
+      </div>
+
+      <!-- Week 28 experiments: scaling dataset -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Scaling the Dataset – From 41k to 103k Samples</h3>
+        <p>Following the Week 27 observations, we hypothesised that a larger and more balanced dataset might solve the lane‑divider behaviour. Therefore, we expanded the training set from <strong>41,000 to 103,000 samples</strong> by:</p>
+        <ul>
+          <li>Recording additional driving segments in rural areas of <strong>Town 12</strong> (unstructured roads, varying lighting).</li>
+          <li>Applying <strong>oversampling</strong> to underrepresented steering angles (especially moderate positive steering for right‑lane recovery).</li>
+          <li>Including both straight driving and gentle curves to maintain a natural steering distribution.</li>
+        </ul>
+        <p>The expanded dataset was used to retrain the PilotNet architecture exactly as in previous weeks.</p>
+        
+        <div class="findings-summary">
+          <h4>Unexpected result</h4>
+          <p>Contrary to our expectations, the larger dataset did <strong>not</strong> improve right‑lane keeping in either urban (Towns 01–03) or rural (Town 12) environments. Worse, the vehicle developed a tendency toward <strong>mild, sporadic oscillations</strong> (gentle left‑right movements) even on straight segments.</p>
+        </div>
+        
+        <div class="error-analysis">
+          <p><strong>Diagnosis:</strong> The oversampling of direct driving examples (low steering angles) inadvertently created a severe imbalance. Although we added recovery samples, the proportion of straight‑driving examples became overwhelming (≈85% of the dataset). Consequently, the model learned to “play safe” by outputting near‑zero steering most of the time, but when a small perturbation occurred, it lacked strong corrective examples and began oscillating.</p>
+          <p>This is a classic symptom of a dataset dominated by the mean steering value (close to 0) with insufficient representation of moderate and extreme steering actions needed to correct from off‑centre positions.</p>
+        </div>
+      </div>
+
+      <!-- New approach: active DAgger with distribution control -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. New Approach – Active Dataset Generation with Targeted Steering Distribution</h3>
+        <p>Given that simply scaling the dataset and oversampling did not work, we have pivoted to a fundamentally different strategy. Instead of complementing an existing dataset, we will <strong>actively generate data</strong> using a hybrid DAgger (Dataset Aggregation) scheme that enforces a precise steering distribution.</p>
+        
+        <div class="exploration-box">
+          <h4>Core ideas</h4>
+          <ul>
+            <li><strong>Soft DAgger:</strong> Collect samples when the ego‑vehicle’s steering command is within the range <code>[-0.3, 0.3]</code> (normal driving, small corrections).</li>
+            <li><strong>Strong DAgger:</strong> Actively perturb the vehicle (e.g., by adding noise or using an exploratory policy) to generate samples with steering outside the soft range, especially to “push” it out of the right lane and then record corrective manoeuvres back into the right lane.</li>
+            <li><strong>No more post‑hoc balancing:</strong> The dataset is built from scratch with a pre‑defined distribution that guarantees sufficient representation of all manoeuvre types.</li>
+          </ul>
+        </div>
+        
+        <h4>Target steering distribution (active generation)</h4>
+        <p>For every 100 frames collected, we will enforce the following approximate percentages:</p>
+        <div class="target-distribution">
+          <div class="target-card">
+            <h4>Extreme left / extreme right</h4>
+            <div class="target-percent">10%</div>
+            <div>(steering ≈ ±0.7 to ±1.0)</div>
+          </div>
+          <div class="target-card">
+            <h4>Moderate left / moderate right</h4>
+            <div class="target-percent">15%</div>
+            <div>(steering ≈ ±0.3 to ±0.7)</div>
+          </div>
+          <div class="target-card">
+            <h4>Forward (near zero)</h4>
+            <div class="target-percent">40%</div>
+            <div>(steering between -0.1 and 0.1)</div>
+          </div>
+          <div class="target-card">
+            <h4>Mild corrections</h4>
+            <div class="target-percent">35%</div>
+            <div>(steering between ±0.1 and ±0.3)</div>
+          </div>
+        </div>
+        <p class="note">The total sums to 100% (10+15+40+35). The exact bin sizes will be fine‑tuned, but the critical change is the forced inclusion of <strong>25% moderate‑to‑extreme steering</strong> (15% moderate + 10% extreme) compared to previous datasets where such samples rarely exceeded 5–10%.</p>
+        
+        <div class="exploration-box">
+          <p><strong>Implementation:</strong> A data collection script will monitor the vehicle’s steering command. If the desired distribution is not met over a rolling window, the script will temporarily switch to an exploratory policy (e.g., adding a small bias to the steering or commanding a lane‑change manoeuvre) to generate underrepresented steering values. All collected frames are stored with their corresponding expert steering (human or corrected by a simple controller). This ensures that the final dataset has the exact proportions we need.</p>
+        </div>
+      </div>
+
+      <!-- Successive training from small to large datasets -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Systematic Training – Finding the Optimal Dataset Size</h3>
+        <p>A key open question is: <em>Is there a maximum useful dataset size beyond which performance plateaus or degrades?</em> To answer this, we will perform successive training runs on datasets of increasing size, starting from a minimal viable set and moving up to 100,000+ samples.</p>
+        
+        <div class="data-flow">
+          <div class="flow-step">5,000 samples<br>(minimal balanced)</div>
+          <div class="flow-step">10,000 samples</div>
+          <div class="flow-step">20,000 samples</div>
+          <div class="flow-step">50,000 samples</div>
+          <div class="flow-step">100,000 samples</div>
+        </div>
+        
+        <p>For each dataset size, we will train the same PilotNet architecture and evaluate on three metrics:</p>
+        <ul>
+          <li><strong>Right‑lane keeping success rate</strong> (percentage of time the vehicle’s centre is to the right of the lane divider, measured over 5 minutes of driving in Towns 01, 02, 03, and 12).</li>
+          <li><strong>Oscillation magnitude</strong> (standard deviation of steering command when the vehicle is on a straight road).</li>
+          <li><strong>Recovery time</strong> (seconds needed to return to the right lane after an intentional perturbation to the left lane).</li>
+        </ul>
+        
+        <div class="findings-summary">
+          <p><strong>Hypothesis:</strong> There exists an optimal dataset size (likely between 20,000 and 50,000 samples) where the balance of manoeuvres is perfect. Beyond that, adding more “easy” forward examples may degrade performance by biasing the model toward zero steering. The experiments will reveal the exact inflection point.</p>
+        </div>
+      </div>
+
+      <!-- Current work and next steps -->
+      <div class="slide-content">
+        <h3 class="slide-header">5. Current Status and Planned Experiments (Week 29)</h3>
+        <p>As of April 14, the following actions are in progress:</p>
+        <ul>
+          <li><strong>Data collection script with distribution enforcement</strong> – being implemented in the CARLA simulator. The script monitors a rolling buffer of 500 frames and triggers exploratory actions when any steering bin falls below its target by more than 5%.</li>
+          <li><strong>Initial 5,000‑sample dataset</strong> – collected with the exact distribution (10% extreme, 15% moderate, 40% forward, 35% mild). Training will begin on April 15.</li>
+          <li><strong>Benchmarking framework</strong> – automated evaluation routes defined for Towns 01–03 and Town 12.</li>
+        </ul>
+        <div class="exploration-box">
+          <h4>Expected outcomes for Week 29</h4>
+          <ul>
+            <li>If the distribution‑controlled dataset works, the vehicle should no longer drive over the lane divider and oscillations should disappear.</li>
+            <li>Successive training will show whether increasing the dataset beyond ~50k samples hurts performance.</li>
+            <li>Once the right‑lane keeping is robust, we will revisit the tangent preprocessing ablation (postponed from Week 27) using the best‑performing dataset.</li>
+          </ul>
+        </div>
+        
+        <div class="note">
+          <strong>Note on Huggingface integration:</strong> The upload of the Week 26 and Week 27 datasets is still ongoing. However, we will prioritise publishing the final distribution‑controlled datasets once validated, as they are expected to become the new baseline.
+        </div>
+      </div>
+
+      <!-- Conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">6. Conclusions (Week 28)</h3>
+        <div class="error-analysis">
+          <ul>
+            <li>❌ Simply scaling the dataset from 41k to 103k samples and applying oversampling <strong>did not improve</strong> right‑lane keeping and introduced mild oscillations.</li>
+            <li>❌ The imbalance caused by an over‑representation of straight‑driving examples (low steering) is the root cause of the oscillatory behaviour.</li>
+            <li>✅ A new active data generation approach with a <strong>targeted steering distribution</strong> (25% moderate‑to‑extreme steering) is under development.</li>
+            <li>🔬 Successive training from 5k to 100k samples will determine the optimal dataset size and prevent performance degradation.</li>
+            <li>📦 Huggingface uploads will be updated once the new datasets are validated.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Summary block -->
+      <div class="online-results">
+        <h4>SUMMARY OF FINDINGS – APRIL 14, 2026 (WEEK 28):</h4>
+        <p>⚠️ Scaling dataset to 103k with oversampling failed – caused oscillations.</p>
+        <p>🔧 New solution: active DAgger with enforced steering distribution (10% extreme, 15% moderate, 40% forward, 35% mild).</p>
+        <p>📊 Successive training on increasing dataset sizes (5k → 100k) to find optimum.</p>
+        <p>🎯 Goal for Week 29: eliminate lane‑divider driving and oscillations.</p>
+      </div>
+
+      <p><strong>Immediate next steps (April 15–21, 2026):</strong><br>
+      Complete the distribution‑controlled data collection script. Gather the first 5,000‑sample balanced dataset and train PilotNet. Evaluate on Towns 01–03 and Town 12. If successful, repeat for 10k, 20k, 50k, and 100k samples while measuring performance metrics. Publish the best‑performing dataset to Huggingface. Then, conduct a clean ablation study of the tangent preprocessing function.</p>
+      
+      <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: April 14, 2026</p>
+  </footer>
+</body>
+</html>
