@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report April 24, 2026 (Week 29)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .data-flow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 30px 0;
+    }
+    
+    .flow-step {
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 15px;
+      margin: 10px;
+      background-color: #fff;
+      border: 2px solid #4a6fa5;
+      border-radius: 8px;
+      position: relative;
+    }
+    
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #4a6fa5;
+    }
+    
+    .flow-step:last-child::after {
+      content: "";
+    }
+    
+    .flow-step.error {
+      border-color: #c62828;
+      background-color: #ffebee;
+    }
+    
+    .equation {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .image-placeholder {
+      background-color: #e9ecef;
+      width: 100%;
+      max-width: 700px;
+      height: 250px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 1px dashed #6c75d;
+      color: #6c75d;
+      font-style: italic;
+    }
+    
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .stats-table th {
+      background-color: #4a6fa5;
+      color: white;
+      padding: 8px;
+      text-align: center;
+    }
+    .stats-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: right;
+    }
+    .stats-table td:first-child {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f2f2f2;
+    }
+    .stats-table tr:last-child td {
+      border-bottom: 2px solid #4a6fa5;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 200px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.8em;
+      margin-left: 8px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    @media (max-width: 768px) {
+      .data-flow {
+        flex-direction: column;
+      }
+      .flow-step::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -20px;
+        transform: translateX(50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 29 · April 24, 2026</div>
+      <h2>Attacking the “Center Lane Bias”: DAgger Corrections, Data Augmentation, and Persistent Challenges</h2>
+      <p class="date">April 24, 2026</p>
+      <p><strong>Evaluation of weak and strong DAgger interventions, identification of a critical data collection bug, and first experiments with horizontal shift augmentation to address lane centering bias.</strong></p>
+
+      <!-- Current status overview -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. Baseline Performance and Identified Problems</h3>
+        <p>Work from previous weeks has enabled training a model capable of autonomous driving along the external rural circuit of <strong>Town07</strong>. Overall assessment indicates:</p>
+        <ul>
+          <li><strong>Route following:</strong> ✅ OK</li>
+          <li><strong>Low oscillation:</strong> ✅ OK</li>
+          <li><strong>90° turns:</strong> ❌ The vehicle takes turns too sharply, mounting the curb.</li>
+          <li><strong>Right lane keeping:</strong> ❌ The vehicle does not stay in the right lane but instead drives along the center of the road.</li>
+        </ul>
+        <div class="error-analysis">
+          <p><strong>Central problem of Week 29:</strong> The persistent <em>center lane bias</em> (driving on the lane divider or midline) remains unsolved after previous recovery-sample additions. The vehicle fails to consistently position itself in the right lane, leading to unsafe behavior on narrow roads.</p>
+        </div>
+      </div>
+
+      <!-- Experiment 1: Weak vs Strong DAgger -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Weak vs. Strong DAgger Dataset Generation</h3>
+        <p>To force the model to learn corrective actions from off-center states, two levels of DAgger (Dataset Aggregation) intervention were implemented:</p>
+        <ul>
+          <li><strong>Weak DAgger:</strong> Steering magnitude threshold of <strong>0.3</strong> — triggers data collection when the vehicle deviates mildly from the lane center.</li>
+          <li><strong>Strong DAgger:</strong> Steering magnitude threshold of <strong>0.7</strong> — triggers data collection only for more significant departures, capturing more aggressive corrections.</li>
+        </ul>
+        <p>Separate dataset fragments were generated for each condition. When combined, they produced the histogram distribution shown in <strong>Figure 1</strong> (curves and 90° turns at intersections were excluded from this analysis to isolate lane-keeping behavior).</p>
+
+ <h1>📊 Visualización del histograma</h1>
+        <div class="sub">Distribución de frecuencias</div>
+        <div class="imagen-container">
+            <!-- La imagen se carga desde el directorio actual (misma carpeta que este HTML) -->
+            <img src="histogram.png" alt="Histograma de datos" loading="lazy">
+        </div>
+        
+        <div class="image-placeholder">
+          📊 Figure 1: Histogram of steering commands for weak vs. strong DAgger dataset (schematic representation). Weak DAgger (blue) shows denser sampling around small corrections; strong DAgger (orange) emphasizes larger steering angles.
+        </div>
+        
+        <div class="findings-summary">
+          <h4>Results after PilotNet training</h4>
+          <p>Training a PilotNet architecture with the combined DAgger datasets yielded essentially the <strong>same results as the previous week</strong>. The center lane bias was not resolved. The vehicle still drove over the lane divider and failed to consistently return to the right lane.</p>
+        </div>
+      </div>
+
+      <!-- Critical bug identification -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. Critical Bug Identification: Unstable Data Recording</h3>
+        <div class="error-analysis">
+          <p><strong>🔴 Major finding:</strong> An implementation error was discovered in the DAgger script. The system was recording steering samples <strong>before the vehicle had reached a stable state</strong> after intervention. This produced incorrect, transient steering commands that do not correspond to a stable recovery trajectory.</p>
+        </div>
+        
+
+        
+        <div class="exploration-box">
+          <p><strong>Corrective action:</strong> A stabilization delay (1.5 seconds) was introduced before triggering data recording after each DAgger intervention. All subsequent dataset fragments were regenerated using the corrected script.</p>
+        </div>
+      </div>
+
+      <!-- Data augmentation: horizontal shift -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Implementing Horizontal Shift Augmentation (PilotNet Recommendation)</h3>
+        <p>Following the recommendations from the <strong>PilotNet experiments [2]</strong>, data augmentation via horizontal (lateral) shifting was implemented to artificially increase the dataset's coverage of off-center positions. This technique synthesises new training examples by translating the camera image horizontally and adjusting the steering target accordingly.</p>
+        
+        <p>Three augmentation magnitudes were tested, based on the recommended ranges from the literature:</p>
+        <ul>
+          <li><strong>Shift = 0.002</strong> (subtle augmentation)</li>
+          <li><strong>Shift = 0.003</strong> (moderate augmentation)</li>
+          <li><strong>Shift = 0.004</strong> (strong augmentation)</li>
+        </ul>
+        
+        <div class="exploration-box">
+          <p><strong>Expected effect:</strong> Horizontal shift teaches the network that small lateral displacements from the lane center are recoverable with appropriate steering corrections. This directly targets the <em>center lane bias</em> by making the model robust to off-center initial conditions.</p>
+        </div>
+        
+
+        
+        <div class="findings-summary">
+          <h4>Current status</h4>
+          <p>Training with the augmented datasets is currently in progress. As of this report, no definitive results are available. Preliminary loss curves suggest better convergence, but full evaluation on Town07 will be completed early next week.</p>
+        </div>
+      </div>
+
+      <!-- Literature references -->
+      <div class="slide-content">
+        <h3 class="slide-header">5. Foundational Literature and Shared References</h3>
+        <p>During the week, important references were shared with the team (@jmplaza, @Juan Calderon) that directly inform the current lane-keeping and DAgger challenges:</p>
+        
+        <ul>
+          <li><strong>[1] Ross, Gordon & Bagnell (AISTATS 2011):</strong> Foundational paper on DAgger as a solution to the <em>lane hugging / lane drifting</em> problem in imitation learning. Establishes the theoretical framework for aggregating expert corrections during online execution.<br>
+          <em>“A reduction of imitation learning and structured prediction to no-regret online learning.”</em> <a href="https://proceedings.mlr.press/v15/ross11a" target="_blank">https://proceedings.mlr.press/v15/ross11a</a></li>
+          
+          <li><strong>[2] Bojarski et al. (arXiv 2020):</strong> NVIDIA PilotNet experiments — Section 5.3 explicitly discusses the lane-centering challenge and presents <strong>horizontal shift augmentation</strong> as an effective remedy. This directly motivated the augmentation strategy implemented this week.<br>
+          <em>“The NVIDIA pilotnet experiments.”</em> <a href="https://arxiv.org/pdf/2010.08776" target="_blank">https://arxiv.org/pdf/2010.08776</a></li>
+          
+          <li><strong>[3] Bojarski et al. (arXiv 2016):</strong> Original PilotNet paper; while it does not extensively cover the centering bias, it provides the core end-to-end architecture used in our experiments.<br>
+          <em>“End to end learning for self-driving cars.”</em> <a href="https://arxiv.org/pdf/1604.07316" target="_blank">https://arxiv.org/pdf/1604.07316</a></li>
+        </ul>
+        
+        <div class="note">
+          <p><strong>Note:</strong> The identified DAgger implementation bug was not discussed in the foundational literature — it represents a practical lesson learned: always ensure the vehicle state has stabilised before recording intervention data.</p>
+        </div>
+      </div>
+
+      <!-- Summary of findings -->
+      <div class="slide-content">
+        <h3 class="slide-header">6. Summary of Week 29 Findings</h3>
+        <div class="error-analysis">
+          <ul>
+            <li>❌ Weak and strong DAgger (thresholds 0.3 and 0.7) did <strong>not</strong> resolve the center lane bias when trained without augmentation.</li>
+            <li>🐞 A <strong>critical bug</strong> was found and fixed: DAgger script was recording unstable, transient steering data before vehicle stabilisation.</li>
+            <li>✅ Corrected DAgger datasets have been regenerated and are ready for re-training.</li>
+            <li>🔄 Horizontal shift augmentation (0.002, 0.003, 0.004) has been implemented following PilotNet recommendations [2].</li>
+            <li>⏳ Training with augmented data is ongoing — results expected early Week 30.</li>
+            <li>📚 Foundational literature on DAgger and augmentation has been shared with the research team.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Next steps -->
+      <div class="slide-content">
+        <h3 class="slide-header">7. Proposed Work for Week 30</h3>
+        <p>Based on the findings of Week 29, the following actions are planned:</p>
+        <ol>
+          <li><strong>Complete training and evaluation</strong> of PilotNet models with horizontal shift augmentation (all three magnitudes). Compare performance on Town07’s external rural circuit, focusing on lane centering and curb avoidance during 90° turns.</li>
+          <li><strong>Retrain with corrected DAgger datasets</strong> (both weak and strong) now that the stabilization bug has been fixed. This will provide a clean ablation of DAgger’s true effect.</li>
+          <li><strong>Combine corrected DAgger + horizontal augmentation</strong> — the most promising hybrid approach. If augmentation alone is insufficient, DAgger should provide additional online corrections.</li>
+          <li><strong>Re-evaluate 90° turn performance</strong> separately; preliminary observations suggest the steering augmentation may also improve turn trajectories, but this requires dedicated measurement.</li>
+          <li><strong>Update Huggingface datasets</strong> with corrected DAgger fragments and augmented variants, once validated.</li>
+        </ol>
+        <div class="exploration-box">
+          <p><strong>Expected outcome:</strong> Horizontal shift augmentation, potentially combined with correctly implemented DAgger, should significantly reduce or eliminate the center lane bias. The vehicle is expected to maintain the right lane consistently without mounting the curb during 90° turns.</p>
+        </div>
+        <div class="note">
+          <p><strong>Technical note:</strong> All experiments continue to use the 1 s frame margin (temporal redundancy removal) validated in Week 22, which has successfully eliminated oscillatory zigzag behaviour.</p>
+        </div>
+      </div>
+
+      <!-- Conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">8. Conclusions</h3>
+        <div class="findings-summary">
+          <ul>
+            <li>The center lane bias is a persistent and challenging problem that resists simple DAgger threshold adjustments when data collection is flawed.</li>
+            <li>The discovered stabilization bug in the DAgger script serves as a critical reminder: transient states do not represent recoverable expert behaviour and must be filtered out.</li>
+            <li>Horizontal shift augmentation, as recommended by the PilotNet team [2], is a theoretically sound approach to synthesise off-centre examples without requiring additional manual data collection.</li>
+            <li>Early indicators (loss curves) for augmented training are promising, but final behavioural evaluation is pending.</li>
+            <li>Foundational papers have been shared with the team to align theoretical understanding with practical implementation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Summary block (as in original) -->
+      <div class="online-results">
+        <h4>SUMMARY OF FINDINGS – APRIL 24, 2026 (WEEK 29):</h4>
+        <p>❌ Weak/strong DAgger (uncorrected) did not solve center lane bias.</p>
+        <p>🐞 Critical DAgger bug identified: recording before vehicle stabilisation.</p>
+        <p>✅ Bug fixed; corrected datasets regenerated.</p>
+        <p>🔄 Horizontal shift augmentation (0.002–0.004) implemented and training in progress.</p>
+        <p>📚 Foundational DAgger & PilotNet references shared with team.</p>
+        <p>🔜 Week 30: Complete augmented training, evaluate corrected DAgger, and combine approaches.</p>
+      </div>
+
+      <p><strong>Next steps (detailed):</strong><br>
+      Starting April 25, we will finalise training for all three horizontal shift magnitudes and evaluate each on Town07’s external rural circuit. Metrics will include: time spent within right lane boundaries, frequency of crossing the lane divider, and curb contact during 90° turns. The corrected DAgger datasets (weak and strong) will then be retrained, both alone and in combination with the best augmentation magnitude. Once the centre lane bias is reliably eliminated, we will publish the successful dataset configurations on Huggingface and proceed to a systematic evaluation of tangent steering preprocessing — postponed from Week 27 until baseline behaviour is stable.</p>
+      
+      <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: April 24, 2026</p>
+  </footer>
+</body>
+</html>
