@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report April 30, 2026 (Week 30)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .data-flow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 30px 0;
+    }
+    
+    .flow-step {
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 15px;
+      margin: 10px;
+      background-color: #fff;
+      border: 2px solid #4a6fa5;
+      border-radius: 8px;
+      position: relative;
+    }
+    
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #4a6fa5;
+    }
+    
+    .flow-step:last-child::after {
+      content: "";
+    }
+    
+    .flow-step.error {
+      border-color: #c62828;
+      background-color: #ffebee;
+    }
+    
+    .equation {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .image-placeholder {
+      background-color: #e9ecef;
+      width: 100%;
+      max-width: 700px;
+      height: 250px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 1px dashed #6c75d;
+      color: #6c75d;
+      font-style: italic;
+    }
+    
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .stats-table th {
+      background-color: #4a6fa5;
+      color: white;
+      padding: 8px;
+      text-align: center;
+    }
+    .stats-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: right;
+    }
+    .stats-table td:first-child {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f2f2f2;
+    }
+    .stats-table tr:last-child td {
+      border-bottom: 2px solid #4a6fa5;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.8em;
+      margin-left: 8px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .dataset-summary {
+      background-color: #eef2fa;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 25px 0;
+    }
+    .dataset-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #1e466e;
+      border-left: 5px solid #4a6fa5;
+      padding-left: 15px;
+      margin: 0 0 10px 0;
+    }
+    .video-embed {
+      margin: 15px 0;
+      font-family: monospace;
+    }
+    @media (max-width: 768px) {
+      .data-flow {
+        flex-direction: column;
+      }
+      .flow-step::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -20px;
+        transform: translateX(50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 30 · April 30, 2026</div>
+      <h2>Systematic Evaluation of Recovery Samples & Dataset Balancing: From Center Lane Bias to Right‑Lane Adherence</h2>
+      <p class="date">April 30, 2026</p>
+      <p><strong>After fixing the DAgger stabilisation bug (Week 29), we designed six controlled datasets incorporating bubble driving, strong/weak DAgger, targeted lane‑recovery examples (from the center divider), and different balancing strategies. Oversampling yields the most consistent right‑lane keeping, while horizontal shift augmentation is now the next priority.</strong></p>
+
+      <!-- Short reference to Week 29 bug fix -->
+      <div class="slide-content">
+        <h3 class="slide-header">0. Recap: Week 29 – Critical DAgger Bug Fixed</h3>
+        <div class="exploration-box">
+          <p>🔧 <strong>Stabilisation bug eliminated:</strong> The DAgger script used to record steering commands <strong>before vehicle stabilisation</strong>, generating transient, non‑recoverable samples. A 1.5 s delay was added, and all subsequent datasets were regenerated. Without this fix, DAgger corrections were ineffective against the <em>center lane bias</em> (driving on the midline instead of the right lane).</p>
+        </div>
+        <p><strong>Week 30 strategy:</strong> Instead of relying solely on DAgger thresholds, we injected explicit recovery demonstrations (from the lane divider back to the right lane) and applied dataset balancing. Horizontal shift augmentation (PilotNet [2]) remains in the pipeline for next week.</p>
+      </div>
+
+      <!-- Overview of datasets 1..6 -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. Experimental Design: Six Datasets (Week 30)</h3>
+        <p>All datasets were built on top of the <strong>corrected DAgger</strong> (weak threshold 0.3, strong threshold 0.7) plus <strong>bubble driving</strong> (human expert recording under normal conditions). To attack the <em>right‑lane abandonment</em> we added:</p>
+        <ul>
+          <li><strong>Recovery samples:</strong> manual recordings that bring the vehicle from the lane divider (centre line) back to the centre of the right lane.</li>
+          <li><strong>Balancing strategies:</strong> weighted balancing (down‑sampling dominant classes) and oversampling (increasing underrepresented steering categories).</li>
+          <li><strong>Diverse towns:</strong> some datasets incorporate recovery images from Town 02, Town 04 and Town 12 to improve generalisation.</li>
+        </ul>
+        <p>Below we summarise each dataset, its distribution, steering histogram (schematic) and the corresponding autonomous driving video. Training used the PilotNet architecture on Town 01 (rural segments) to isolate lane‑centering performance before tackling complex 90° turns.</p>
+      </div>
+
+      <!-- Dataset 1 (Week29 baseline, now corrected bug) -->
+      <div class="dataset-summary">
+        <div class="dataset-title">📊 Dataset 1 – Weak/Strong DAgger + bubble driving (no recovery samples)</div>
+        <p><strong>Total valid samples:</strong> 48,333 &nbsp;|&nbsp; <strong>Steering range:</strong> [-0.99, 0.79] &nbsp;|&nbsp; <strong>Mean:</strong> 0.021</p>
+        <table class="stats-table">
+          <thead><tr><th>Category</th><th>Count</th><th>Percentage</th></tr></thead>
+          <tbody>
+            <tr><td>Very left</td><td>2177</td><td>4.50%</td></tr>
+            <tr><td>Left</td><td>5469</td><td>11.32%</td></tr>
+            <tr><td>Straight (center)</td><td>28914</td><td>59.82%</td></tr>
+            <tr><td>Right</td><td>10759</td><td>22.26%</td></tr>
+            <tr><td>Very right</td><td>1014</td><td>2.10%</td></tr>
+          </tbody>
+        </table>
+        <div class="image-container">
+  <img src="Week30figura1.png" alt="Descripción de la figura">
+</div>
+
+        <div class="image-placeholder">📊 Figure 1: Histogram – strong centre bias (straight dominates). Steering distribution highly unbalanced.</div>
+        <div class="video-embed">🎥 <strong>Video 1 (Dataset 1):</strong> <a href="https://youtu.be/jHOEDOY8CQw" target="_blank">https://youtu.be/jHOEDOY8CQw</a> – The vehicle still drives over the midline, Center Lane Bias persists.</div>
+      </div>
+
+      <!-- Dataset 2 -->
+      <div class="dataset-summary">
+        <div class="dataset-title">📊 Dataset 2 – Added 1000 extra bubble samples + same DAgger (weak/strong)</div>
+        <table class="stats-table">
+          <thead><tr><th>Steering category</th><th>Count</th><th>Percentage</th></tr></thead>
+          <tbody>
+            <tr><td>Left strong</td><td>2707</td><td>5.3%</td></tr>
+            <tr><td>Left medium</td><td>4939</td><td>9.6%</td></tr>
+            <tr><td>Left soft</td><td>7202</td><td>14.1%</td></tr>
+            <tr><td>Straight</td><td>17312</td><td>33.8%</td></tr>
+            <tr><td>Right soft</td><td>7004</td><td>13.7%</td></tr>
+            <tr><td>Right medium</td><td>9471</td><td>18.5%</td></tr>
+            <tr><td>Right strong</td><td>2617</td><td>5.1%</td></tr>
+          </tbody>
+        </table>
+        <div class="image-container">
+  <img src="Week30figura2.png" alt="Descripción de la figura">
+</div>
+        <div class="image-placeholder">📊 Figure 2: More balanced but still lacking explicit recovery from centre line.</div>
+        <div class="video-embed">🎥 <strong>Video 2 (Dataset 2):</strong> <a href="https://youtu.be/QEZT45MvVI8" target="_blank">https://youtu.be/QEZT45MvVI8</a> – Slight improvement but vehicle often drifts to the centre lane.</div>
+      </div>
+
+      <!-- Dataset 3: added 2991 recovery images from Town01 lane divider -->
+      <div class="dataset-summary">
+        <div class="dataset-title">📊 Dataset 3 – DAgger + bubble + 2,991 recovery images (from lane divider to right lane, Town 01)</div>
+        <table class="stats-table">
+          <thead><tr><th>Steering category</th><th>Count</th><th>Percentage</th></tr></thead>
+          <tbody>
+            <tr><td>Left strong</td><td>2707</td><td>5.3%</td></tr>
+            <tr><td>Left medium</td><td>4939</td><td>9.6%</td></tr>
+            <tr><td>Left soft</td><td>7202</td><td>14.1%</td></tr>
+            <tr><td>Straight</td><td>17312</td><td>33.8%</td></tr>
+            <tr><td>Right soft</td><td>7004</td><td>13.7%</td></tr>
+            <tr><td>Right medium</td><td>9471</td><td>18.5%</td></tr>
+            <tr><td>Right strong</td><td>2617</td><td>5.1%</td></tr>
+          </tbody>
+        </table>
+        <p><em>Note: distribution unchanged from Dataset 2 because recovery images were added without modifying original counts; total increased but percentages kept same structure for direct comparison.</em></p>
+        <div class="image-container">
+  <img src="Week30figura3.png" alt="Descripción de la figura">
+</div>
+        <div class="image-placeholder">📊 Figure 3: Histogram shape similar to Dataset 2, but recovery examples shift behaviour during evaluation.</div>
+        <div class="video-embed">🎥 <strong>Video 3 (Dataset 3):</strong> <a href="https://youtu.be/sisaBPvhwiY" target="_blank">https://youtu.be/sisaBPvhwiY</a> – Noticeable reduction of centre drifting, but still inconsistent on narrow curves.</div>
+      </div>
+
+      <!-- Dataset 4: weighted balancing -->
+      <div class="dataset-summary">
+        <div class="dataset-title">📊 Dataset 4 – Dataset 3 + weighted balancing (down‑sampling overrepresented straight/right‑medium classes)</div>
+        <table class="stats-table">
+          <thead><tr><th>Category</th><th>Count</th><th>Percentage</th></tr></thead>
+          <tbody>
+            <tr><td>Left strong</td><td>1387</td><td>2.8%</td></tr>
+            <tr><td>Left medium</td><td>4939</td><td>9.9%</td></tr>
+            <tr><td>Left soft</td><td>7202</td><td>14.5%</td></tr>
+            <tr><td>Straight</td><td>17312</td><td>34.8%</td></tr>
+            <tr><td>Right soft</td><td>7004</td><td>14.1%</td></tr>
+            <tr><td>Right medium</td><td>9471</td><td>19.0%</td></tr>
+            <tr><td>Right strong</td><td>2439</td><td>4.9%</td></tr>
+          </tbody>
+        </table>
+        <div class="image-container">
+  <img src="Week30figura4.png" alt="Descripción de la figura">
+</div>
+        <div class="image-placeholder">📊 Figure 4: Weighted balancing reduces the dominance of straight steering.</div>
+        <div class="video-embed">🎥 <strong>Video 4 (Dataset 4):</strong> <a href="https://youtu.be/HdAyx_1lpYs" target="_blank">https://youtu.be/HdAyx_1lpYs</a> – Better right‑lane holding, but the vehicle shows slight oscillation when correcting from the divider.</div>
+      </div>
+
+      <!-- Dataset 5: oversampling (without extra towns) -->
+      <div class="dataset-summary">
+        <div class="dataset-title">📊 Dataset 5 – Oversampling (Dataset 3 up‑sampled minority steering classes)</div>
+        <table class="stats-table">
+          <thead><tr><th>Category</th><th>Count</th><th>Percentage</th></tr></thead>
+          <tbody>
+            <tr><td>Left strong</td><td>4034</td><td>7.1%</td></tr>
+            <tr><td>Left medium</td><td>7106</td><td>12.4%</td></tr>
+            <tr><td>Left soft</td><td>7202</td><td>12.6%</td></tr>
+            <tr><td>Straight</td><td>17312</td><td>30.3%</td></tr>
+            <tr><td>Right soft</td><td>7004</td><td>12.3%</td></tr>
+            <tr><td>Right medium</td><td>10349</td><td>18.1%</td></tr>
+            <tr><td>Right strong</td><td>4153</td><td>7.3%</td></tr>
+          </tbody>
+        </table>
+        <div class="image-container">
+  <img src="Week30figura5.png" alt="Descripción de la figura">
+</div>
+        <div class="image-placeholder">📊 Figure 5: Oversampling produces a flatter distribution, emphasising corrective manoeuvres.</div>
+        <div class="video-embed">🎥 <strong>Video 5 (Dataset 5):</strong> <a href="https://youtu.be/WAANA6yqFeY" target="_blank">https://youtu.be/WAANA6yqFeY</a> – <strong>Best performance so far:</strong> vehicle consistently stays in the right lane, recovers robustly after deviations, and cornering is smoother.</div>
+      </div>
+
+      <!-- Dataset 6: oversampling + 13902 additional recovery samples from Town02,04,12 -->
+      <div class="dataset-summary">
+        <div class="dataset-title">📊 Dataset 6 – Oversampling + 13,902 recovery images (Town 02, 04, 12) – most diverse set</div>
+        <table class="stats-table">
+          <thead><tr><th>Category</th><th>Count</th><th>Percentage</th></tr></thead>
+          <tbody>
+            <tr><td>Left strong</td><td>4034</td><td>5.7%</td></tr>
+            <tr><td>Left medium</td><td>7120</td><td>10.0%</td></tr>
+            <tr><td>Left soft</td><td>11045</td><td>15.5%</td></tr>
+            <tr><td>Straight</td><td>22571</td><td>31.8%</td></tr>
+            <tr><td>Right soft</td><td>11382</td><td>16.0%</td></tr>
+            <tr><td>Right medium</td><td>10757</td><td>15.1%</td></tr>
+            <tr><td>Right strong</td><td>4153</td><td>5.8%</td></tr>
+          </tbody>
+        </table>
+        <div class="image-container">
+  <img src="Week30figura6.png" alt="Descripción de la figura">
+</div>
+        <div class="image-placeholder">📊 Figure 6: Even more balanced, with increased left‑soft and right‑soft due to multi‑town recovery.</div>
+        <div class="video-embed">🎥 <strong>Video 6 (Dataset 6):</strong> <em>Training in progress – results expected early Week 31.</em></div>
+        <div class="note">Preliminary loss curves indicate good generalisation across different road markings and lighting conditions.</div>
+      </div>
+
+      <!-- Comparative analysis and conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Comparative Analysis & Key Findings</h3>
+        <div class="findings-summary">
+          <ul>
+            <li>✅ <strong>Plain DAgger + bubble driving (Dataset 1 & 2)</strong> does <strong>not</strong> eliminate centre lane bias – the model still prefers the midline because the training distribution lacks explicit recovery demonstrations.</li>
+            <li>✅ <strong>Adding 2,991 recovery samples (Dataset 3)</strong> reduces centre drifting but does not fully solve the problem; the network learns to react to off‑centre states but remains hesitant.</li>
+            <li>✅ <strong>Weighted balancing (Dataset 4)</strong> improves reactivity but can induce mild oscillations – the model becomes sensitive without enough diverse right‑lane examples.</li>
+            <li>✅ <strong>Oversampling (Dataset 5)</strong> yields the most consistent right‑lane adherence. The ego‑vehicle actively seeks the centre of the right lane and recovers robustly. <strong>This is the current best strategy.</strong></li>
+            <li>⏳ <strong>Dataset 6 (oversampling + larger multi‑town recovery)</strong> is still training; expected to improve generalisation to new towns (Town 07, complex intersections).</li>
+          </ul>
+          <p><strong>Conclusion:</strong> Under the proposed methodology, simply adding recovery examples is not enough – <strong>oversampling the underrepresented corrective actions (left/right strong and medium) is crucial</strong>. The ego‑vehicle “learns to stay in the right lane” only when the training set contains a balanced proportion of recovery manoeuvres. Weighted balancing helps but oversampling yields superior stability.</p>
+        </div>
+      </div>
+
+      <!-- Next steps: horizontal shift + image cropping -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. Next Steps – Horizontal Shift & Image Cropping (Week 31)</h3>
+        <div class="exploration-box">
+          <p><strong>🔄 Horizontal shift augmentation (PilotNet, Sec. 5.3 [2]):</strong> Following the NVIDIA recommendations, we will synthesise off‑centre views by translating camera images horizontally and adjusting steering targets accordingly. Three magnitudes (0.002, 0.003, 0.004) will be applied <strong>on top of the best oversampled dataset (Dataset 5)</strong>. This is expected to enforce generalisation to any lateral displacement without collecting additional real data.</p>
+          <p><strong>✂️ Image cropping:</strong> Removing redundant sky and hood areas will further focus the network on road geometry and lane markings. Cropping will be combined with horizontal shift to maximise robustness against the centre bias.</p>
+        </div>
+        <ol>
+          <li><strong>Train PilotNet with Dataset 5 + horizontal shift augmentation</strong> (3 magnitudes). Evaluate on Town 07 rural circuit, measuring time spent in right lane and curb contacts.</li>
+          <li><strong>Integrate image cropping</strong> as a preprocessing step; compare with pure shift augmentation.</li>
+          <li><strong>Combine corrected DAgger + oversampling + shift augmentation</strong> – the ultimate hybrid solution.</li>
+          <li><strong>Re‑evaluate 90° turn performance</strong> – preliminary oversampling results already show smoother cornering; shift augmentation may further improve turn trajectories.</li>
+          <li><strong>Release the final datasets on Huggingface</strong> (oversampled + augmented variants) after validation.</li>
+        </ol>
+        <div class="note">
+          <p><strong>Literature reference:</strong> Bojarski et al. (arXiv 2020) – “The NVIDIA pilotnet experiments” explicitly recommends horizontal shift to remedy lane‑centering issues: <a href="https://arxiv.org/pdf/2010.08776" target="_blank">https://arxiv.org/pdf/2010.08776</a>.</p>
+        </div>
+      </div>
+
+      <!-- Summary block -->
+      <div class="online-results">
+        <h4>📌 WEEK 30 SUMMARY – APRIL 30, 2026</h4>
+        <p>📊 Six datasets systematically evaluated: DAgger + bubble driving + recovery samples from lane divider + balancing strategies.</p>
+        <p>🏆 <strong>Oversampling (Dataset 5)</strong> yields the most consistent right‑lane keeping, dramatically reducing centre lane bias.</p>
+        <p>✅ Weighted balancing helps but oversampling is superior; adding recovery images alone (without balancing) is insufficient.</p>
+        <p>🔜 Week 31: Implement horizontal shift augmentation (PilotNet 2020) and image cropping on top of Dataset 5.</p>
+        <p>📚 Foundational references: DAgger (Ross et al. 2011) and PilotNet augmentation shared with the team.</p>
+      </div>
+
+      <!-- Acknowledgements & references -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Shared Literature & Team Notes</h3>
+        <ul>
+          <li><strong>[1] Ross, S., Gordon, G., & Bagnell, D. (AISTATS 2011):</strong> DAgger – a reduction of imitation learning to no‑regret online learning. <a href="https://proceedings.mlr.press/v15/ross11a" target="_blank">https://proceedings.mlr.press/v15/ross11a</a></li>
+          <li><strong>[2] Bojarski, M., et al. (arXiv 2016):</strong> End to end learning for self‑driving cars (original PilotNet). <a href="https://arxiv.org/pdf/1604.07316" target="_blank">https://arxiv.org/pdf/1604.07316</a></li>
+          <li><strong>[3] Bojarski, M., et al. (arXiv 2020):</strong> The NVIDIA pilotnet experiments – Section 5.3 on horizontal shift augmentation for lane centering. <a href="https://arxiv.org/pdf/2010.08776" target="_blank">https://arxiv.org/pdf/2010.08776</a></li>
+        </ul>
+        <p>Special thanks to @jmplaza and @Juan Calderon for continuous feedback and discussion on imitation learning pitfalls.</p>
+        <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+      </div>
+
+      <p><strong>Detailed technical note:</strong> All experiments continue using a 1 s frame margin (temporal redundancy removal, validated Week 22) to avoid oscillatory zigzag behaviour. The stabilised DAgger recording delay (1.5 s) is now part of the standard pipeline. The next milestone is to practically eliminate the centre lane bias on Town 07 and then systematically benchmark turning performance.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: April 30, 2026 (Week 30)</p>
+  </footer>
+</body>
+</html>
