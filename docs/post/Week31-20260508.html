@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report May 8, 2026 (Week 31)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    
+    .data-flow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 30px 0;
+    }
+    
+    .flow-step {
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 15px;
+      margin: 10px;
+      background-color: #fff;
+      border: 2px solid #4a6fa5;
+      border-radius: 8px;
+      position: relative;
+    }
+    
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #4a6fa5;
+    }
+    
+    .flow-step:last-child::after {
+      content: "";
+    }
+    
+    .flow-step.error {
+      border-color: #c62828;
+      background-color: #ffebee;
+    }
+    
+    .equation {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .image-placeholder {
+      background-color: #e9ecef;
+      width: 100%;
+      max-width: 700px;
+      height: 250px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 1px dashed #6c757d;
+      color: #6c757d;
+      font-style: italic;
+    }
+    
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .stats-table th {
+      background-color: #4a6fa5;
+      color: white;
+      padding: 8px;
+      text-align: center;
+    }
+    .stats-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: right;
+    }
+    .stats-table td:first-child {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f2f2f2;
+    }
+    .stats-table tr:last-child td {
+      border-bottom: 2px solid #4a6fa5;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.8em;
+      margin-left: 8px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .dataset-summary {
+      background-color: #eef2fa;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 25px 0;
+    }
+    .dataset-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #1e466e;
+      border-left: 5px solid #4a6fa5;
+      padding-left: 15px;
+      margin: 0 0 10px 0;
+    }
+    .video-embed {
+      margin: 15px 0;
+      font-family: monospace;
+    }
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+    }
+    .exp-table th, .exp-table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+    .exp-table th {
+      background-color: #e9ecef;
+    }
+    @media (max-width: 768px) {
+      .data-flow {
+        flex-direction: column;
+      }
+      .flow-step::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -20px;
+        transform: translateX(50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 31 · May 8, 2026</div>
+      <h2>Exploring New Approaches: Horizontal Crop Augmentation & Comparative Evaluation of Balancing Strategies</h2>
+      <p class="date">May 8, 2026</p>
+      <p><strong>Following the oversampling success of Week 30, this week we replicate and extend the work of Jorge Rodríguez (<a href="https://roboticslaburjc.github.io/2025-tfg-jorge-rodriguez/semana10/" target="_blank">semana10</a>) to compare cropping-based data augmentation against different balancing methods. The key finding: <em>simple top cropping (35% of the image)</em> drastically reduces oscillations and lane departures, outperforming oversampling in terms of driving smoothness while achieving similar lane‑keeping quality.</strong></p>
+
+      <!-- Introduction: replicating Jorge Rodríguez's work -->
+      <div class="slide-content">
+        <h3 class="slide-header">0. Motivation & Replication Goal</h3>
+        <div class="exploration-box">
+          <p>🧪 <strong>Replication study:</strong> Jorge Rodríguez previously trained an end‑to‑end steering model using a dataset collected on Town 01/07 with a specific split (25‑30% per turn, 10‑15% recoveries, 55‑65% straight). He applied <strong>image cropping (remove top 35%)</strong> and reported reduced oscillations. We re‑implemented his pipeline to:</p>
+          <ul>
+            <li>Compare the effectiveness of cropping vs. our previous oversampling strategy (Week 30, Dataset 5).</li>
+            <li>Evaluate whether cropping alone eliminates the <em>center lane bias</em> without explicit recovery samples.</li>
+            <li>Understand the interplay between spatial attention (cropping) and dataset balancing.</li>
+          </ul>
+          <p>All experiments use the <strong>corrected DAgger stabilisation</strong> (1.5 s delay) and the same PilotNet architecture on CARLA 0.9.15.</p>
+        </div>
+      </div>
+
+      <!-- Dataset description from PDF -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. Dataset Composition (Jorge Rodríguez split)</h3>
+        <p>The dataset used this week follows the exact proportions described in the reference blog:</p>
+        <ul>
+          <li>🔄 <strong>25‑30% for each turn</strong> (left/right)</li>
+          <li>🛞 <strong>10‑15% for recovery manoeuvres</strong> (from lane divider back to lane centre)</li>
+          <li>➡️ <strong>55‑65% for straight driving</strong></li>
+        </ul>
+        <p>Total size: ~55,000 images collected from Town 01 and Town 07 (rural, highways and simple curves). No horizontal shift augmentation was applied – only cropping of the upper 35% of the image (removing sky, distant trees) as shown in Figures 1 and 2.</p>
+        <img src="Week31-1.png" alt="week31_1"><br>
+        Figure 1: Original image from dataset (full view with sky and horizon)</br>
+        <img src="Week31-1_crop.png" alt="week31_1"></br><br>
+        Figure 2: Same image after cropping top 35% – network now focuses only on road surface and near‑field lane markings.</br>
+        
+
+        <p class="note">Cropping forces the network to rely on low‑level road geometry rather than high‑level contextual cues, which is hypothesised to reduce overfitting to background scenery.</p>
+      </div>
+
+      <!-- Experimental protocol: four conditions -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Experimental Protocol – Four Training Configurations</h3>
+        <p>We trained the same PilotNet model under four distinct conditions, keeping all hyperparameters identical (learning rate 1e-4, batch size 64, 20 epochs). Evaluations were performed on unseen segments of Town 01 and Town 07 (1 minute each, repeated 3 times). Metrics: right‑lane adherence (binary), oscillation magnitude (subjective scale), lane departures per minute.</p>
+        
+        <table class="exp-table">
+          <thead>
+            <tr><th>Experiment ID</th><th>Data Augmentation</th><th>Balancing</th><th>Evaluation Town</th> </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Exp A</strong></td><td>None</td><td>None (raw distribution)</td><td>Town 01</td> </tr>
+            <tr><td><strong>Exp B</strong></td><td>None</td><td>None (raw distribution)</td><td>Town 07</td> </tr>
+            <tr><td><strong>Exp C</strong></td><td>None</td><td>Oversampling (minority steering classes)</td><td>Town 01</td> </tr>
+            <tr><td><strong>Exp D</strong></td><td>Top 35% cropping</td><td>None</td><td>Town 01</td> </tr>
+          </tbody>
+        </table>
+        <p><em>Note: Exp A, B, C, D correspond directly to the four video results reported in the PDF.</em></p>
+      </div>
+
+      <!-- Results table with findings from PDF -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. Results & Qualitative Analysis</h3>
+        <p>The following table summarises the observed behaviour from the evaluation videos:</p>
+        
+        <table class="exp-table">
+          <thead>
+            <tr><th>Experiment</th><th>Right‑lane following?</th><th>Oscillations</th><th>Lane departures (per minute)</th><th>Video link</th> </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Exp A:</strong> No augmentation, no balancing – Town 01</td>
+                <td>✅ OK</td>
+                <td>Many, soft</td>
+                <td>2 (mainly right‑side departures)</td>
+                <td><a href="https://youtu.be/UAe1Q4nIS_Y" target="_blank">https://youtu.be/UAe1Q4nIS_Y</a></td>
+            </tr>
+            <tr><td><strong>Exp B:</strong> No augmentation, no balancing – Town 07</td>
+                <td>✅ OK</td>
+                <td>Few, soft</td>
+                <td>Several (both left and right)</td>
+                <td><a href="https://youtu.be/SNvTLVY62lY" target="_blank">https://youtu.be/SNvTLVY62lY</a></td>
+            </tr>
+            <tr><td><strong>Exp C:</strong> No augmentation, but oversampling – Town 01</td>
+                <td>❌ No (frequent centre drifting)</td>
+                <td>Many, soft</td>
+                <td>Both left and right (frequent)</td>
+                <td><a href="https://youtu.be/a--w1KI677Y" target="_blank">https://youtu.be/a--w1KI677Y</a></td>
+            </tr>
+            <tr><td><strong>Exp D:</strong> Top 35% cropping – Town 01</td>
+                <td>✅ Yes (solid)</td>
+                <td>Very low, smooth</td>
+                <td>~1 departure per minute</td>
+                <td><a href="https://youtu.be/9k9oEe_qrqA" target="_blank">https://youtu.be/9k9oEe_qrqA</a></td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="findings-summary">
+          <h4>🔍 Key observations:</h4>
+          <ul>
+            <li><strong>Exp A (baseline Town 01):</strong> The model follows the right lane but oscillates constantly, likely due to the imbalanced dataset (high proportion of straight steering). Two departures per minute – mainly to the right because the network overcorrects when approaching the left lane divider.</li>
+            <li><strong>Exp B (Town 07):</strong> Fewer oscillations but still multiple lane departures on both sides. Town 07’s wider lanes and different markings reduce the effectiveness of the raw dataset.</li>
+            <li><strong>Exp C (oversampling only):</strong> Surprisingly, oversampling <em>worsened</em> right‑lane adherence. The model began oscillating more aggressively and frequently left the lane on both sides. This contradicts Week 30’s results (where oversampling on a different dataset improved performance). The difference is likely due to the absence of recovery samples in this dataset – oversampling without explicit corrective demonstrations amplifies noisy steering commands.</li>
+            <li><strong>Exp D (cropping only):</strong> Clear winner: very low oscillations, smooth steering, and only one departure per minute. Cropping removes irrelevant visual distractions (sky, trees) and forces the network to focus on lane geometry, effectively mimicking an implicit “attention” mechanism. This single augmentation outperforms both the baseline and oversampling in terms of driving quality.</li>
+          </ul>
+          <p><strong>Conclusion:</strong> For the dataset split used by Jorge Rodríguez (with inherent balance of turns/recoveries), <strong>top cropping is more effective than oversampling</strong> at reducing oscillations and preventing lane excursions. Oversampling without proper recovery samples can even degrade performance. Therefore, for Week 32 we will combine cropping with the <em>best oversampled + recovery dataset from Week 30</em>.</p>
+        </div>
+      </div>
+
+      <!-- Comparative discussion: why cropping works -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Why Does Cropping Outperform Oversampling in This Setup?</h3>
+        <div class="exploration-box">
+          <p>🧠 <strong>Interpretation:</strong> The network trained with raw data (Exp A) sees the horizon and sky, which are largely invariant to steering. These features can act as confounding variables – the model may learn to rely on them instead of the road curvature. When cropping removes the top 35%, the network is forced to extract features from the lower part of the image where lane markings and road geometry dominate. This inductive bias leads to:</p>
+          <ul>
+            <li>Reduced variance in the steering output → fewer oscillations.</li>
+            <li>Better generalisation to unseen curves because the network cannot “cheat” using background features.</li>
+          </ul>
+          <p>On the other hand, oversampling (Exp C) without additional recovery examples merely repeats existing steering commands from the straight‑dominated dataset, causing the model to become overconfident and produce erratic corrections.</p>
+        </div>
+        <p>These findings align with the PilotNet literature: Bojarski et al. (2016) [2] observed that cropping the top half of the image significantly improves performance in low‑speed urban scenarios.</p>
+      </div>
+
+      <!-- Next steps: combining cropping + oversampling + multi-town recovery -->
+      <div class="slide-content">
+        <h3 class="slide-header">5. Next Steps – Hybrid Augmentation Pipeline (Week 32)</h3>
+        <div class="exploration-box">
+          <p><strong>🚀 Proposed integration:</strong> Based on Week 30 and Week 31 results, the optimal configuration appears to be:</p>
+          <ol>
+            <li><strong>Dataset:</strong> Use the <em>oversampled Dataset 5</em> from Week 30 (which includes 2,991 recovery samples from the lane divider).</li>
+            <li><strong>Preprocessing:</strong> Apply top 35% cropping to every image.</li>
+            <li><strong>Augmentation:</strong> Add horizontal shift (PilotNet 2020) with three magnitudes (0.002, 0.003, 0.004) to further improve generalisation.</li>
+            <li><strong>Train on Town 01 + Town 07 mixture</strong> and evaluate on complex Town 12 with 90° turns and intersections.</li>
+          </ol>
+          <p>We expect this hybrid to achieve near‑zero lane departures and minimal oscillations, finally eliminating the centre lane bias completely.</p>
+        </div>
+        <p class="note">All code and datasets will be published on Huggingface after validation. We will also measure the <strong>time spent outside the right lane</strong> as a quantitative metric (instead of counting departures).</p>
+      </div>
+
+      <!-- references and acknowledgements -->
+      <div class="slide-content">
+        <h3 class="slide-header">6. References & Team Notes</h3>
+        <ul>
+          <li><strong>[1] Rodríguez, J. (2025):</strong> Semana 10 – Data augmentation with cropping. <a href="https://roboticslaburjc.github.io/2025-tfg-jorge-rodriguez/semana10/" target="_blank">https://roboticslaburjc.github.io/2025-tfg-jorge-rodriguez/semana10/</a></li>
+          <li><strong>[2] Bojarski, M., et al. (2016):</strong> End to end learning for self‑driving cars (PilotNet). <a href="https://arxiv.org/abs/1604.07316" target="_blank">arXiv:1604.07316</a></li>
+          <li><strong>[3] Ross, S., et al. (2011):</strong> DAgger: A reduction of imitation learning to no‑regret online learning. <a href="https://proceedings.mlr.press/v15/ross11a" target="_blank">AISTATS 2011</a></li>
+        </ul>
+        <p>Special thanks to Jorge Rodríguez for sharing his dataset pipeline and to the Robotics Lab team for continuous feedback. The replication study confirms that simple spatial cropping can be more impactful than complex balancing strategies when the base dataset is already reasonably structured.</p>
+        <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+      </div>
+
+      <!-- summary block -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 31 SUMMARY – MAY 8, 2026</h4>
+        <p>📊 Replicated Jorge Rodríguez’s work using a dataset with 25‑30% turns, 10‑15% recoveries, 55‑65% straight driving.</p>
+        <p>✂️ <strong>Top 35% image cropping</strong> drastically reduced oscillations (very low, smooth) and achieved only 1 lane departure per minute on Town 01.</p>
+        <p>⚠️ Oversampling without recovery samples <strong>degraded</strong> right‑lane adherence (frequent departures both sides).</p>
+        <p>🔜 Week 32: Combine cropping + oversampled recovery dataset (Week 30) + horizontal shift augmentation for the definitive solution.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: May 8, 2026 (Week 31)</p>
+  </footer>
+</body>
+</html>
