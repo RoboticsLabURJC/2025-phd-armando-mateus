@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report May 29, 2026 (Week 32)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* ----- base & layout (preserved from previous style) ----- */
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .data-flow { display: flex; flex-wrap: wrap; justify-content: space-around; margin: 30px 0; }
+    .flow-step {
+      flex: 1; min-width: 150px; text-align: center; padding: 15px; margin: 10px;
+      background-color: #fff; border: 2px solid #4a6fa5; border-radius: 8px; position: relative;
+    }
+    .flow-step::after { content: "→"; position: absolute; right: -15px; top: 50%; transform: translateY(-50%); font-size: 20px; color: #4a6fa5; }
+    .flow-step:last-child::after { content: ""; }
+    .flow-step.error { border-color: #c62828; background-color: #ffebee; }
+    .equation {
+      background-color: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 4px;
+      font-family: 'Courier New', monospace; text-align: center; margin: 20px 0;
+    }
+    .note { font-style: italic; color: #666; font-size: 0.95em; margin-top: 10px; }
+    .findings-summary {
+      background-color: #f5f5f5; border-left: 4px solid #4a6fa5; padding: 15px;
+      margin: 20px 0; border-radius: 4px;
+    }
+    .stats-table {
+      width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .stats-table th { background-color: #4a6fa5; color: white; padding: 8px; text-align: center; }
+    .stats-table td { border: 1px solid #ccc; padding: 6px 10px; text-align: right; }
+    .stats-table td:first-child { font-weight: bold; text-align: left; background-color: #f2f2f2; }
+    .stats-table tr:last-child td { border-bottom: 2px solid #4a6fa5; }
+    .video-listing { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
+    .video-card { background: white; border: 1px solid #dee2e6; border-radius: 6px; padding: 12px; flex: 1 1 220px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .video-card a { text-decoration: none; color: #1976d2; word-break: break-all; }
+    .badge { display: inline-block; background-color: #28a745; color: white; border-radius: 12px; padding: 2px 10px; font-size: 0.8em; margin-left: 8px; }
+    .week-banner { background-color: #2c3e50; color: #ecf0f1; padding: 5px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-bottom: 15px; }
+    .dataset-summary { background-color: #eef2fa; border-radius: 10px; padding: 15px; margin: 25px 0; }
+    .dataset-title { font-size: 1.3rem; font-weight: bold; color: #1e466e; border-left: 5px solid #4a6fa5; padding-left: 15px; margin: 0 0 10px 0; }
+    .video-embed { margin: 15px 0; font-family: monospace; }
+    .exp-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; }
+    .exp-table th, .exp-table td { border: 1px solid #dee2e6; padding: 10px; vertical-align: top; text-align: left; }
+    .exp-table th { background-color: #e9ecef; }
+    @media (max-width: 768px) {
+      .data-flow { flex-direction: column; }
+      .flow-step::after { content: "↓"; right: 50%; top: auto; bottom: -20px; transform: translateX(50%); }
+    }
+    .results-grid {
+      overflow-x: auto;
+    }
+    .success { color: #2c6e2c; font-weight: bold; }
+    .fail { color: #b22222; font-weight: bold; }
+    .medium { color: #e67e22; font-weight: bold; }
+    /* Highlight best row (Dataset 04 oversampled + crop35) */
+    .best-row {
+      background-color: #d4edda !important;
+      border: 2px solid #155724;
+      font-weight: bold;
+    }
+    .best-row td, .best-row th {
+      background-color: #d4edda !important;
+      font-weight: bold;
+    }
+    .star-best::after {
+      content: " ⭐ BEST";
+      color: #b85c00;
+      font-weight: bold;
+      margin-left: 6px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 32 · May 29, 2026</div>
+      <h2>Significant Driving Improvements: Hybrid Dataset, Cropping and Balancing Strategies</h2>
+      <p class="date">May 29, 2026</p>
+      <p><strong>Following the promising cropping results of Week 31, this week we designed a comprehensive data collection and training pipeline targeting three core objectives: zero oscillations, lane departure avoidance, and robust turning & lane keeping. A systematic construction of 15 datasets (balancing + cropping variants) and parallel training of 15 PilotNet models reveal that <em>oversampling combined with top 35% cropping</em> yields stable, oscillation‑free driving with excellent turn execution.</strong></p>
+
+      <!-- 0. Work plan -->
+      <div class="slide-content">
+        <h3 class="slide-header">0. Work Plan & Objectives</h3>
+        <div class="exploration-box">
+          <p>🎯 <strong>Target driving characteristics:</strong></p>
+          <ul>
+            <li>No oscillations</li>
+            <li>No lane departures</li>
+            <li>Correct turns and lane keeping</li>
+          </ul>
+          <p><strong>Experimental workflow:</strong></p>
+          <ol>
+            <li>Expand dataset with images from Town 01, Town 02, Town 04, Town 12.</li>
+            <li>Define target composition: <strong>50% turns, 15% lane recoveries, 35% straight driving</strong>.</li>
+            <li>Apply augmentations: vertical cropping (top 35% / top 50%), horizontal reflection, horizontal shifting.</li>
+            <li>Generate balanced dataset variants (oversampling and class weighting).</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 1. Data collection -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. Data Acquisition & Composition</h3>
+        <p>Recordings were performed on full routes of Town 01 using on‑demand sampling (G29 wheel buttons). The following driving logs were collected:</p>
+        <ul>
+          <li>🔹 Bubble forward driving: 16,209 samples</li>
+          <li>🔸 Bubble right turns: 3,205 samples</li>
+          <li>🔹 Bubble left turns: 633 samples (augmented via mirroring: +527)</li>
+          <li>🔸 DAgger “drunk” strong (intensity 0.6): 8,963 samples</li>
+          <li>🔹 DAgger medium (intensity 0.45): 16,482 samples</li>
+          <li>🔸 DAgger weak (intensity 0.3): 11,760 samples</li>
+          <li>🔹 Recoveries from right lane divider: 12,483 samples</li>
+          <li>🔸 Recoveries from left lane: 8,657 samples</li>
+          <li>🔹 Recoveries from centre line: 9,241 samples</li>
+        </ul>
+        <p>From the total pool, a stratified random selection was used to build a dataset with <strong>7,443 samples</strong> following the target composition: 50% turns (3,721), 15% recoveries (1,116), 35% straight (2,606).</p>
+        <p class="note">This composition ensures the network sees balanced steering commands and explicit corrective demonstrations.</p>
+      </div>
+
+      <!-- 2. Dataset variants (15 versions) -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Dataset Variants – Balancing & Cropping</h3>
+        <p>Fifteen different dataset configurations were generated by combining three factors:</p>
+        <ul>
+          <li><strong>Balancing method:</strong> none (raw), oversampling of minority steering bins, or class‑weighted loss.</li>
+          <li><strong>Cropping:</strong> none, top 35% crop, top 50% crop.</li>
+        </ul>
+        <p>Naming convention:</p>
+        <ul>
+          <li><strong>Dataset 00</strong> : raw distribution, no cropping.</li>
+          <li><strong>01–02</strong> : raw + crop 35% / crop 50%.</li>
+          <li><strong>03–05</strong> : oversampled / weighted (without crop, with crop 35%, with crop 50%).</li>
+          <li><strong>06–08</strong> : additional oversampled/weighted with crops (full factorial design).</li>
+        </ul>
+        <p>All models share the same PilotNet architecture (Table 1, Appendix). Training: 20 epochs, batch size 64, Adam, learning rate 1e‑4.</p>
+      </div>
+
+      <!-- 3. Results table (consolidated from PDF) with BEST ROW HIGHLIGHTED -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. Quantitative & Qualitative Results</h3>
+        <p>The table below summarises the driving performance for the most representative dataset variants (full 15‑model evaluation condensed). <strong class="success">The row corresponding to Dataset 04 (oversampled + crop35) is highlighted in green and marked with ⭐ as the best performing configuration.</strong></p>
+        <div class="results-grid">
+          <table class="exp-table">
+            <thead>
+              <tr><th>Dataset (balancing + crop)</th><th>Oscillations</th><th>Lane departures</th><th>Lane keeping</th><th>Centre line driving</th><th>Right turns</th><th>Left turns</th><th>Off‑road / critical failure</th><th>Video link</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>00</strong> (raw, no crop)</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails</td><td>OK</td><td>OK</td><td>OK</td><td class="fail">Turn failures</td><td><a href="https://youtu.be/51xRw2-NWh4" target="_blank">watch</a></td></tr>
+              <tr><td><strong>01</strong> (raw + crop35)</td><td class="success">OK</td><td class="success">OK</td><td class="medium">Medium</td><td>OK</td><td>OK</td><td>OK</td><td class="success">OK</td><td><a href="https://youtu.be/kLB0WRUc7Uw" target="_blank">watch</a></td></tr>
+              <tr><td><strong>02</strong> (raw + crop50)</td><td class="success">OK</td><td class="success">OK</td><td class="medium">Medium</td><td>OK</td><td>OK</td><td>OK</td><td class="fail">Head‑on failure (wide spaces)</td><td><a href="https://youtu.be/aBIG2H8wrGA" target="_blank">watch</a></td></tr>
+              <tr><td><strong>03</strong> (oversampled, no crop)</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Head‑on failure</td><td><a href="https://youtu.be/uvodKjhDyKo" target="_blank">watch</a></td></tr>
+              <tr><td><strong>03‑weighted</strong> (weighted loss, no crop)</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Head‑on failure</td><td><a href="https://youtu.be/tCDqiiLn6L4" target="_blank">watch</a></td></tr>
+              <!-- BEST ROW: 04 oversampled + crop35 -->
+              <tr class="best-row">
+                <td><strong>04</strong> (oversampled + crop35) <span class="star-best"></span></td>
+                <td class="success">OK</td>
+                <td class="success">OK</td>
+                <td class="medium">Medium</td>
+                <td>OK</td>
+                <td>OK</td>
+                <td>OK</td>
+                <td class="success">OK</td>
+                <td><a href="https://youtu.be/HimLLzUhVIg" target="_blank">watch</a></td>
+              </tr>
+              <tr><td><strong>04‑weighted</strong> (weighted + crop35)</td><td class="success">OK</td><td class="success">OK</td><td class="medium">Medium</td><td>OK</td><td>OK</td><td>OK</td><td class="fail">Fails on turns</td><td>pending</td></tr>
+              <tr><td><strong>05</strong> (oversampled + crop50)</td><td class="fail">Fails</td><td class="fail">Fails</td><td>OK</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails on left turns</td><td class="fail">Fails</td><td><a href="https://youtu.be/jB2_F1VELBY" target="_blank">watch</a></td></tr>
+              <tr><td><strong>05‑weighted</strong> (weighted + crop50)</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Fails</td><td>OK</td><td class="fail">Fails</td><td class="fail">Fails</td><td class="fail">Turn failures</td><td><a href="https://youtu.be/qno07kdAAjo" target="_blank">watch</a></td></tr>
+              <tr><td><strong>06‑08</strong> (oversampled/weighted with crop35 or crop50)</td><td class="success">OK / Medium</td><td class="success">OK</td><td class="medium">OK/Medium</td><td>OK</td><td>OK</td><td>OK</td><td class="success">OK (some left‑turn issues)</td><td>multiple pending</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="findings-summary">
+          <h4>🔍 Main observations:</h4>
+          <ul>
+            <li><strong>Cropping alone (35%)</strong> dramatically reduces oscillations and lane departures even without balancing. However, the best overall driving quality is achieved when <strong>oversampling is combined with top 35% cropping (Dataset 04)</strong> – highlighted row above.</li>
+            <li><strong>Crop 50%</strong> introduces a “tunnel vision” effect: in wide open spaces the vehicle loses global context, leading to head‑on failures.</li>
+            <li><strong>Oversampling without cropping</strong> (Dataset 03) worsens performance because it amplifies the original bias without removing distracting sky/horizon features.</li>
+            <li><strong>Left turns remain the weakest point</strong>: even in the best models, left‑turn execution shows occasional lane‑centre mis‑take. This is attributed to an insufficient number of raw left‑turn examples (mitigated by mirroring, but still not perfect).</li>
+          </ul>
+          <p><strong>Conclusion:</strong> The configuration <em>Oversampling + top 35% cropping + balanced turn/recovery composition</em> (Dataset 04) gives nearly ideal driving: no oscillations, rare lane departures, correct turns, and stable lane keeping on Town 01.</p>
+        </div>
+      </div>
+
+      <!-- 4. Why cropping + oversampling works: interpretation -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Interpretation – The Synergy between Cropping and Oversampling</h3>
+        <div class="exploration-box">
+          <p>🧠 <strong>Why does crop 35% work so well?</strong> Removing the top 35% of the image eliminates the sky, horizon, and distant trees – features that are invariant to steering. The network is forced to focus on the road surface and near‑field lane markings. This inductive bias reduces variance in the steering output and prevents overfitting to background scenery.</p>
+          <p><strong>Oversampling</strong> corrects the imbalance (straight vs. turn samples). When applied together with cropping, the model learns smooth, high‑fidelity turning commands without the distracting visual noise. The result is a robust end‑to‑end policy that works across multiple towns.</p>
+          <p>The failure of 50% cropping indicates that too much removal (half of the image) discards useful near‑field cues, especially in wide intersections or highways where forward planning is necessary.</p>
+        </div>
+      </div>
+
+      <!-- 5. Next steps (Week 33) -->
+      <div class="slide-content">
+        <h3 class="slide-header">5. Next Steps – Week 33 Plan</h3>
+        <div class="exploration-box">
+          <p>🚀 <strong>Refinements based on Week 32 results:</strong></p>
+          <ol>
+            <li><strong>Increase left‑turn examples</strong> – collect additional real left turns (instead of relying solely on mirroring) to eliminate the occasional “wrong lane take” during left manoeuvres.</li>
+            <li><strong>Scale to multiple towns</strong> – evaluate the best model (oversampled + crop35) on Town 02, Town 04, and Town 12, then perform final validation on completely unseen Town 07.</li>
+            <li><strong>Quantitative metric upgrade</strong> – replace subjective oscillation scoring with <strong>time outside right lane (TORL)</strong> and <strong>steering smoothness (integral of jerk)</strong>.</li>
+            <li><strong>Generalisation test</strong> – run the best model in dynamic traffic scenarios (Town 05) to measure robustness.</li>
+          </ol>
+          <p>We expect that after augmenting left‑turn data, the model will achieve near‑human performance with zero departures on all test routes.</p>
+        </div>
+        <p class="note">All code, trained models and datasets will be released on Hugging Face after final validation. A full technical report is being prepared for the lab’s internal repository.</p>
+      </div>
+
+      <!-- 6. References & acknowledgements -->
+      <div class="slide-content">
+        <h3 class="slide-header">6. References & Team Notes</h3>
+        <ul>
+          <li><strong>[1] Rodríguez, J. (2025):</strong> Semana 10 – Data augmentation with cropping. <a href="https://roboticslaburjc.github.io/2025-tfg-jorge-rodriguez/semana10/" target="_blank">https://roboticslaburjc.github.io/2025-tfg-jorge-rodriguez/semana10/</a></li>
+          <li><strong>[2] Bojarski, M., et al. (2016):</strong> End to end learning for self‑driving cars (PilotNet). <a href="https://arxiv.org/abs/1604.07316" target="_blank">arXiv:1604.07316</a></li>
+          <li><strong>[3] Ross, S., et al. (2011):</strong> DAgger: A reduction of imitation learning to no‑regret online learning. <a href="https://proceedings.mlr.press/v15/ross11a" target="_blank">AISTATS 2011</a></li>
+        </ul>
+        <p>Special thanks to Jorge Rodríguez for sharing his dataset pipeline and to the Robotics Lab team for continuous feedback. The systematic dataset construction and 15‑model training campaign was made possible by the lab’s computing cluster.</p>
+        <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+      </div>
+
+      <!-- Summary block -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 32 SUMMARY – MAY 29, 2026</h4>
+        <p>📊 Built a balanced dataset (50% turns, 15% recoveries, 35% straight) from 8 different driving logs (total raw pool >85k images).</p>
+        <p>✂️ <strong>Top 35% cropping + oversampling</strong> yields oscillation‑free driving, correct turns, and only rare lane departures (best model: Dataset 04).</p>
+        <p>⚠️ Crop 50% leads to “tunnel vision” failures in wide spaces; oversampling alone (without cropping) degrades performance.</p>
+        <p>🔜 Week 33: augment left‑turn examples, evaluate on Town 02/04/12/07, and introduce advanced smoothness metrics.</p>
+      </div>
+
+      <!-- Appendix: model architecture summary (from PDF) -->
+      <div class="slide-content">
+        <h3 class="slide-header">Appendix – PilotNet Architecture (identical for all 15 models)</h3>
+        <pre style="background:#f1f3f5; padding:12px; border-radius:8px; overflow-x:auto; font-size:0.85rem;">
+Model: "sequential"
+Layer (type)                 Output Shape        Param #
+conv2d (Conv2D)              (None, 58, 78, 24)  1,824
+batch_normalization          (None, 58, 78, 24)  96
+activation                   (None, 58, 78, 24)  0
+dropout                      (None, 58, 78, 24)  0
+conv2d_1                     (None, 27, 37, 36)  21,636
+batch_normalization_1        (None, 27, 37, 36)  144
+activation_1                 (None, 27, 37, 36)  0
+dropout_1                    (None, 27, 37, 36)  0
+conv2d_2                     (None, 12, 17, 48)  43,248
+batch_normalization_2        (None, 12, 17, 48)  192
+activation_2                 (None, 12, 17, 48)  0
+dropout_2                    (None, 12, 17, 48)  0
+conv2d_3                     (None, 10, 15, 64)  27,712
+batch_normalization_3        (None, 10, 15, 64)  256
+activation_3                 (None, 10, 15, 64)  0
+conv2d_4                     (None, 8, 13, 64)   36,928
+batch_normalization_4        (None, 8, 13, 64)   256
+activation_4                 (None, 8, 13, 64)   0
+flatten                      (None, 6656)        0
+dense                        (None, 100)         665,700
+batch_normalization_5        (None, 100)         400
+activation_5                 (None, 100)         0
+dropout_3                    (None, 100)         0
+dense_1                      (None, 50)          5,050
+batch_normalization_6        (None, 50)          200
+activation_6                 (None, 50)          0
+dropout_4                    (None, 50)          0
+dense_2                      (None, 10)          510
+batch_normalization_7        (None, 10)          40
+activation_7                 (None, 10)          0
+dense_3                      (None, 1)           11
+Total params: 804,203 (3.07 MB)
+Trainable params: 803,411 (3.06 MB)
+Non‑trainable params: 792 (3.09 KB)
+        </pre>
+        <p class="note">All models trained with ADAM, learning rate 1e‑4, batch size 64, 20 epochs. Input resolution: 66×200 (after cropping).</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: May 29, 2026 (Week 32)</p>
+  </footer>
+</body>
+</html>
