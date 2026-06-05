@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report June 5, 2026 (Week 33)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* ----- base & layout (preserved from previous style) ----- */
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .data-flow { display: flex; flex-wrap: wrap; justify-content: space-around; margin: 30px 0; }
+    .flow-step {
+      flex: 1; min-width: 150px; text-align: center; padding: 15px; margin: 10px;
+      background-color: #fff; border: 2px solid #4a6fa5; border-radius: 8px; position: relative;
+    }
+    .flow-step::after { content: "→"; position: absolute; right: -15px; top: 50%; transform: translateY(-50%); font-size: 20px; color: #4a6fa5; }
+    .flow-step:last-child::after { content: ""; }
+    .flow-step.error { border-color: #c62828; background-color: #ffebee; }
+    .equation {
+      background-color: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 4px;
+      font-family: 'Courier New', monospace; text-align: center; margin: 20px 0;
+    }
+    .note { font-style: italic; color: #666; font-size: 0.95em; margin-top: 10px; }
+    .findings-summary {
+      background-color: #f5f5f5; border-left: 4px solid #4a6fa5; padding: 15px;
+      margin: 20px 0; border-radius: 4px;
+    }
+    .stats-table {
+      width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .stats-table th { background-color: #4a6fa5; color: white; padding: 8px; text-align: center; }
+    .stats-table td { border: 1px solid #ccc; padding: 6px 10px; text-align: right; }
+    .stats-table td:first-child { font-weight: bold; text-align: left; background-color: #f2f2f2; }
+    .stats-table tr:last-child td { border-bottom: 2px solid #4a6fa5; }
+    .video-listing { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
+    .video-card { background: white; border: 1px solid #dee2e6; border-radius: 6px; padding: 12px; flex: 1 1 220px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .video-card a { text-decoration: none; color: #1976d2; word-break: break-all; }
+    .badge { display: inline-block; background-color: #28a745; color: white; border-radius: 12px; padding: 2px 10px; font-size: 0.8em; margin-left: 8px; }
+    .week-banner { background-color: #2c3e50; color: #ecf0f1; padding: 5px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-bottom: 15px; }
+    .dataset-summary { background-color: #eef2fa; border-radius: 10px; padding: 15px; margin: 25px 0; }
+    .dataset-title { font-size: 1.3rem; font-weight: bold; color: #1e466e; border-left: 5px solid #4a6fa5; padding-left: 15px; margin: 0 0 10px 0; }
+    .video-embed { margin: 15px 0; font-family: monospace; }
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.85em;
+    }
+    .exp-table th, .exp-table td {
+      border: 1px solid #dee2e6;
+      padding: 8px;
+      vertical-align: top;
+      text-align: left;
+    }
+    .exp-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+      .data-flow { flex-direction: column; }
+      .flow-step::after { content: "↓"; right: 50%; top: auto; bottom: -20px; transform: translateX(50%); }
+    }
+    .results-grid {
+      overflow-x: auto;
+    }
+    .success { color: #2c6e2c; font-weight: bold; }
+    .fail { color: #b22222; font-weight: bold; }
+    .medium { color: #e67e22; font-weight: bold; }
+    .warning { color: #856404; background-color: #fff3cd; font-weight: bold; }
+    .candidate-row {
+      background-color: #d1ecf1 !important;
+      border-left: 4px solid #0c5460;
+    }
+    .best-candidate {
+      background-color: #d4edda !important;
+      border-left: 4px solid #155724;
+    }
+    .star-best::after {
+      content: " ⭐ CANDIDATE";
+      color: #b85c00;
+      font-weight: bold;
+      margin-left: 6px;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 33 · June 5, 2026</div>
+      <h2>Dataset Balancing & Generalisation: Quantity vs. Quality, Left-Right Symmetry, and Town02 Surprises</h2>
+      <p class="date">June 5, 2026</p>
+      <p><strong>After the success of oversampling + 35% cropping in Week 32, this week we focused on improving left-turn performance by adding a new dataset with left turns from the right lane. A systematic exploration of 9 dataset compositions (varying total samples and turn/recovery ratios) reveals a counterintuitive finding: <em>larger datasets do not guarantee better driving</em>. The best models use fewer samples (2000-5000) with balanced left/right turn ratios. Evaluation on Town 02 highlights the need for diverse environment representation beyond Town 01.</strong></p>
+
+      <!-- 0. Work plan & data sources -->
+      <div class="slide-content">
+        <h3 class="slide-header">0. Work Plan & New Data Sources</h3>
+        <div class="exploration-box">
+          <p>🎯 <strong>Primary objectives for Week 33:</strong></p>
+          <ul>
+            <li>Improve left-turn performance (identified as weak point in Week 32)</li>
+            <li>Test the hypothesis that more samples automatically improve results</li>
+            <li>Validate the best models on a new town (Town 02)</li>
+          </ul>
+          <p><strong>New data collections (previous week's directories + new recording):</strong></p>
+          <ul>
+            <li>📁 2026-05-24-bubble_forward</li>
+            <li>📁 2026-05-24-Bubble_turn_left / Bubble_turn_right</li>
+            <li>📁 2026-05-25_Recuperations_far_left / recuperations_from_lane</li>
+            <li>📁 2026-05-26-Recuperation_right</li>
+            <li>📁 2026-05-26_Drunk-DAgger-Hard / Medium / Soft</li>
+            <li>📁 2026-05-26_First_balanced</li>
+            <li>📁 2026-05-25_turn_left_by_mirror</li>
+            <li>📁 <strong>2026-06-02_Turn_left_from_right</strong> (new: left turns starting from the right lane)</li>
+          </ul>
+          <p class="note">The new left-turn-from-right dataset was created to explicitly teach the network how to position itself correctly during left maneuvers, avoiding the "wrong lane" issue seen in Week 32.</p>
+        </div>
+      </div>
+
+      <!-- 1. Initial attempt & failure -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. First Attempt: Maintaining Proportions Failed</h3>
+        <div class="error-analysis">
+          <p>⚠️ <strong>Initial hypothesis:</strong> Increase total samples while keeping 35% forward, 50% turns, 15% recoveries.</p>
+          <p><strong>Result:</strong> The vehicle oscillated severely and failed to take curves correctly.</p>
+          <p><strong>Analysis:</strong> Changing the total number of samples altered the effective distribution of steering angles, even though high-level category percentages were kept constant. The model became overconfident on straight-line features and lost the ability to generalise to turns. This motivated a systematic exploration of different dataset sizes and turn/recovery splits.</p>
+        </div>
+      </div>
+
+      <!-- 2. Systematic dataset variants (A through I) -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Systematic Dataset Construction (9 variants)</h3>
+        <p>Nine datasets were created with different total sizes and category distributions. All variants use <strong>top 35% cropping + oversampling</strong> (based on Week 32 best configuration) to isolate the effect of dataset composition and size.</p>
+        <div class="results-grid">
+          <table class="exp-table">
+            <thead>
+              <tr><th>Dataset ID</th><th>Total samples</th><th>Forward / Turns / Recoveries / Other</th><th>Key result</th><th>Video</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>A (00)</strong></td><td>15,931</td><td>35% / 35% / 34% / 16%</td><td>Takes left lane, does not recover to right lane; right turns exit road</td><td>—</td></tr>
+              <tr><td><strong>B (01)</strong></td><td>12,420</td><td>35% / 15% / 50% / —</td><td>Low oscillations, correct lane keeping, but left turns too sharp, right turns exit road</td><td>—</td></tr>
+              <tr><td><strong>C (02)</strong></td><td>10,349</td><td>35% / 15% / 20% / 30%</td><td>Same as B: left turns too sharp, right turns exit road</td><td>—</td></tr>
+              <tr class="candidate-row"><td><strong>D (03)</strong></td><td>2,000</td><td>35% / 15% / 20% / 30%</td><td><span class="success">Left turns correct</span>, but right turns still exit road; <strong>Candidate for Town02</strong></td><td><a href="https://youtu.be/B8TDaAglFPc" target="_blank">watch</a></td></tr>
+              <tr><td><strong>E (04)</strong></td><td>5,000</td><td>35% / 15% / 20% / 30%</td><td><span class="fail">High oscillations, lane departures</span>, left turns OK, right turn soft but ends in left lane</td><td>—</td></tr>
+              <tr><td><strong>F (05)</strong></td><td>8,000</td><td>35% / 15% / 20% / 30%</td><td>Low oscillations, left turn fails (exits via right lane), right turn soft but stays left</td><td>—</td></tr>
+              <tr class="best-candidate"><td><strong>G (06)</strong></td><td>2,000</td><td>35% / 15% / 25% / 25% <br>(balanced L/R turns)</td><td><span class="success">No oscillations, no departures, lane keeping OK, left turns OK (fails in one specific scenario), right turns smooth</span> ⭐</td><td><a href="https://youtu.be/c2le49iJcYw" target="_blank">watch</a></td></tr>
+              <tr><td><strong>H (07)</strong></td><td>5,000</td><td>35% / 15% / 25% / 25%</td><td>No oscillations, lane keeping fails, left/right turns end in opposite lane</td><td>—</td></tr>
+              <tr><td><strong>I (08)</strong></td><td>8,000</td><td>35% / 15% / 25% / 25%</td><td>No oscillations, lane keeping fails, left/right turns fail completely</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="findings-summary">
+          <h4>🔍 Critical observation – Quantity vs. Quality:</h4>
+          <ul>
+            <li><strong>Datasets with 2,000 samples (D and G) consistently outperformed larger datasets</strong> (5k, 8k, 10k, 15k) across almost all metrics.</li>
+            <li><strong>Increasing sample size introduced overfitting</strong>: the model memorised specific road sections rather than learning general steering behaviour.</li>
+            <li><strong>Balanced left/right turn representation (Dataset G)</strong> eliminated the sharp-left-turn problem and produced smooth right turns.</li>
+            <li>Dataset G (2000 samples, 35% forward, 15% recoveries, 25% left turns, 25% right turns) became the <strong>primary candidate</strong> for cross-town evaluation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 3. Town02 Generalisation Results -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. Cross-Town Evaluation: Town 02</h3>
+        <p>The two candidate models (Dataset 03 and Dataset 06 from the table above) were evaluated on the completely unseen Town 02 environment.</p>
+        <div class="results-grid">
+          <table class="exp-table">
+            <thead><tr><th>Model</th><th>Town 02 Performance</th><th>Video</th><th>Failure mode</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Dataset 03</strong> (2000 samples, 35/15/20/30)</td><td class="fail">No turns performed, oscillations present</td><td><a href="https://youtu.be/4550dQnt2wo" target="_blank">watch</a></td><td>Overfitted to Town 01 turning patterns</td></tr>
+              <tr><td><strong>Dataset 06</strong> (2000 samples, 35/15/25/25 with balanced left/right)</td><td class="medium">Left turns correct, but confused by plazas, gardens, and wide open spaces (not present in Town 01)</td><td><a href="https://youtu.be/GH4CYi_6CYA" target="_blank">watch</a></td><td>Lack of diverse environmental examples (wide spaces, plazas)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="error-analysis">
+          <p>📌 <strong>Key generalisation insight:</strong> A model that performs nearly perfectly on Town 01 can fail catastrophically on Town 02 if the training data lacks environmental diversity. Dataset 06 handled left turns correctly but got confused by open plazas and wide intersections — structural features that are rare in Town 01. This suggests that <strong>environmental diversity is as important as steering distribution balance</strong>.</p>
+        </div>
+      </div>
+
+      <!-- 4. Interpretation: Why smaller datasets worked better -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Interpretation – The Curse of Quantity</h3>
+        <div class="exploration-box">
+          <p>🧠 <strong>Why did datasets with 2,000 samples outperform larger ones?</strong></p>
+          <ul>
+            <li><strong>Overfitting to repetitive patterns:</strong> Larger datasets contain many visually similar frames from the same road sections. The model learns to memorise these specific views rather than extracting general lane-following features.</li>
+            <li><strong>Implicit regularisation:</strong> Smaller datasets force the network to focus on the most salient features (lane boundaries, curvature cues) because there is insufficient capacity to memorise all examples.</li>
+            <li><strong>Balanced steering distribution:</strong> The 2,000-sample datasets were carefully stratified to maintain equal left/right turn proportions, while larger datasets inadvertently introduced slight imbalances that amplified certain steering behaviours.</li>
+          </ul>
+          <p><strong>Conclusion for imitation learning:</strong> Variety and balance matter more than raw count. A well-curated dataset of 2,000 diverse, balanced samples can outperform a 15,000-sample dataset with hidden biases.</p>
+        </div>
+      </div>
+
+      <!-- 5. Detailed failure analysis per dataset -->
+      <div class="slide-content">
+        <h3 class="slide-header">5. Failure Mode Analysis</h3>
+        <div class="error-analysis">
+          <h4>🔴 Consistent failure patterns:</h4>
+          <ul>
+            <li><strong>Right-turn exit failures:</strong> Many models (A, B, C, D) exhibited a tendency to exit the road on the right side during right turns. This is likely due to an insufficient number of right-turn examples where the lane marking curves away.</li>
+            <li><strong>Left-turn sharpness:</strong> Without balanced left/right representation, left turns become excessively sharp (oversteering). Dataset G (25% left, 25% right) solved this.</li>
+            <li><strong>Lane keeping failures in larger datasets:</strong> Models with 5,000+ samples (E, F, H, I) either stayed in the left lane permanently or failed to centre after turns, indicating learned positional bias.</li>
+            <li><strong>Wide space confusion (Town 02):</strong> The model trained only on Town 01 could not generalise to plazas and gardens because those visual patterns were entirely absent from the training set.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 6. Conclusions & Week 34 Plan -->
+      <div class="slide-content">
+        <h3 class="slide-header">6. Conclusions & Week 34 Plan</h3>
+        <div class="exploration-box">
+          <p>📌 <strong>Week 33 key takeaways:</strong></p>
+          <ol>
+            <li><strong>More data is not always better.</strong> The best results came from 2,000 carefully balanced samples (Dataset G). Larger datasets (5k–15k) led to overfitting and worse generalisation.</li>
+            <li><strong>Balanced left/right turn representation (25%/25%)</strong> is critical for symmetric steering behaviour. The new <em>Turn_left_from_right</em> dataset was essential to achieve this balance.</li>
+            <li><strong>Environmental diversity matters.</strong> A model that works perfectly on Town 01 may fail on Town 02 due to unseen features like plazas and wide intersections.</li>
+            <li><strong>Dataset G (2000 samples, 35% forward, 15% recoveries, 25% left, 25% right + 35% cropping + oversampling)</strong> is the best candidate for further testing.</li>
+          </ol>
+          <p>🚀 <strong>Week 34 action items:</strong></p>
+          <ul>
+            <li><strong>Augment training data with diverse environments:</strong> Collect 500–1000 samples from Town 02, Town 04, and Town 12 (focusing on plazas, wide intersections, and gardens) and add them to Dataset G's balanced distribution.</li>
+            <li><strong>Test dataset size upper bound:</strong> Systematically vary dataset size from 1k to 4k in 500-sample increments to find the optimal trade-off between variety and overfitting.</li>
+            <li><strong>Dynamic evaluation:</strong> Test the best Town 01+Town 02 hybrid model on Town 05 (dynamic traffic) to measure robustness under real conditions.</li>
+            <li><strong>Introduce a validation metric for environmental diversity:</strong> Track performance drop when moving from training town to unseen towns.</li>
+          </ul>
+          <p class="note">All code, datasets, and trained models will be released after Week 34 validation. A complete technical note on “The Curse of Quantity in Imitation Learning” is in preparation.</p>
+        </div>
+      </div>
+
+      <!-- 7. References & acknowledgements -->
+      <div class="slide-content">
+        <h3 class="slide-header">7. References & Team Notes</h3>
+        <ul>
+          <li><strong>[1] Mateus, A. (2026):</strong> Week 32 report – Oversampling + 35% cropping success. <a href="week32-20260529.html" target="_blank">Week 32 Report</a></li>
+          <li><strong>[2] Rodríguez, J. (2025):</strong> Dataset balancing strategies for end-to-end driving.</li>
+          <li><strong>[3] Bojarski, M., et al. (2016):</strong> End to end learning for self‑driving cars (PilotNet). <a href="https://arxiv.org/abs/1604.07316" target="_blank">arXiv:1604.07316</a></li>
+          <li><strong>[4] Codevilla, F., et al. (2019):</strong> On the interaction between dataset size and generalisation in imitation learning – <em>Inspiration for our quantity vs. quality analysis</em>.</li>
+        </ul>
+        <p>Special thanks to the Robotics Lab team for the detailed failure analysis sessions and to Jorge Rodríguez for the new left-turn-from-right dataset collection. The systematic 9-dataset training campaign was run on the lab’s GPU cluster over 48 hours.</p>
+        <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+      </div>
+
+      <!-- Summary block -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 33 SUMMARY – JUNE 5, 2026</h4>
+        <p>📊 Built 9 dataset variants (2k–15k samples) with different turn/recovery splits, all using the best Week 32 configuration (35% cropping + oversampling).</p>
+        <p>🔍 <strong>Discovered the "Curse of Quantity":</strong> 2,000-sample datasets consistently outperformed larger datasets. Overfitting, not underfitting, is the main challenge in imitation learning for driving.</p>
+        <p>⚖️ <strong>Balanced left/right turns (25% each)</strong> resolved sharp-left-turn issues. The new <em>Turn_left_from_right</em> dataset was critical.</p>
+        <p>🌍 <strong>Generalisation to Town 02 revealed environmental gaps:</strong> plazas, gardens, and wide intersections cause failures even for models perfect on Town 01.</p>
+        <p>✅ <strong>Best model:</strong> Dataset G (2000 samples, 35/15/25/25 split) – no oscillations, correct turns on Town 01, promising basis for Week 34’s multi-town augmentation.</p>
+        <p>🔜 <strong>Week 34:</strong> Add diverse environment samples (Town 02/04/12), optimise dataset size between 1k–4k, and evaluate on dynamic Town 05.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: June 5, 2026 (Week 33)</p>
+  </footer>
+</body>
+</html>
