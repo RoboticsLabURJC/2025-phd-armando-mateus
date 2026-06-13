@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report June 12, 2026 (Week 34)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .code-block {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    .code-block pre {
+      margin: 0;
+      color: #ecf0f1;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.7em;
+    }
+    .exp-table th, .exp-table td {
+      border: 1px solid #dee2e6;
+      padding: 5px;
+      vertical-align: top;
+      text-align: center;
+    }
+    .exp-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .fig-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .fig-container img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .fig-caption {
+      font-size: 0.85em;
+      color: #666;
+      margin-top: 8px;
+    }
+    .maneuver-list {
+      column-count: 2;
+      column-gap: 30px;
+      margin: 20px 0;
+    }
+    .maneuver-list li {
+      margin-bottom: 8px;
+    }
+    @media (max-width: 768px) {
+      .exp-table { font-size: 0.55em; }
+      .exp-table th, .exp-table td { padding: 3px; }
+      .maneuver-list { column-count: 1; }
+      .code-block { font-size: 0.7em; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 34 · June 12, 2026</div>
+      <h2>Fine‑Tuning or a New Model? Finding the Optimal Dataset Distribution</h2>
+      <p class="date">June 12, 2026</p>
+      
+      <p><strong>In the previous week, the following guiding questions were raised for this week's work:</strong></p>
+      <ul>
+        <li>Are we fine‑tuning or training a new model?</li>
+        <li>Why is there a performance degradation when going from 2000 samples to 5000 samples, followed by an improvement at 8000 samples?</li>
+      </ul>
+      
+      <p>To answer these questions, the following workflow was followed:</p>
+      <ol>
+        <li>Analysis of the training script, particularly the section defining the model architecture.</li>
+        <li>Construction of 16 dataset compositions based on varying the percentages of each maneuver (out of a total of 10 maneuvers).</li>
+      </ol>
+
+      <!-- Section A: Script Analysis -->
+      <div class="slide-content">
+        <h3 class="slide-header">A. Analysis of the Training Script</h3>
+        <p>The function developed for building the PilotNet model is presented in Code 1. This function is known as "improved PilotNet" and corresponds to an enhancement of NVIDIA's original PilotNet version [1]. The use of this function ensures the creation of a new model initialized with He algorithm weights.</p>
+        
+        <div class="code-block">
+          <pre>def create_pilotnet_model(input_shape=(120, 160, 3), dropout_rate=0.3):
+    model = models.Sequential([
+        layers.Input(shape=input_shape),
+        
+        # Bloque 1
+        layers.Conv2D(24, (5, 5), strides=2, padding='valid', kernel_initializer='he_normal'),
+        layers.BatchNormalization(),
+        layers.Activation('relu'),
+        layers.Dropout(dropout_rate * 0.3),
+        
+        # Bloque 2
+        layers.Conv2D(36, (5, 5), strides=2, padding='valid', kernel_initializer='he_normal'),
+        layers.BatchNormalization(),
+        layers.Activation('relu'),
+        layers.Dropout(dropout_rate * 0.3),
+        
+        # Bloque 3
+        layers.Conv2D(48, (5, 5), strides=2, padding='valid', kernel_initializer='he_normal'),
+        layers.BatchNormalization(),
+        layers.Activation('relu'),
+        layers.Dropout(dropout_rate * 0.3),
+        
+        # Bloque 4
+        layers.Conv2D(64, (3, 3), padding='valid', kernel_initializer='he_normal'),
+        layers.BatchNormalization(),
+        layers.Activation('relu'),
+        
+        # Bloque 5
+        layers.Conv2D(64, (3, 3), padding='valid', kernel_initializer='he_normal'),
+        layers.BatchNormalization(),
+        layers.Activation('relu'),
+        
+        # Capas densas
+        layers.Flatten(),
+        layers.Dense(100, kernel_initializer='he_normal'),
+        layers.BatchNormalization(),
+        layers.Activation('relu'),
+        layers.Dropout(dropout_rate),
+        
+        layers.Dense(50, kernel_initializer='he_normal'),
+        layers.BatchNormalization(),
+        layers.Activation('relu'),
+        layers.Dropout(dropout_rate * 0.5),
+        
+        layers.Dense(10, kernel_initializer='he_normal'),
+        layers.BatchNormalization(),
+        layers.Activation('relu'),
+        
+        # Salida
+        layers.Dense(1, activation='tanh')
+    ])
+    return model</pre>
+        </div>
+        
+        <div class="exploration-box">
+          <p>🔍 <strong>Finding:</strong> The script implements an <strong>"improved PilotNet"</strong> with He normal initialisation. <strong>No pre‑trained weights are loaded.</strong> Each training run creates a <strong>new model initialised from scratch</strong>. This means we are not fine‑tuning; we are training new models each time.</p>
+        </div>
+      </div>
+
+      <!-- Section B: Dataset compositions -->
+      <div class="slide-content">
+        <h3 class="slide-header">B. Diversity of Dataset Compositions</h3>
+        <p>In Town 01 (30 Hz at 10 km/h), samples were taken from the following maneuvers:</p>
+        <div class="maneuver-list">
+          <ol>
+            <li><strong>Drunk_DAgger_hard:</strong> drunk driver with 1 second duration and steering 0.6 (18,334 images)</li>
+            <li><strong>Drunk_DAgger_medium:</strong> drunk driver with 1 second duration and steering 0.45 (21,160 images)</li>
+            <li><strong>Drunk_DAgger_soft:</strong> drunk driver with 1 second duration and steering 0.3 (18,824 images)</li>
+            <li><strong>Forward:</strong> straight driving with ideal steering value 0 (58,123 images)</li>
+            <li><strong>recuperations_lane:</strong> right lane recovery examples from the left lane (13,313 images)</li>
+            <li><strong>recuperations_turn_left:</strong> right lane recovery examples after left turn (5,886 images)</li>
+            <li><strong>recuperations_turn_right:</strong> right lane recovery examples after right turn (9,068 images)</li>
+            <li><strong>recuperations_turn_right_departure:</strong> right lane recovery examples after ending in left lane when turning right (1,547 images)</li>
+            <li><strong>turn_left:</strong> left turn examples (2,100 images)</li>
+            <li><strong>turn_right:</strong> right turn examples (5,420 images)</li>
+          </ol>
+        </div>
+        
+        <div class="fig-container">
+          <img src="Week34_00.jpg" alt="Figure 1: Original size in number of samples per maneuver obtained in Town01 of Carla at 30Hz at 10Km/h">
+          <div class="fig-caption">Figure 1 – Original number of samples per maneuver obtained in Town01 of Carla at 30Hz at 10Km/h; the total number of samples is 153,966.</div>
+        </div>
+        
+        <div class="error-analysis">
+          <p>⚠️ <strong>Important limitation:</strong> Despite reducing vehicle speed and increasing the sampling rate (more examples per second), the total number of left turn examples was only 7,986 (approximately 5.2% of the total 153,966). This imposes a limit on dataset composition. For example, if 25% of the dataset must correspond to left turn examples (as in Week 33), the maximum possible dataset size would be 31,944 examples.</p>
+        </div>
+
+        <p><strong>Table 1. Dataset compositions proposed (percentages per maneuver):</strong></p>
+        <div class="results-grid">
+          <table class="exp-table">
+            <thead>
+              <tr>
+                <th>Maneuver / Composition</th>
+                <th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
+                <th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Drunk_DAgger_hard</td><td>10</td><td>9</td><td>8</td><td>6</td><td>6</td><td>5</td><td>7</td><td>5</td><td>20</td><td>0</td><td>0</td><td>0</td><td>3</td><td>3</td><td>5</td><td>5</td></tr>
+              <tr><td>Drunk_DAgger_medium</td><td>10</td><td>9</td><td>8</td><td>6</td><td>6</td><td>5</td><td>7</td><td>5</td><td>0</td><td>20</td><td>0</td><td>0</td><td>3</td><td>3</td><td>5</td><td>5</td></tr>
+              <tr><td>Drunk_DAgger_soft</td><td>10</td><td>9</td><td>8</td><td>6</td><td>6</td><td>5</td><td>7</td><td>5</td><td>0</td><td>0</td><td>20</td><td>0</td><td>3</td><td>3</td><td>5</td><td>5</td></tr>
+              <tr><td>forward</td><td>10</td><td>19</td><td>28</td><td>28</td><td>28</td><td>26</td><td>30</td><td>30</td><td>30</td><td>30</td><td>30</td><td>30</td><td>30</td><td>30</td><td>30</td><td>15</td></tr>
+              <tr><td>recuperations_lane</td><td>10</td><td>9</td><td>8</td><td>6</td><td>6</td><td>10</td><td>9</td><td>5</td><td>0</td><td>0</td><td>0</td><td>20</td><td>3</td><td>3</td><td>5</td><td>5</td></tr>
+              <tr><td>recuperations_turn_left</td><td>10</td><td>9</td><td>8</td><td>6</td><td>6</td><td>10</td><td>8</td><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td>3</td><td>3</td><td>5</td><td>5</td></tr>
+              <tr><td>recuperations_turn_right</td><td>10</td><td>9</td><td>8</td><td>6</td><td>6</td><td>10</td><td>8</td><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td>3</td><td>3</td><td>5</td><td>5</td></tr>
+              <tr><td>recuperations_turn_right_departure</td><td>10</td><td>9</td><td>8</td><td>6</td><td>6</td><td>10</td><td>8</td><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td>2</td><td>2</td><td>5</td><td>5</td></tr>
+              <tr><td>turn_left</td><td>10</td><td>9</td><td>8</td><td>15</td><td>10</td><td>10</td><td>8</td><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td>20</td><td>25</td><td>15</td><td>20</td></tr>
+              <tr><td>turn_right</td><td>10</td><td>9</td><td>8</td><td>15</td><td>20</td><td>10</td><td>8</td><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td>30</td><td>25</td><td>20</td><td>30</td></tr>
+              <tr style="background-color:#e9ecef; font-weight:bold;"><td>Total percentage</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td><td>101</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td><td>100</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Table 1 shows the 16 proposed dataset compositions. This contrasts with Week 33's distribution, which only used 3 categories: forward driving (30%), turns (50%), and Drunk-Dagger + recoveries.</p>
+      </div>
+
+      <!-- Video results -->
+      <div class="slide-content">
+        <h3 class="slide-header">C. Video Results – Composition #10</h3>
+        <p>The following videos show autonomous driving performance for Composition #10 at different dataset sizes:</p>
+        <div class="video-listing">
+          <div class="video-card">
+            <strong>Composition 10 – 2000 samples (baseline)</strong><br>
+            <a href="https://youtu.be/F3MIEO7xRgA" target="_blank">Video 1</a><br>
+            <a href="https://youtu.be/iDc5MRjuw8U" target="_blank">Video 2</a>
+          </div>
+          <div class="video-card">
+            <strong>Composition 10 – 2000 samples (extra)</strong><br>
+            <a href="https://youtu.be/NNMFFr-E9_1" target="_blank">Video 3</a><br>
+            <a href="https://youtu.be/zffFAxpLSjo" target="_blank">Video 4</a>
+          </div>
+          <div class="video-card">
+            <strong>Composition 10 – 10000 samples</strong><br>
+            <a href="https://youtu.be/3ssaM9Z4QBO" target="_blank">Video 5</a><br>
+            <a href="https://youtu.be/4zSMKzwR-7s" target="_blank">Video 6</a>
+          </div>
+          <div class="video-card">
+            <strong>Composition 10 – 15000 samples</strong><br>
+            <a href="https://youtu.be/J4OiRGc5zd8" target="_blank">Video 7</a><br>
+            <a href="https://youtu.be/25HmUJACPmM" target="_blank">Video 8</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">D. Conclusions</h3>
+        
+        <div class="exploration-box">
+          <h4>About dataset composition:</h4>
+          <ol>
+            <li>Autonomous driving experiments in both Town 01 (baseline performance) and Town 02 (generalisation) consistently show better performance for the dataset sizes tested.</li>
+            <li><strong>Composition #10</strong> demonstrates that including Drunk_DAgger_hard and Drunk_DAgger_medium in driving samples negatively affects autonomous driving performance.</li>
+            <li>The fact that Composition #3 performs much better than Composition #4 indicates that a <strong>balance between the number of left and right turn samples is preferable</strong>.</li>
+          </ol>
+        </div>
+
+        <div class="exploration-box">
+          <h4>About dataset size:</h4>
+          <ol>
+            <li>Increasing dataset size has a direct implication for autonomous driving performance, being especially relevant for generalisation as evidenced in Town 02 driving.</li>
+            <li>Taking Composition #10 as a reference (where 10% of images correspond to left turns), with the current recording parameters, the maximum viable dataset size is <strong>21,000 samples</strong> (given only 2,100 raw left turn samples).</li>
+            <li>The <strong>performance dip at 5k and recovery at 8k</strong> observed in some compositions is caused by left-right imbalance due to the scarcity of left turn raw samples. Balanced compositions (like #10) avoid this dip entirely.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Next week plan -->
+      <div class="slide-content">
+        <h3 class="slide-header">E. Next Week Plan (Week 35)</h3>
+        <div class="exploration-box">
+          <p>🚀 <strong>Proposed work for Week 35:</strong></p>
+          <ul>
+            <li><strong>Expand dataset size by integrating samples from Town 04</strong> – collect samples from Town 01 and Town 04, test on Town 02 and Town 06.</li>
+            <li><strong>Plan to increase diversity with different weather conditions</strong> (rainy and cloudy scenarios).</li>
+            <li><strong>Make variations on Composition #10</strong> to seek further performance improvements.</li>
+            <li><strong>Public release</strong> – after Week 35 validation, all code, trained models, and dataset compositions will be made available.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- References -->
+      <div class="slide-content">
+        <h3 class="slide-header">F. References</h3>
+        <ul>
+          <li><strong>[1] Bojarski, M., et al. (2016):</strong> End to end learning for self‑driving cars (PilotNet). <a href="https://arxiv.org/abs/1604.07316" target="_blank">arXiv:1604.07316</a></li>
+          <li><strong>[2] Mateus, A. (2026):</strong> Week 33 report – Dataset balancing & generalisation.</li>
+          <li><strong>[3] NVIDIA PilotNet Architecture Documentation</strong> – Original implementation reference.</li>
+        </ul>
+        <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+      </div>
+
+      <!-- Summary block -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 34 SUMMARY – JUNE 12, 2026</h4>
+        <p>🔍 <strong>Fine‑tuning or new model?</strong> The script trains a new PilotNet from scratch (He initialisation). No fine‑tuning is performed.</p>
+        <p>📊 <strong>16 dataset compositions</strong> were built by varying percentages of 10 maneuvers. Composition #10 (10% left, 10% right, 30% forward, 30% recoveries) performed best.</p>
+        <p>⚠️ <strong>5k dip and 8k recovery explained:</strong> Caused by left‑right imbalance due to scarcity of left turn samples (only 2,100 raw). Balanced compositions avoid the dip.</p>
+        <p>✅ <strong>Best model:</strong> Composition #10 with 15,000 samples.</p>
+        <p>🔜 <strong>Week 35:</strong> Expand with Town 04 samples, add weather diversity, test on Town 02 and Town 06.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: June 12, 2026 (Week 34)</p>
+  </footer>
+</body>
+</html>
