@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report June 19, 2026 (Week 35)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .code-block {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    .code-block pre {
+      margin: 0;
+      color: #ecf0f1;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.75em;
+    }
+    .exp-table th, .exp-table td {
+      border: 1px solid #dee2e6;
+      padding: 8px;
+      vertical-align: top;
+      text-align: center;
+    }
+    .exp-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .fig-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .fig-container img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .fig-caption {
+      font-size: 0.85em;
+      color: #666;
+      margin-top: 8px;
+    }
+    .maneuver-list {
+      column-count: 2;
+      column-gap: 30px;
+      margin: 20px 0;
+    }
+    .maneuver-list li {
+      margin-bottom: 8px;
+    }
+    .comparison-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 25px 0;
+    }
+    .comparison-card {
+      flex: 1 1 280px;
+      background: white;
+      border-radius: 8px;
+      padding: 18px;
+      border: 1px solid #dee2e6;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .comparison-card h4 {
+      margin-top: 0;
+      border-bottom: 2px solid #4a6fa5;
+      padding-bottom: 6px;
+    }
+    .badge {
+      display: inline-block;
+      background: #4a6fa5;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .status-box {
+      background: #fff3cd;
+      border-left: 6px solid #ffc107;
+      padding: 18px;
+      border-radius: 4px;
+      margin: 25px 0;
+    }
+    .status-box h4 {
+      margin-top: 0;
+      color: #856404;
+    }
+    .hr-divider {
+      border-top: 2px dashed #ccc;
+      margin: 30px 0;
+    }
+    @media (max-width: 768px) {
+      .exp-table { font-size: 0.55em; }
+      .exp-table th, .exp-table td { padding: 3px; }
+      .maneuver-list { column-count: 1; }
+      .code-block { font-size: 0.7em; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 35 · June 19, 2026</div>
+      <h2>Large‑Scale Dataset Training & Methodology Comparison</h2>
+      <p class="date">June 19, 2026</p>
+
+      <!-- STATUS: training in progress -->
+      <div class="status-box">
+        <h4>⏳ Training in Progress</h4>
+        <p><strong>Current status:</strong> The model training with the new 62k dataset started this week. As of today, approximately <strong>28 hours</strong> remain until completion (on NVIDIA GeForce GTX 1080). Results are not expected before our usual meeting time tomorrow.</p>
+        <p>This dataset is significantly larger and more varied than previous weeks, which explains the extended training time.</p>
+      </div>
+
+      <!-- 1. Horizontal flip verification -->
+      <div class="slide-content">
+        <h3 class="slide-header">1. Horizontal Flip Verification</h3>
+        <p>Two critical checks were performed to ensure the horizontal flip augmentation works correctly:</p>
+        <div class="exploration-box">
+          <p>✅ <strong>Steering sign change:</strong> After flipping, the steering value changes sign (e.g., +0.5 → –0.5). Verified: <span style="font-weight:bold;color:#2e7d32;">OK</span></p>
+        </div>
+        <div class="exploration-box">
+          <p>✅ <strong>Coherence of trained model:</strong> The model produces steering values that keep the vehicle in the right lane when presented with flipped images. Verified: <span style="font-weight:bold;color:#2e7d32;">OK</span></p>
+        </div>
+        <p class="note">This confirms that the augmented data is physically meaningful and that the model learns the correct mapping.</p>
+      </div>
+
+      <!-- 2. Manual driving in LHT (British) + flip -->
+      <div class="slide-content">
+        <h3 class="slide-header">2. Manual Driving – Left‑Hand Traffic (LHT) & Horizontal Flip</h3>
+        <p>Following last week's recommendations, manual driving was performed in <strong>Town 01</strong> and <strong>Town 04</strong> using only simple maneuvers (straight, left/right turns) to facilitate horizontal flip augmentation.</p>
+        <ul>
+          <li>Data was collected for both left‑hand and right‑hand traffic scenarios.</li>
+          <li>After collection, horizontal flip was applied to all images, and the steering sign was inverted accordingly.</li>
+          <li>Coherence was verified as described above.</li>
+        </ul>
+        <div class="fig-container">
+          <!-- Placeholder for a figure if needed -->
+          <div style="background:#f0f2f5; padding:20px; border-radius:8px; color:#555;">
+            <span style="font-size:1.1em;">LHT data collection completed – Town 01 & Town 04</span>
+          </div>
+          <div class="fig-caption">Figure 1 – Manual driving routes for LHT data acquisition.</div>
+        </div>
+      </div>
+
+      <!-- 3. Image cropping -->
+      <div class="slide-content">
+        <h3 class="slide-header">3. Image Cropping (35% top removed)</h3>
+        <p>Following the standard PilotNet preprocessing pipeline, the top 35% of each image was cropped to remove the sky and other non‑road elements.</p>
+        <div class="code-block">
+          <pre># Crop top 35% of image (height=120 → 42 pixels removed)
+          cropped = image[42:, :, :]  # shape becomes (78, 160, 3)</pre>
+        </div>
+        <p>This reduces input dimensionality and focuses the network on the road and lane markings.</p>
+      </div>
+
+      <!-- 4. Noise injection -->
+      <div class="slide-content">
+        <h3 class="slide-header">4. Actuator Noise Injection</h3>
+        <p>To improve robustness, Gaussian noise was added to the steering actuators with a normal distribution of variance <strong>0.1</strong>.</p>
+        <div class="code-block">
+          <pre># Noise injection during training
+          noise = np.random.normal(0, 0.1, size=steering.shape)
+          noisy_steering = steering + noise</pre>
+        </div>
+        <p>This helps the model cope with small sensor errors and actuation delays.</p>
+      </div>
+
+      <!-- 5. Dataset composition (62k) -->
+      <div class="slide-content">
+        <h3 class="slide-header">5. Dataset Composition – 62,000 Samples</h3>
+        <p>Based on the best results from previous weeks, the following distribution was chosen:</p>
+        <table class="exp-table">
+          <thead>
+            <tr><th>Maneuver</th><th>Percentage</th><th># Samples (approx)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Straight (forward)</td><td>45%</td><td>27,900</td></tr>
+            <tr><td>Soft Drunk‑DAgger</td><td>25%</td><td>15,500</td></tr>
+            <tr><td>Turns (left + right)</td><td>30%</td><td>18,600</td></tr>
+          </tbody>
+        </table>
+        <p class="note">This composition was selected because it yielded the best validation performance in Weeks 33 and 34.</p>
+        <div class="exploration-box">
+          <p>📦 <strong>Total dataset size:</strong> 62,000 samples (fixed, no online balancing).</p>
+        </div>
+      </div>
+
+      <!-- 6. Training status -->
+      <div class="slide-content">
+        <h3 class="slide-header">6. Training Status – NVIDIA GTX 1080</h3>
+        <div class="status-box" style="background:#e8f0fe; border-left-color:#1976d2;">
+          <p><strong>Started:</strong> June 17, 2026</p>
+          <p><strong>Estimated remaining time:</strong> ~28 hours</p>
+          <p><strong>Hardware:</strong> NVIDIA GeForce GTX 1080 (8 GB VRAM)</p>
+          <p><strong>Batch size:</strong> 64 | <strong>Epochs:</strong> 30</p>
+          <p>Due to the larger dataset, training is slower than in previous weeks. Results will be reported as soon as they are available.</p>
+        </div>
+      </div>
+
+      <!-- 7. New PC with RTX 5070 -->
+      <div class="slide-content">
+        <h3 class="slide-header">7. New Hardware – NVIDIA RTX 5070</h3>
+        <div class="exploration-box">
+          <p>⚡ <strong>A new PC with NVIDIA GeForce RTX 5070</strong> has been set up and is now running CARLA 0.9.14 in headless mode.</p>
+          <p>Starting next week, we expect to migrate training to this machine, reducing training times significantly (estimated 2–3× faster).</p>
+        </div>
+      </div>
+
+      <!-- 8. Comparison with Carlos Andrés Velasquez -->
+      <div class="slide-content">
+        <h3 class="slide-header">8. Methodology Comparison – Carlos Andrés Velasquez</h3>
+        <p>This week we discussed dataset generation and training strategies with Carlos Andrés. The key differences are summarised below:</p>
+
+        <!-- Use the provided image content in a structured table -->
+        <div style="overflow-x:auto; margin: 25px 0;">
+          <table class="exp-table" style="font-size:0.7em; min-width:700px;">
+            <thead>
+              <tr>
+                <th>Aspect</th>
+                <th>Armando’s Methodology</th>
+                <th>Carlos Andrés’ Methodology</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Main focus</strong></td>
+                <td>Offline data augmentation and static balancing. A fixed dataset with predetermined composition before training.</td>
+                <td>Dynamic balancing and hot‑selection. Dataset is balanced during training, strategically selecting the most relevant samples.</td>
+              </tr>
+              <tr>
+                <td><strong>Augmentation techniques</strong></td>
+                <td>Geometric: horizontal flip (with steering sign adjustment). Cropping: 35% top. Noise: actuator noise (normal, var 0.1).</td>
+                <td>Semantic segmentation: binary mask to isolate the road (white) from background (black). Cropping: centred on the road.</td>
+              </tr>
+              <tr>
+                <td><strong>Data handling</strong></td>
+                <td>Fixed composition: 45% straight, 25% soft drunk dagger, 30% turns.</td>
+                <td>Peak elimination: over‑represented data is removed to avoid flattening. No duplication; naturalness is prioritised.</td>
+              </tr>
+              <tr>
+                <td><strong>Use of DAgger</strong></td>
+                <td>Incorporated as a fixed 25% “soft drunk dagger” component.</td>
+                <td>Recovery strategy: during DAgger execution, random predefined actions are triggered. Images produced just after these actions are saved unlabelled, then later labelled as “recovery” and mixed with nominal data.</td>
+              </tr>
+              <tr>
+                <td><strong>Data volume</strong></td>
+                <td>Fixed dataset of 62,000 samples with immutable composition.</td>
+                <td>Variable and dynamic composition: nominal datasets (“bubble”) mixed with DAgger in varying proportions (e.g., 80% bubble + 20% DAgger).</td>
+              </tr>
+              <tr>
+                <td><strong>Balancing philosophy</strong></td>
+                <td>Balance by quantity: seeks equal number of samples per type.</td>
+                <td>Balance by relevance: removes redundant samples, prioritises rarity or utility, preserving the natural distribution of human behaviour.</td>
+              </tr>
+              <tr>
+                <td><strong>Input data</strong></td>
+                <td>Direct RGB image.</td>
+                <td>Semantic image + steering/throttle commands. The image is obtained from CARLA and processed to keep only the road.</td>
+              </tr>
+              <tr>
+                <td><strong>Human behaviour representation</strong></td>
+                <td>Replicates the behaviour of a human expert.</td>
+                <td>Preserves the prevalence of natural human behaviour, avoiding artefacts that distort the original data distribution.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Table 1 – Comparison of dataset generation and training methodologies.</p>
+
+
+      <!-- Summary and next steps -->
+      <div class="slide-content">
+        <h3 class="slide-header">9. Summary & Next Steps</h3>
+        <div class="findings-summary">
+          <ul>
+            <li>✅ Horizontal flip verification completed (steering sign and coherence OK).</li>
+            <li>✅ LHT manual driving data collected (Town 01 & Town 02) and flipped.</li>
+            <li>✅ Image cropping (35% top) and actuator noise (var=0.1) applied.</li>
+            <li>✅ 62k dataset built with composition: 45% straight, 25% soft drunk dagger, 30% turns.</li>
+            <li>⏳ Training in progress (~28 h remaining on GTX 1080).</li>
+            <li>🖥️ New RTX 5070 PC set up for future faster training.</li>
+            <li>📊 Methodology comparison with Carlos Andrés documented.</li>
+          </ul>
+        </div>
+        <div class="exploration-box">
+          <h4>🔜 Next week (Week 36):</h4>
+          <ul>
+            <li>Evaluate the results of the 62k model once training finishes.</li>
+            <li>If successful, test on Town 02 and Town 06 (generalisation).</li>
+            <li>Begin migrating training pipeline to the RTX 5070 PC.</li>
+            <li>Consider incorporating semantic segmentation (inspired by Carlos Andrés) if beneficial.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- References / footer -->
+      <div class="slide-content">
+        <h3 class="slide-header">References</h3>
+        <ul>
+          <li><strong>[1] Bojarski, M., et al. (2016):</strong> End to end learning for self‑driving cars (PilotNet). <a href="https://arxiv.org/abs/1604.07316" target="_blank">arXiv:1604.07316</a></li>
+          <li><strong>[2] Mateus, A. (2026):</strong> Week 34 report – Fine‑tuning vs new model & dataset compositions.</li>
+          <li><strong>[3] Velasquez, C.A. (2026):</strong> Personal communication on dynamic balancing and semantic segmentation.</li>
+        </ul>
+        <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+      </div>
+
+      <!-- Week summary block -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 35 SUMMARY – JUNE 19, 2026</h4>
+        <p>⏳ <strong>Training in progress:</strong> 62k dataset, ~28 h remaining on GTX 1080.</p>
+        <p>✅ <strong>Horizontal flip:</strong> Steering sign change and coherence verified.</p>
+        <p>✅ <strong>LHT driving:</strong> Manual data collected and flipped.</p>
+        <p>✅ <strong>Preprocessing:</strong> Cropping (35% top) + actuator noise (var=0.1).</p>
+        <p>📊 <strong>Dataset:</strong> 45% straight, 25% soft drunk dagger, 30% turns.</p>
+        <p>🖥️ <strong>New hardware:</strong> RTX 5070 PC ready for upcoming training.</p>
+        <p>🧑‍🤝‍🧑 <strong>Methodology comparison</strong> with Carlos Andrés Velasquez completed.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: June 19, 2026 (Week 35)</p>
+  </footer>
+</body>
+</html>
