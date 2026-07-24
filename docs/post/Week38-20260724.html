@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report July 24, 2026 (Week 38)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.75em;
+    }
+    .exp-table th, .exp-table td {
+      border: 1px solid #dee2e6;
+      padding: 8px;
+      vertical-align: top;
+      text-align: center;
+    }
+    .exp-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background: #4a6fa5;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box {
+      background: #fff3cd;
+      border-left: 6px solid #ffc107;
+      padding: 18px;
+      border-radius: 4px;
+      margin: 25px 0;
+    }
+    .status-box h4 {
+      margin-top: 0;
+      color: #856404;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.85em;
+    }
+    .results-table th, .results-table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .results-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .results-table .improved { color: #f57c00; font-weight: bold; }
+    .seed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .seed-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .seed-card .seed-value {
+      font-size: 2em;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .seed-card .seed-label {
+      font-size: 0.8em;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .exp-table { font-size: 0.55em; }
+      .exp-table th, .exp-table td { padding: 3px; }
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+      .seed-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 38 · July 24, 2026</div>
+      <h2>Randomness Seed Impact on Dataset Construction & Model Performance</h2>
+      <p class="date">July 24, 2026</p>
+
+      <!-- Overview -->
+      <div class="slide-content">
+        <h3 class="slide-header">Overview</h3>
+        <p>Based on the results from the previous week, it was observed that while the generated datasets maintained proportionality of samples across Towns and manoeuvres, they did not produce <strong>true randomness</strong> due to the use of a <strong>single fixed seed (42)</strong> in all scripts.</p>
+        <p>This week's work plan focused on generating additional datasets by <strong>varying the randomness seed</strong> during dataset construction to identify the impact of this seed on the driving performance of the trained PilotNet model.</p>
+      </div>
+
+      <!-- Experimental setup -->
+      <div class="slide-content">
+        <h3 class="slide-header">Experimental Setup</h3>
+        <p>The same seven dataset compositions from the previous week were compared:</p>
+        <table class="exp-table">
+          <thead>
+            <tr><th>Composition</th><th>Base (Week 36)</th><th>Town 03</th><th>Town 07</th><th>Town 12</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+            <tr><td><strong>2</strong></td><td>✅</td><td>✅</td><td>✅</td><td>❌</td></tr>
+            <tr><td><strong>3</strong></td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr>
+            <tr><td><strong>4</strong></td><td>✅</td><td>✅</td><td>❌</td><td>✅</td></tr>
+            <tr><td><strong>5</strong></td><td>✅</td><td>❌</td><td>✅</td><td>✅</td></tr>
+            <tr><td><strong>6</strong></td><td>✅</td><td>❌</td><td>❌</td><td>✅</td></tr>
+            <tr><td><strong>7</strong></td><td>✅</td><td>❌</td><td>✅</td><td>❌</td></tr>
+          </tbody>
+        </table>
+
+        <p>In the previous week, all these compositions were built using a <strong>fixed randomness seed of 42</strong>. For this week, the <strong>same dataset compositions</strong> were constructed but with <strong>3 different seeds</strong>:</p>
+        <div class="seed-grid">
+          <div class="seed-card">
+            <div class="seed-value">123</div>
+            <div class="seed-label">Seed 1</div>
+          </div>
+          <div class="seed-card">
+            <div class="seed-value">456</div>
+            <div class="seed-label">Seed 2</div>
+          </div>
+          <div class="seed-card">
+            <div class="seed-value">999</div>
+            <div class="seed-label">Seed 3</div>
+          </div>
+        </div>
+        <p>For each dataset constructed with these seeds, the procedure from Weeks 36 and 37 was applied to obtain trained PilotNet models.</p>
+      </div>
+
+      <!-- Results -->
+      <div class="slide-content">
+        <h3 class="slide-header">📊 Results</h3>
+        <p>Overall, <strong>improvements were obtained</strong> compared to the previous week's fixed‑seed results. The two compositions that delivered the best performance were:</p>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Composition</th>
+              <th>Seed</th>
+              <th>Key Improvement</th>
+              <th>Performance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Composition 7</strong><br><small>(Base + Town 07)</small></td>
+              <td><strong>999</strong></td>
+              <td>Reduced confusion on <strong>light‑coloured walls</strong> and <strong>open spaces</strong></td>
+              <td><span class="badge badge-success">BEST</span></td>
+            </tr>
+            <tr>
+              <td><strong>Composition 3</strong><br><small>(Base + Town 03)</small></td>
+              <td><strong>999</strong></td>
+              <td>Reduced confusion on <strong>forests</strong> and <strong>open spaces</strong></td>
+              <td><span class="badge badge-success">BEST</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="exploration-box">
+          <h4>🎯 Key Findings</h4>
+          <ul>
+            <li><strong>Composition 7 with seed 999</strong> – effectively reduced confusion in light‑coloured walls and open spaces, resulting in improved autonomous driving with <strong>fewer lane departures</strong> and <strong>longer autonomous driving segments</strong> between errors.</li>
+            <li><strong>Composition 3 with seed 999</strong> – delivered similar improvements for forests and open spaces, also achieving more stable autonomous driving with reduced errors.</li>
+          </ul>
+        </div>
+
+        <div class="error-analysis">
+          <h4>⚠️ Important Observation</h4>
+          <p>Both compositions using <strong>seed 999</strong> showed clear improvements over the Week 36 baseline model. This confirms that the randomness seed plays a <strong>significant role</strong> in the quality and generalisation capability of the resulting model, even when the dataset composition and proportions remain identical.</p>
+        </div>
+      </div>
+
+      <!-- Video results -->
+      <div class="slide-content">
+        <h3 class="slide-header">🎥 Validation Videos</h3>
+        <div class="video-listing">
+          <div class="video-card">
+            <strong>Composition 7 – Seed 999</strong><br>
+            <a href="https://youtu.be/IQJnew2bBQY" target="_blank">youtu.be/IQJnew2bBQY</a>
+            <p style="font-size:0.8em; color:#555; margin-top:6px;">Improved performance on light‑coloured walls and open spaces. Fewer lane departures, longer autonomous segments.</p>
+          </div>
+          <div class="video-card">
+            <strong>Composition 3 – Seed 999</strong><br>
+            <a href="https://youtu.be/1Znogmp2KU8" target="_blank">youtu.be/1Znogmp2KU8</a>
+            <p style="font-size:0.8em; color:#555; margin-top:6px;">Improved performance on forests and open spaces. Stable driving with reduced confusion.</p>
+          </div>
+        </div>
+        <p class="note">Both videos demonstrate autonomous driving with fewer errors and longer continuous driving segments compared to the previous week's fixed‑seed results.</p>
+      </div>
+
+      <!-- Comparison to previous week -->
+      <div class="slide-content">
+        <h3 class="slide-header">📈 Comparison with Week 37</h3>
+        <div class="findings-summary">
+          <p><strong>Week 37 (fixed seed 42):</strong> Composition 7 showed the best results, but still exhibited confusion on light‑coloured walls, plazas, and open spaces.</p>
+          <p><strong>Week 38 (seed 999):</strong> Composition 7 with seed 999 <strong>reduced confusion</strong> on light‑coloured walls and open spaces, achieving better overall performance.</p>
+          <p><strong>New finding:</strong> Composition 3 with seed 999 emerged as a strong performer, particularly for forests and open spaces – a composition that was not competitive in the previous week.</p>
+        </div>
+        <div class="status-box" style="background:#e8f0fe; border-left-color:#1976d2;">
+          <h4>💡 Key Insight</h4>
+          <p>The randomness seed significantly influences which dataset composition yields the best model. A composition that performs poorly with one seed can become the best performer with a different seed. This highlights the <strong>importance of multiple random realisations</strong> when evaluating dataset construction strategies.</p>
+        </div>
+      </div>
+
+      <!-- Conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">📌 Conclusions</h3>
+        <div class="findings-summary">
+          <ol>
+            <li><strong>Seed matters:</strong> The randomness seed has a <strong>significant impact</strong> on model performance, even when dataset composition and proportions remain identical.</li>
+            <li><strong>Best results with seed 999:</strong> Both Composition 7 and Composition 3 with seed 999 outperformed the previous week's fixed‑seed results.</li>
+            <li><strong>Composition 7 (seed 999):</strong> Reduced confusion on light‑coloured walls and open spaces, with longer autonomous driving segments.</li>
+            <li><strong>Composition 3 (seed 999):</strong> Emerged as a strong alternative, particularly effective for forests and open spaces.</li>
+            <li><strong>Practical implication:</strong> When constructing datasets for autonomous driving, <strong>multiple random seeds should be tested</strong> to identify the most robust configuration, rather than relying on a single fixed seed.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Next steps -->
+      <div class="slide-content">
+        <h3 class="slide-header">🔜 Next Steps (Week 39)</h3>
+        <div class="exploration-box">
+          <ul>
+            <li><strong>Further seed exploration:</strong> Test additional seeds to confirm the robustness of the findings and identify optimal seed values.</li>
+            <li><strong>Combine best compositions:</strong> Investigate whether combining Composition 3 and Composition 7 (both with seed 999) yields even better performance.</li>
+            <li><strong>Complete robustness tests:</strong> Finalise the weather variation tests (morning/evening conditions) that were partially completed in Week 37.</li>
+            <li><strong>Evaluate on additional towns:</strong> Test the best models on unseen towns (e.g., Town 06, Town 10) to assess generalisation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week summary block -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 38 SUMMARY – JULY 24, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Vary randomness seed (123, 456, 999) to evaluate impact on dataset quality and model performance.</p>
+        <p>🧪 <strong>7 compositions tested × 3 seeds</strong> = 21 datasets/models evaluated.</p>
+        <p>🏆 <strong>Best results:</strong> Composition 7 (Base + Town 07) and Composition 3 (Base + Town 03) both with <strong>seed 999</strong>.</p>
+        <p>✅ <strong>Composition 7 (seed 999):</strong> Reduced confusion on light‑coloured walls and open spaces.</p>
+        <p>✅ <strong>Composition 3 (seed 999):</strong> Reduced confusion on forests and open spaces.</p>
+        <p>📈 <strong>Key insight:</strong> Seed choice significantly influences which composition performs best – multiple seeds are essential for robust evaluation.</p>
+        <p>🎥 <strong>Videos:</strong> <a href="https://youtu.be/IQJnew2bBQY" target="_blank">Comp 7 (seed 999)</a> · <a href="https://youtu.be/1Znogmp2KU8" target="_blank">Comp 3 (seed 999)</a></p>
+      </div>
+
+      <!-- References -->
+      <div class="slide-content">
+        <h3 class="slide-header">References</h3>
+        <ul>
+          <li><strong>[1] Bojarski, M., et al. (2016):</strong> End to end learning for self‑driving cars (PilotNet). <a href="https://arxiv.org/abs/1604.07316" target="_blank">arXiv:1604.07316</a></li>
+          <li><strong>[2] Mateus, A. (2026):</strong> Week 36 report – Validation in Town02: Stability Gains & Remaining Challenges.</li>
+          <li><strong>[3] Mateus, A. (2026):</strong> Week 37 report – Dataset Composition Experiments & Robustness Testing.</li>
+          <li><strong>[4] CARLA Simulator (2026):</strong> Documentation – Random seed effects on dataset sampling.</li>
+        </ul>
+        <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: July 24, 2026 (Week 38)</p>
+  </footer>
+</body>
+</html>
