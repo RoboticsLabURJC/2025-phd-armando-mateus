@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report July 17, 2026 (Week 37)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .code-block {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    .code-block pre {
+      margin: 0;
+      color: #ecf0f1;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.75em;
+    }
+    .exp-table th, .exp-table td {
+      border: 1px solid #dee2e6;
+      padding: 8px;
+      vertical-align: top;
+      text-align: center;
+    }
+    .exp-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .fig-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .fig-container img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .fig-caption {
+      font-size: 0.85em;
+      color: #666;
+      margin-top: 8px;
+    }
+    .maneuver-list {
+      column-count: 2;
+      column-gap: 30px;
+      margin: 20px 0;
+    }
+    .maneuver-list li {
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      background: #4a6fa5;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box {
+      background: #fff3cd;
+      border-left: 6px solid #ffc107;
+      padding: 18px;
+      border-radius: 4px;
+      margin: 25px 0;
+    }
+    .status-box h4 {
+      margin-top: 0;
+      color: #856404;
+    }
+    .confusion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 25px 0;
+    }
+    .confusion-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .confusion-card img {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #eee;
+    }
+    .confusion-card .label {
+      font-weight: 600;
+      margin-top: 8px;
+      font-size: 0.9em;
+      color: #2c3e50;
+    }
+    .confusion-card .desc {
+      font-size: 0.8em;
+      color: #666;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.85em;
+    }
+    .results-table th, .results-table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .results-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    @media (max-width: 768px) {
+      .exp-table { font-size: 0.55em; }
+      .exp-table th, .exp-table td { padding: 3px; }
+      .maneuver-list { column-count: 1; }
+      .code-block { font-size: 0.7em; }
+      .confusion-grid { grid-template-columns: 1fr 1fr; }
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 37 · July 17, 2026</div>
+      <h2>Dataset Composition Experiments & Robustness Testing</h2>
+      <p class="date">July 17, 2026</p>
+
+      <!-- Overview -->
+      <div class="slide-content">
+        <h3 class="slide-header">Overview</h3>
+        <p>This week’s main objective was to integrate driving samples from <strong>Town 03 (urban)</strong>, <strong>Town 07 (rural)</strong>, and <strong>Town 12 (large city)</strong> to enrich the dataset with examples of driving in places with plazas, open spaces, forests, and light‑coloured walls – elements that caused confusion in the previous week’s best‑performing model.</p>
+        <p>A secondary objective was to generate robustness tests involving driving from different vehicle orientations and positions, as well as under different weather conditions (adding morning and evening to the existing midday conditions). This objective was <strong>partially fulfilled</strong>, as weather variation tests were not completed.</p>
+      </div>
+
+      <!-- Initial dataset construction -->
+      <div class="slide-content">
+        <h3 class="slide-header">Initial Dataset Construction</h3>
+        <p>Driving was performed in Towns 03, 07, and 12, focusing on sections with vegetation, open spaces, and plazas similar to those in Town 02 that caused confusion in the previous model.</p>
+        <div class="confusion-grid">
+          <div class="confusion-card">
+            <img src="week3701.jpg" alt="Town 03 sample">
+            <div class="label">Town 03</div>
+            <div class="desc">Urban environment with plazas and buildings.</div>
+          </div>
+          <br>
+         <img src="week3703.jpg" alt="Town 12 sample">
+            <div class="label">Town 07</div>
+            <div class="desc">Rural with vegetation areas.</div>
+          </div>
+        </div>
+        <br>
+          <div class="confusion-card">
+            <img src="week3704.jpg" alt="Town 12 sample">
+            <div class="label">Town 12</div>
+            <div class="desc">Large city with diverse scenery and open areas.</div>
+          </div>
+        </div>
+        <p class="note">Figure 1 – Sample images from the collected driving data in Town 03 and Town 12.</p>
+      </div>
+
+      <!-- First training result -->
+      <div class="slide-content">
+        <h3 class="slide-header">First Training Run – PilotNet</h3>
+        <p>An initial dataset of <strong>62,000 samples</strong> was built using the combined data from Town 03, Town 07, and Town 12. The PilotNet model was trained on this dataset.</p>
+        <div class="video-listing">
+          <div class="video-card">
+            <strong>Training Result Video</strong><br>
+            <a href="https://youtu.be/cwEfLlTsv80" target="_blank">https://youtu.be/xCLWHbhBSxA</a>
+            <p style="font-size:0.8em; color:#555; margin-top:6px;">Performance degraded – no continuous error‑free segments; lane departures and collisions with obstacles.</p>
+          </div>
+        </div>
+        <div class="error-analysis">
+          <h4>⛔ Result: Performance Degradation</h4>
+          <p>The model showed <strong>worse performance</strong> compared to the previous week. It failed to achieve continuous driving segments without errors, producing lane departures, road exits, and collisions with obstacles.</p>
+        </div>
+      </div>
+
+      <!-- Dataset composition experiments -->
+      <div class="slide-content">
+        <h3 class="slide-header">Dataset Composition Experiments</h3>
+        <p>To overcome the degradation, seven different dataset compositions were proposed and evaluated:</p>
+        <table class="exp-table">
+          <thead>
+            <tr><th>Composition</th><th>Base (Week 36)</th><th>Town 03</th><th>Town 07</th><th>Town 12</th><th>Result</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td></tr>
+            <tr><td><strong>2</strong></td><td>✅</td><td>✅</td><td>✅</td><td>❌</td><td>—</td></tr>
+            <tr><td><strong>3</strong></td><td>✅</td><td>✅</td><td>❌</td><td>❌</td><td>—</td></tr>
+            <tr><td><strong>4</strong></td><td>✅</td><td>✅</td><td>❌</td><td>✅</td><td>—</td></tr>
+            <tr><td><strong>5</strong></td><td>✅</td><td>❌</td><td>✅</td><td>✅</td><td>—</td></tr>
+            <tr><td><strong>6</strong></td><td>✅</td><td>❌</td><td>❌</td><td>✅</td><td>—</td></tr>
+            <tr><td><strong>7</strong></td><td>✅</td><td>❌</td><td>✅</td><td>❌</td><td><span class="badge badge-success">BEST</span></td></tr>
+          </tbody>
+        </table>
+        <div class="exploration-box">
+          <h4>🏆 Best Result: Composition 7</h4>
+          <p>Composition 7 (Base + Town 07) showed the <strong>best performance</strong>. The model maintained the desirable characteristics of the previous model while adding improved behaviour in forested and vegetated lanes.</p>
+          <div class="video-listing">
+            <div class="video-card">
+              <strong>Best Result Video</strong><br>
+              <a href="https://youtu.be/LAkGS482CYo" target="_blank">youtu.be/LAkGS482CYo</a>
+              <p style="font-size:0.8em; color:#555; margin-top:6px;">Stable behaviour with correct turns and improved performance in forests and vegetation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance summary table -->
+      <div class="slide-content">
+        <h3 class="slide-header">Performance Summary</h3>
+        <p>Overall, the results show that compared to the previous week, the model maintains <strong>stable behaviour with correct turns</strong>, while adding improved performance in forests and vegetation.</p>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>Recovery from lane</th>
+              <th>Right turns</th>
+              <th>Left turns</th>
+              <th>Straight driving</th>
+              <th>Light‑coloured wall</th>
+              <th>Forest</th>
+              <th>Plaza</th>
+              <th>Open space</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Week 37 (Comp 7)</strong></td>
+              <td class="pass">✅ OK</td>
+              <td class="pass">✅ OK</td>
+              <td class="pass">✅ OK</td>
+              <td class="pass">✅ OK</td>
+              <td class="fail">❌ Fail</td>
+              <td class="pass">✅ OK</td>
+              <td class="fail">❌ Fail</td>
+              <td class="fail">❌ Fail</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">Table 1 – Performance comparison across different scenarios. Composition 7 shows improvements in forests but still fails on light‑coloured walls, plazas, and open spaces.</p>
+      </div>
+
+      <!-- Robustness testing -->
+      <div class="slide-content">
+        <h3 class="slide-header">Robustness Testing – Partial Progress</h3>
+        <div class="status-box">
+          <h4>⚠️ Partially Fulfilled</h4>
+          <p>The secondary objective of generating robustness tests – including driving from different orientations and positions, and under varied weather conditions (morning and evening in addition to midday) – was <strong>partially fulfilled</strong>.</p>
+          <p><strong>Completed:</strong> Tests with different vehicle orientations and starting positions.</p>
+          <p><strong>Not completed:</strong> Weather variation tests (morning/evening conditions) were not carried out due to time constraints.</p>
+        </div>
+      </div>
+
+      <!-- Conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">📌 Conclusions</h3>
+        <div class="findings-summary">
+          <ol>
+            <li><strong>Dataset composition matters significantly:</strong> Adding examples from different towns affects model behaviour in non‑obvious ways. Adding data to fix confusion can introduce new issues such as oscillations or unexpected steering.</li>
+            <li><strong>Best result from Town 07 only:</strong> The best outcome was achieved by adding only Town 07 samples. This preserved the previous model’s strengths while improving performance on vegetated lanes.</li>
+            <li><strong>Confusion persists on certain elements:</strong> The model still fails on light‑coloured walls, plazas, and open spaces. These remain open challenges.</li>
+            <li><strong>Partial robustness testing:</strong> Orientation/position tests were completed, but weather tests remain for future work.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Next steps -->
+      <div class="slide-content">
+        <h3 class="slide-header">🔜 Next Steps (Week 38)</h3>
+        <div class="exploration-box">
+          <ul>
+            <li><strong>Change the randomness seed</strong> – generate different realisations of the dataset construction process.</li>
+            <li><strong>Repeat training and testing</strong> – with the new dataset realisations to evaluate variability and robustness.</li>
+            <li><strong>Complete weather robustness tests</strong> – add morning and evening conditions to the testing pipeline.</li>
+            <li><strong>Investigate solutions for walls, plazas, and open spaces</strong> – consider additional data collection or architectural changes.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week summary block -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 37 SUMMARY – JULY 17, 2026</h4>
+        <p>🎯 <strong>Main objective:</strong> Integrate Town 03, 07, 12 samples to fix confusion on plazas, forests, walls, and open spaces.</p>
+        <p>📊 <strong>Initial dataset:</strong> 62k samples → PilotNet training → performance degraded (<a href="https://youtu.be/cwEfLlTsv80" target="_blank">video</a>).</p>
+        <p>🧪 <strong>7 compositions tested:</strong> Base + Town 07 (Comp 7) gave the best results.</p>
+        <p>✅ <strong>Improved:</strong> Forest and vegetation handling; stable turns and recovery.</p>
+        <p>❌ <strong>Still failing:</strong> Light‑coloured walls, plazas, and open spaces.</p>
+        <p>⏳ <strong>Robustness:</strong> Orientation/position tests done; weather tests incomplete.</p>
+        <p>🔜 <strong>Next:</strong> Change random seed, repeat experiments, complete weather tests.</p>
+        <p>🎥 <strong>Videos:</strong> <a href="https://youtu.be/cwEfLLTsv80" target="_blank">Initial run</a> · <a href="https://youtu.be/LAkGS482CYo" target="_blank">Best result (Comp 7)</a></p>
+      </div>
+
+      <!-- References -->
+      <div class="slide-content">
+        <h3 class="slide-header">References</h3>
+        <ul>
+          <li><strong>[1] Bojarski, M., et al. (2016):</strong> End to end learning for self‑driving cars (PilotNet). <a href="https://arxiv.org/abs/1604.07316" target="_blank">arXiv:1604.07316</a></li>
+          <li><strong>[2] Mateus, A. (2026):</strong> Week 36 report – Validation in Town02: Stability Gains & Remaining Challenges.</li>
+          <li><strong>[3] CARLA Simulator (2026):</strong> Town 03, Town 07, Town 12 documentation – map features and scenery.</li>
+        </ul>
+        <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: July 17, 2026 (Week 37)</p>
+  </footer>
+</body>
+</html>
