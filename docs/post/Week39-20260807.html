@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report August 7, 2026 (Week 39)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.75em;
+    }
+    .exp-table th, .exp-table td {
+      border: 1px solid #dee2e6;
+      padding: 8px;
+      vertical-align: top;
+      text-align: center;
+    }
+    .exp-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background: #4a6fa5;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box {
+      background: #fff3cd;
+      border-left: 6px solid #ffc107;
+      padding: 18px;
+      border-radius: 4px;
+      margin: 25px 0;
+    }
+    .status-box h4 {
+      margin-top: 0;
+      color: #856404;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.85em;
+    }
+    .results-table th, .results-table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .results-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .results-table .improved { color: #f57c00; font-weight: bold; }
+    .seed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .seed-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .seed-card .seed-value {
+      font-size: 2em;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .seed-card .seed-label {
+      font-size: 0.8em;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .exp-table { font-size: 0.55em; }
+      .exp-table th, .exp-table td { padding: 3px; }
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+      .seed-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 39 · August 7, 2026</div>
+      <h2>Robustness Evaluation: Temporal Condition Variations (Morning & Evening)</h2>
+      <p class="date">August 7, 2026</p>
+
+      <!-- Overview -->
+      <div class="slide-content">
+        <h3 class="slide-header">Overview</h3>
+        <p>Building upon the findings from the previous weeks (Week 36: driving confusion in forests and plazas; Weeks 37-38: improvements in confusion but with lingering issues), this week marks the commencement of a systematic evaluation of model robustness. The primary objective is to assess the performance of the trained PilotNet models under varying operational conditions.</p>
+        <p>Two principal scenarios are considered for robustness assessment:</p>
+        <ul>
+          <li><strong>1. Temporal Condition Changes:</strong> The models were trained on datasets collected at midday (12:00). This week, we evaluate performance at 9:00 (morning) and 16:00 (evening) to test sensitivity to illumination changes.</li>
+          <li><strong>2. Start Position & Orientation:</strong> While the models were primarily trained with appropriate orientation and lane-centred starts (though incorporating drunk-dagger for departures), a dedicated evaluation of robustness to non-optimal starting poses is planned for future work.</li>
+        </ul>
+        <p>This report focuses exclusively on the temporal condition variations.</p>
+      </div>
+
+      <!-- Methodology -->
+      <div class="slide-content">
+        <h3 class="slide-header">Methodology</h3>
+        <p>To systematically evaluate robustness to illumination changes, three distinct times of day were selected for evaluation: <strong>12:00 (noon)</strong>, <strong>9:00 (morning)</strong>, and <strong>16:00 (evening)</strong>.</p>
+        <p>The benchmark models are the best-performing architectures from Weeks 36 and 37-38. New datasets for morning (9:00) and evening (16:00) conditions were generated following the same methodology used for the Week 36 dataset construction, ensuring consistency in data collection protocols.</p>
+        <p>For reference, the training configurations of the benchmark models are summarised below:</p>
+        <ul>
+          <li><strong>Week 36 Model:</strong> Trained on midday data (62,000 examples from Towns 01 and 04). Composition: 45% straight, 15% left turns, 15% right turns, 25% soft drunk-dagger.</li>
+          <li><strong>Weeks 37-38 Model:</strong> Trained on midday data (62,000 examples from Towns 01, 04, and 07). Composition: 45% straight, 15% left turns, 15% right turns, 25% soft drunk-dagger.</li>
+        </ul>
+      </div>
+
+      <!-- Results: Week 36 Model -->
+      <div class="slide-content">
+        <h3 class="slide-header">Results: Week 36 Benchmark Model</h3>
+        <p>The following tables summarise the performance of the Week 36 model across the three temporal conditions.</p>
+
+        <h4>12:00 (Noon)</h4>
+        <p><a href="https://youtu.be/77_X8LUK4zo" target="_blank">youtu.be/77_X8LUK4zo</a></p>
+        <ul>
+          <li>Frames in Lane: 2201 (89.3%)</li>
+          <li>Frames Out of Lane: 259 (10.7%)</li>
+          <li>Lane Departures: 2 events</li>
+          <li>Lane Invasions: 2 events</li>
+          <li>Collisions: 1 (Execution terminated)</li>
+        </ul>
+        <div style="font-size:0.9em; margin-left:20px;">
+          <strong>Departure Details:</strong><br>
+          1. Duration: 10.67s, Frames: 177, MaxSteering: 0.345<br>
+          2. Duration: 4.68s, Frames: 82, MaxSteering: 0.174
+        </div>
+
+        <h4>9:00 (Morning)</h4>
+        <p><a href="https://youtu.be/dmLARAeDPFA" target="_blank">youtu.be/dmLARAeDPFA</a></p>
+        <ul>
+          <li>Frames in Lane: 489 (61.1%)</li>
+          <li>Frames Out of Lane: 306 (38.9%)</li>
+          <li>Lane Departures: 0 events</li>
+          <li>Lane Invasions: 1 event</li>
+          <li>Collisions: 2 (Execution terminated)</li>
+        </ul>
+
+        <h4>16:00 (Evening)</h4>
+        <p><a href="https://youtu.be/BnC5tHGkKM" target="_blank">youtu.be/BnC5tHGkKM</a></p>
+        <ul>
+          <li>Frames in Lane: 104 (58.9%)</li>
+          <li>Frames Out of Lane: 71 (41.1%)</li>
+          <li>Lane Departures: 0 events</li>
+          <li>Lane Invasions: 1 event</li>
+          <li>Collisions: 2 (Execution terminated)</li>
+        </ul>
+        <div class="error-analysis">
+          <h4>⚠️ Observation</h4>
+          <p>The Week 36 model shows a significant degradation in performance under morning and evening conditions, with a marked increase in frames out of lane and a higher incidence of collisions. The model, trained exclusively on midday data, does not generalise well to different illumination levels.</p>
+        </div>
+      </div>
+
+      <!-- Results: Weeks 37-38 Model -->
+      <div class="slide-content">
+        <h3 class="slide-header">Results: Weeks 37-38 Benchmark Model</h3>
+        <p>The following tables summarise the performance of the Weeks 37-38 model.</p>
+
+        <h4>12:00 (Noon)</h4>
+        <p><a href="https://youtu.be/L0nK7ETDLwc" target="_blank">youtu.be/L0nK7ETDLwc</a></p>
+        <ul>
+          <li>Frames in Lane: 3303 (64.8%)</li>
+          <li>Frames Out of Lane: 1798 (35.2%)</li>
+          <li>Lane Departures: 3 events</li>
+          <li>Lane Invasions: 3 events</li>
+          <li>Collisions: 0</li>
+        </ul>
+        <div style="font-size:0.9em; margin-left:20px;">
+          <strong>Departure Details:</strong><br>
+          1. Duration: 8.63s, Frames: 139, MaxSteering: 0.280<br>
+          2. Duration: 95.29s, Frames: 1628, MaxSteering: 0.195<br>
+          3. Duration: 1.75s, Frames: 31, MaxSteering: 0.317
+        </div>
+
+        <h4>9:00 (Morning)</h4>
+        <p><a href="https://youtu.be/IYELvX79xJw" target="_blank">youtu.be/IYELvX79xJw</a></p>
+        <ul>
+          <li>Frames in Lane: 782 (46.1%)</li>
+          <li>Frames Out of Lane: 905 (53.9%)</li>
+          <li>Lane Departures: 2 events</li>
+          <li>Lane Invasions: 3 events</li>
+          <li>Collisions: 1 (Execution terminated)</li>
+        </ul>
+        <div style="font-size:0.9em; margin-left:20px;">
+          <strong>Departure Details:</strong><br>
+          1. Duration: 28.14s, Frames: 469, MaxSteering: 0.244<br>
+          2. Duration: 2.50s, Frames: 43, MaxSteering: 0.222
+        </div>
+
+        <h4>16:00 (Evening)</h4>
+        <p><a href="https://youtu.be/tQhb7Vz3yG0" target="_blank">youtu.be/tQhb7Vz3yG0</a></p>
+        <ul>
+          <li>Frames in Lane: 680 (73.8%)</li>
+          <li>Frames Out of Lane: 241 (26.2%)</li>
+          <li>Lane Departures: 1 event</li>
+          <li>Lane Invasions: 2 events</li>
+          <li>Collisions: 1 (Execution terminated)</li>
+        </ul>
+        <div style="font-size:0.9em; margin-left:20px;">
+          <strong>Departure Details:</strong><br>
+          1. Duration: 12.17s, Frames: 208, MaxSteering: 0.213
+        </div>
+        <div class="exploration-box">
+          <h4>📊 Analysis</h4>
+          <p>The Weeks 37-38 model, despite including a third town (Town 07) in its training set, still exhibits a notable performance drop in morning conditions (53.9% frames out of lane). Evening performance (26.2% out of lane) is comparatively better but still inferior to the midday results.</p>
+        </div>
+      </div>
+
+      <!-- Results: Week 13 Models (Supplementary) -->
+      <div class="slide-content">
+        <h3 class="slide-header">Supplementary Results: Week 13 Models</h3>
+        <p>For completeness, the performance of three Week 13 models (optimised for noon, morning, and evening conditions, respectively) was also evaluated. These models were trained on a smaller, earlier dataset.</p>
+
+        <h4>Week 13 – Best Noon Model</h4>
+        <ul>
+          <li><strong>Noon:</strong> <a href="https://youtu.be/wBDY1xHKcdk" target="_blank">Video</a> – In Lane: 21.7%</li>
+          <li><strong>Morning:</strong> <a href="https://youtu.be/dtEjWIqcG-o" target="_blank">Video</a> – In Lane: 33.3% (Lane Dep: 2)</li>
+          <li><strong>Evening:</strong> <a href="https://youtu.be/bfhjh5gkJTQ" target="_blank">Video</a> – In Lane: 60.9% (Lane Dep: 2)</li>
+        </ul>
+
+        <h4>Week 13 – Best Morning Model</h4>
+        <ul>
+          <li><strong>Noon:</strong> <a href="https://youtu.be/Yv0yarhP7As" target="_blank">Video</a> – In Lane: 40.2% (Collisions: 2)</li>
+          <li><strong>Morning:</strong> <a href="https://youtu.be/jof4QjtxlOs" target="_blank">Video</a> – In Lane: 25.6% (Lane Dep: 1, Coll: 2)</li>
+          <li><strong>Evening:</strong> <a href="https://youtu.be/X1q3ydqkIDw" target="_blank">Video</a> – In Lane: 66.7% (Coll: 2)</li>
+        </ul>
+
+        <h4>Week 13 – Best Evening Model</h4>
+        <ul>
+          <li><strong>Noon:</strong> <a href="https://youtu.be/IYjPLMhaOk8" target="_blank">Video</a> – In Lane: 95.8% (Coll: 2)</li>
+          <li><strong>Morning:</strong> <a href="https://youtu.be/CJzC6dSTmXc" target="_blank">Video</a> – In Lane: 39.9% (Lane Dep: 1, Coll: 2)</li>
+          <li><strong>Evening:</strong> <a href="https://youtu.be/P_GPDGqhOhc" target="_blank">Video</a> – In Lane: N/A (Coll: 2, Curves: 64.8% open)</li>
+        </ul>
+        <div class="note">
+          <strong>Note:</strong> These models, while providing historical context, are not directly comparable to the Weeks 36-38 benchmarks due to differences in dataset size and composition.
+        </div>
+      </div>
+
+      <!-- Discussion -->
+      <div class="slide-content">
+        <h3 class="slide-header">Discussion</h3>
+        <div class="findings-summary">
+          <p><strong>Performance Degradation:</strong> Both the Week 36 and Weeks 37-38 models exhibit a clear degradation in performance when evaluated under morning and evening conditions compared to midday. This is particularly pronounced in the morning (9:00), where lighting conditions (shadows, lower sun angle) differ most significantly from the training distribution.</p>
+          <p><strong>No Universal Model:</strong> The results suggest that a single model trained exclusively on midday data is not robust to temporal illumination changes. While the Weeks 37-38 model (trained with an additional town) showed improved midday performance and slightly better evening generalisation, it still struggled in the morning.</p>
+          <p><strong>Condition-Specific Specialisation:</strong> The Week 13 models, trained for specific times of day, demonstrate that a model can be specialised for a particular condition. However, this comes at the cost of performance in other conditions, confirming the absence of a universal solution with the current approach.</p>
+        </div>
+        <div class="status-box" style="background:#e8f0fe; border-left-color:#1976d2;">
+          <h4>💡 Key Insight</h4>
+          <p>To achieve robust performance across different times of day, training data must include representative samples from each target condition. Simply increasing the number of towns in the training set (while keeping the time fixed) does not confer robustness to illumination changes.</p>
+        </div>
+      </div>
+
+      <!-- Conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">📌 Conclusions</h3>
+        <div class="findings-summary">
+          <ol>
+            <li><strong>Robustness Gap:</strong> Models trained exclusively on midday data exhibit a significant performance drop (≥20% reduction in in-lane frames) when evaluated under morning and evening conditions.</li>
+            <li><strong>Conditional Training Required:</strong> The best performance for a specific time of day is achieved by training on data from that same time. A model trained on mixed temporal data is necessary for universal robustness.</li>
+            <li><strong>Degradation Patterns:</strong> Morning conditions (9:00) consistently pose the greatest challenge, likely due to more dramatic illumination changes (shadows, low sun angle) compared to the midday baseline.</li>
+            <li><strong>No Single Best Model:</strong> There is no universal model that performs optimally across all conditions with the current dataset composition. The choice of model must be tailored to the expected operational environment.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Future Work -->
+      <div class="slide-content">
+        <h3 class="slide-header">🔜 Future Work</h3>
+        <div class="exploration-box">
+          <ul>
+            <li><strong>Mixed Temporal Training:</strong> In the coming weeks, we will construct datasets that include samples from morning, midday, and evening conditions to train a model with improved temporal robustness.</li>
+            <li><strong>Start Position & Orientation Robustness:</strong> We will conduct a systematic evaluation of model sensitivity to non-optimal starting positions and orientations, extending beyond the current drunk-dagger approach.</li>
+            <li><strong>Weather Variation:</strong> Future work will also investigate robustness to weather conditions (rain, fog) as a complementary dimension of environmental variation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week Summary -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 39 SUMMARY – AUGUST 7, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Evaluate robustness of PilotNet models to temporal illumination changes (morning, midday, evening).</p>
+        <p>🧪 <strong>Models Evaluated:</strong> Week 36 (Towns 01,04) and Weeks 37-38 (Towns 01,04,07) benchmarks.</p>
+        <p>📉 <strong>Key Finding:</strong> Both models show significant performance degradation under morning and evening conditions, with morning (9:00) being the most challenging.</p>
+        <p>🔄 <strong>Complementary Findings:</strong> Week 13 condition-specific models confirm that training on target conditions yields better performance, but no single model generalises universally.</p>
+        <p>📊 <strong>Performance Drop (Week 36):</strong> Noon (89.3% in-lane) → Morning (61.1%) → Evening (58.9%).</p>
+        <p>📊 <strong>Performance Drop (Weeks 37-38):</strong> Noon (64.8% in-lane) → Morning (46.1%) → Evening (73.8%).</p>
+        <p>🔜 <strong>Next Steps:</strong> Construct mixed-temporal datasets and evaluate robustness to starting position/orientation.</p>
+      </div>
+
+      <!-- References -->
+      <div class="slide-content">
+        <h3 class="slide-header">References</h3>
+        <ul>
+          <li><strong>[1] Bojarski, M., et al. (2016):</strong> End to end learning for self‑driving cars (PilotNet). <a href="https://arxiv.org/abs/1604.07316" target="_blank">arXiv:1604.07316</a></li>
+          <li><strong>[2] Mateus, A. (2026):</strong> Week 36 report – Validation in Town02: Stability Gains & Remaining Challenges.</li>
+          <li><strong>[3] Mateus, A. (2026):</strong> Week 37-38 report – Dataset Composition Experiments & Robustness Testing.</li>
+          <li><strong>[4] CARLA Simulator (2026):</strong> Documentation – Environmental condition simulation (time of day, weather).</li>
+        </ul>
+        <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: August 7, 2026 (Week 39)</p>
+  </footer>
+</body>
+</html>
