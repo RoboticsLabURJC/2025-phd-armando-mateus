@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report August 21, 2026 (Week 40)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.75em;
+    }
+    .exp-table th, .exp-table td {
+      border: 1px solid #dee2e6;
+      padding: 8px;
+      vertical-align: top;
+      text-align: center;
+    }
+    .exp-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background: #4a6fa5;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box {
+      background: #fff3cd;
+      border-left: 6px solid #ffc107;
+      padding: 18px;
+      border-radius: 4px;
+      margin: 25px 0;
+    }
+    .status-box h4 {
+      margin-top: 0;
+      color: #856404;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.85em;
+    }
+    .results-table th, .results-table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .results-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .results-table .improved { color: #f57c00; font-weight: bold; }
+    .seed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .seed-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .seed-card .seed-value {
+      font-size: 2em;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .seed-card .seed-label {
+      font-size: 0.8em;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .exp-table { font-size: 0.55em; }
+      .exp-table th, .exp-table td { padding: 3px; }
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+      .seed-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 40 · August 21, 2026</div>
+      <h2>Drunk-Dagger Dataset Generation with Sigmoid Steering Replacement</h2>
+      <p class="date">August 21, 2026</p>
+
+      <!-- Overview -->
+      <div class="slide-content">
+        <h3 class="slide-header">Overview</h3>
+        <p>The work this week focused on the generation and aggregation of new examples of strong (0.6) and medium (0.3) Drunk-Dagger, aiming to replace abrupt driving (bang-bang) with smooth sigmoid-like driving. This idea is based on articles [1], [2], and [3]: in [1], the use of bounded sigmoid/tanh activations allows successful transformation of complex sensory signals into continuous and stable control commands; in [2], sigmoid functions analytically and efficiently solve smooth lateral trajectory generation; and in [3], the sigmoid function is defined as a constraint barrier, eliminating the need to predefine rigid travel trajectories.</p>
+      </div>
+
+      <!-- Methodology -->
+      <div class="slide-content">
+        <h3 class="slide-header">Dataset Composition Changes</h3>
+        <p>The dataset composition was modified from:</p>
+        <div style="background:#f0f0f0; padding:10px; border-radius:4px; font-family:monospace; font-size:0.85em; margin:10px 0;">
+          --total-images 62000 --drunk-hard 0.00 --drunk-medium 0.00 --drunk-soft 0.25 --forward 0.45 --recup-lane 0.00 --recup-turn-left 0.00 --recup-turn-right 0.00 --recup-turn-right-departure 0.00 --turn-left 0.10 --turn-right 0.20
+        </div>
+        <p>to:</p>
+        <div style="background:#f0f0f0; padding:10px; border-radius:4px; font-family:monospace; font-size:0.85em; margin:10px 0;">
+          --total-images 62000 --drunk-hard 0.125 --drunk-medium 0.125 --drunk-soft 0.00 --forward 0.45 --recup-lane 0.00 --recup-turn-left 0.00 --recup-turn-right 0.00 --recup-turn-right-departure 0.00 --turn-left 0.10 --turn-right 0.20
+        </div>
+        <p>The total compositions are summarised in <strong>Table 1</strong> below:</p>
+
+        <table class="exp-table">
+          <thead>
+            <tr>
+              <th>Composition</th>
+              <th>Drunk-Hard (0.6)</th>
+              <th>Drunk-Medium (0.3)</th>
+              <th>Drunk-Soft</th>
+              <th>Forward</th>
+              <th>Turn Left</th>
+              <th>Turn Right</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Previous</strong></td>
+              <td>0.00</td>
+              <td>0.00</td>
+              <td>0.25</td>
+              <td>0.45</td>
+              <td>0.10</td>
+              <td>0.20</td>
+            </tr>
+            <tr>
+              <td><strong>New</strong></td>
+              <td>0.125</td>
+              <td>0.125</td>
+              <td>0.00</td>
+              <td>0.45</td>
+              <td>0.10</td>
+              <td>0.20</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>For each combination, 5 different datasets were generated (seeds: 42, 123, 456, 789, and 999). In total, 80 datasets were generated and trained, maintaining the main idea of finding the composition with the best results, which is affected by randomness in dataset construction (hence the 5-seed sweep).</p>
+      </div>
+
+      <!-- Results -->
+      <div class="slide-content">
+        <h3 class="slide-header">Best 3 Models: Compositions 7, 5, and 10</h3>
+
+        <p>Below are driving videos for the 3 best-performing models:</p>
+
+        <div class="video-listing">
+          <div class="video-card">
+            <strong>Composition 7 – Seed 123</strong><br>
+            <a href="https://youtu.be/KLLU2jZvEFc" target="_blank">youtu.be/KLLU2jZvEFc</a>
+          </div>
+          <div class="video-card">
+            <strong>Composition 10 – Seed 42</strong><br>
+            <a href="https://youtu.be/t1cB-7i47ME" target="_blank">youtu.be/t1cB-7i47ME</a>
+          </div>
+          <div class="video-card">
+            <strong>Composition 5 – Seed 456</strong><br>
+            <a href="https://youtu.be/iSq-x-nkqQY" target="_blank">youtu.be/iSq-x-nkqQY</a>
+          </div>
+        </div>
+
+        <div class="findings-summary">
+          <h4>📊 Results Summary</h4>
+          <ul>
+            <li><strong>Oscillation-free driving:</strong> Models show driving without oscillations (improvement over previous datasets with strong and medium Drunk-Dagger).</li>
+            <li><strong>Lane-keeping:</strong> Composition 7 (seed 123) achieved driving without lane departures; Compositions 5 and 10 had very few departures.</li>
+            <li><strong>Correct turns:</strong> All models executed proper turning in curves.</li>
+          </ul>
+        </div>
+
+        <div class="error-analysis">
+          <h4>⚠️ Remaining Issues</h4>
+          <p><strong>Recovery errors:</strong> None of the 3 models successfully achieves satisfactory right-lane recovery. In essence, recovery toward the right lane remains an unresolved challenge.</p>
+          <p><strong>Note:</strong> The autonomous driving scripts include initial metrics such as percentage of driving in the correct lane or number of lane departures during turns. However, no "competitive" models have yet been obtained that can be compared using these metrics.</p>
+        </div>
+      </div>
+
+      <!-- Robustness Study -->
+      <div class="slide-content">
+        <h3 class="slide-header">Robustness Study</h3>
+        <p>Autonomous driving was performed with the 3 models above, but this time varying the initial position and orientation. The recordings of the best-performing runs are presented below:</p>
+
+        <div class="video-listing">
+          <div class="video-card"><a href="https://youtu.be/aLuzlNlotWs" target="_blank">youtu.be/aLuzlNlotWs</a></div>
+          <div class="video-card"><a href="https://youtu.be/xaLqbqNhxsw" target="_blank">youtu.be/xaLqbqNhxsw</a></div>
+          <div class="video-card"><a href="https://youtu.be/ISKPKCDp48o" target="_blank">youtu.be/ISKPKCDp48o</a></div>
+          <div class="video-card"><a href="https://youtu.be/1baMbx8dMFs" target="_blank">youtu.be/1baMbx8dMFs</a></div>
+          <div class="video-card"><a href="https://youtu.be/OKXYfdhMN4" target="_blank">youtu.be/OKXYfdhMN4</a></div>
+          <div class="video-card"><a href="https://youtu.be/TBpmsGGN9_A" target="_blank">youtu.be/TBpmsGGN9_A</a></div>
+        </div>
+
+        <div class="exploration-box">
+          <h4>📌 Key Finding</h4>
+          <p>The results above show that models with the best performance when the vehicle's position and orientation are appropriate are also those that perform best when these variables represent different initial states.</p>
+        </div>
+      </div>
+
+      <!-- Conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">Conclusions</h3>
+        <div class="findings-summary">
+          <ol>
+            <li><strong>Sigmoid Driving Works:</strong> The results support the generation of Dagger datasets and recoveries with smooth sigmoid-like driving. This eliminates (almost entirely) oscillations in the best-performing autonomous driving models. It can be concluded that driving examples with smooth movements eliminate oscillations.</li>
+            <li><strong>Recovery Still an Issue:</strong> Despite the above, the expected lane recovery results have not yet been achieved. Trained models tend to take the left lane after turning or become confused in areas with plazas.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Future Work -->
+      <div class="slide-content">
+        <h3 class="slide-header">Proposed Work for Next Week</h3>
+        <div class="exploration-box">
+          <p>With the goal of achieving lane recovery, we aim to add stronger Dagger images (steering of 0.9 and 1.2) while maintaining the sigmoid-return philosophy.</p>
+        </div>
+      </div>
+
+      <!-- Week Summary -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 40 SUMMARY – AUGUST 21, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Generate and aggregate new examples of strong (0.6) and medium (0.3) Drunk-Dagger to replace abrupt driving with smooth sigmoid-like driving.</p>
+        <p>🧪 <strong>Approach:</strong> Modified dataset composition from 25% soft Drunk-Dagger to 12.5% hard + 12.5% medium Drunk-Dagger. Generated 80 datasets (5 seeds × 16 compositions).</p>
+        <p>📈 <strong>Top Models:</strong> Compositions 7 (seed 123), 10 (seed 42), and 5 (seed 456) yielded the best results.</p>
+        <p>✅ <strong>Achievements:</strong> Oscillation-free driving, correct turns, and improved lane-keeping (Composition 7 achieved zero departures).</p>
+        <p>❌ <strong>Limitations:</strong> Lane recovery remains unresolved; models tend to take the left lane after turns or get confused in plazas.</p>
+        <p>🔜 <strong>Next Steps:</strong> Incorporate stronger Dagger examples (steering 0.9 and 1.2) while maintaining the sigmoid-return philosophy.</p>
+      </div>
+
+      <!-- References -->
+      <div class="slide-content">
+        <h3 class="slide-header">References</h3>
+        <ul>
+          <li><strong>[1]</strong> T. Onishi, T. Motoyoshi, Y. Suga, H. Mori, and T. Ogata, "End-to-end learning method for self-driving cars with trajectory recovery using a path-following function," in <em>2019 International Joint Conference on Neural Networks (IJCNN)</em>, Budapest, Hungary, 2019, pp. 1-8.</li>
+          <li><strong>[2]</strong> X. Huang, W. Zhang, and P. Li, "A path planning method for vehicle overtaking maneuver using sigmoid functions," <em>IFAC-PapersOnLine</em>, vol. 52, no. 8, pp. 422-427, 2019.</li>
+          <li><strong>[3]</strong> K. Sun, N. Zhang, Z. Li, H. Ding, H. Zhang, and C. Jiang, "Improved MPC for trajectory planning of self-driving cars," <em>PLOS ONE</em>, vol. 20, no. 6, p. e0320359, Jun. 2025.</li>
+        </ul>
+        <p><em>— Armando Mateus, Robotics Lab URJC</em></p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: August 21, 2026 (Week 40)</p>
+  </footer>
+</body>
+</html>
