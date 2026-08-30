@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report August 29, 2026 (Week 41)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.75em;
+    }
+    .exp-table th, .exp-table td {
+      border: 1px solid #dee2e6;
+      padding: 8px;
+      vertical-align: top;
+      text-align: center;
+    }
+    .exp-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background: #4a6fa5;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box {
+      background: #fff3cd;
+      border-left: 6px solid #ffc107;
+      padding: 18px;
+      border-radius: 4px;
+      margin: 25px 0;
+    }
+    .status-box h4 {
+      margin-top: 0;
+      color: #856404;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.85em;
+    }
+    .results-table th, .results-table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .results-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .results-table .improved { color: #f57c00; font-weight: bold; }
+    .seed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .seed-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .seed-card .seed-value {
+      font-size: 2em;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .seed-card .seed-label {
+      font-size: 0.8em;
+      color: #666;
+    }
+    .methodology-box {
+      background-color: #e8f5e9;
+      border-left: 4px solid #2e7d32;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    @media (max-width: 768px) {
+      .exp-table { font-size: 0.55em; }
+      .exp-table th, .exp-table td { padding: 3px; }
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+      .seed-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 41 · August 29, 2026</div>
+      <h2>Lane Recovery Integration via Sigmoid Steering</h2>
+      <p class="date">August 29, 2026</p>
+
+      <!-- Overview -->
+      <div class="slide-content">
+        <h3 class="slide-header">Overview</h3>
+        <p>This week's work focused on integrating <strong>"lane recovery"</strong> maneuvers into the training datasets. The recovery driving was implemented as a <strong>smooth sigmoid curve</strong> with steering values limited to approximately <strong>±0.08</strong> (roughly 30 degrees of steering wheel angle). Two distinct methodologies were explored to incorporate these new recovery examples into the training pipeline.</p>
+        <div class="note">Note: A conceptual image of the sigmoid recovery maneuver was included in the original report (Figure 1).</div>
+      </div>
+
+      <!-- Methodology 1 -->
+      <div class="slide-content">
+        <h3 class="slide-header">Methodology 1: Dataset Composition with Recovery Lane Category</h3>
+        
+        <div class="methodology-box">
+          <h4>📌 Approach</h4>
+          <p>The base datasets (already classified by maneuver type) were augmented with a new <strong>"lane recovery"</strong> category. The recovery examples were generated using a smooth sigmoid steering profile with a maximum steering value of approximately 0.08.</p>
+          <p>These new recovery samples were then incorporated into the training dataset compositions alongside existing maneuver categories.</p>
+        </div>
+
+        <p><strong>Table 1</strong> below presents the proposed compositions with varying numbers of recovery lane samples:</p>
+
+        <table class="exp-table">
+          <thead>
+            <tr>
+              <th>Composition</th>
+              <th>Comp 0</th>
+              <th>Comp 1</th>
+              <th>Comp 2</th>
+              <th>Comp 3</th>
+              <th>Comp 4</th>
+              <th>Comp 5</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Turn Left (%)</strong></td>
+              <td>10.00%</td>
+              <td>9.30%</td>
+              <td>9.00%</td>
+              <td>8.60%</td>
+              <td>8.30%</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>Turn Right (%)</strong></td>
+              <td>20.00%</td>
+              <td>18.60%</td>
+              <td>18.20%</td>
+              <td>17.20%</td>
+              <td>16.70%</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>Recovery Lane (Proposed) (%)</strong></td>
+              <td>0.00%</td>
+              <td>7.00%</td>
+              <td>9.00%</td>
+              <td>13.90%</td>
+              <td>16.70%</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>Hard Drunk Dagger (%)</strong></td>
+              <td>7.50%</td>
+              <td>7.00%</td>
+              <td>6.80%</td>
+              <td>6.50%</td>
+              <td>6.20%</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>Medium Drunk Dagger (%)</strong></td>
+              <td>7.50%</td>
+              <td>7.00%</td>
+              <td>6.80%</td>
+              <td>6.50%</td>
+              <td>6.20%</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>Soft Drunk Dagger (%)</strong></td>
+              <td>10.00%</td>
+              <td>9.00%</td>
+              <td>9.00%</td>
+              <td>8.60%</td>
+              <td>8.30%</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>Straight (%)</strong></td>
+              <td>45.00%</td>
+              <td>42.00%</td>
+              <td>41.00%</td>
+              <td>39.00%</td>
+              <td>38.00%</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>Recovery Lane Samples</strong></td>
+              <td>0</td>
+              <td>4,665.5</td>
+              <td>6,138</td>
+              <td>10,008</td>
+              <td>12,424.8</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>New Total Samples</strong></td>
+              <td>62,000</td>
+              <td>66,650</td>
+              <td>68,200</td>
+              <td>72,000</td>
+              <td>74,400</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note">Table 1: Proposed compositions when adding new "recovery lane" maneuver samples.</div>
+
+        <p>New datasets were generated following the compositions in Table 1. For each composition, <strong>5 different random seeds</strong> were used, and the best-performing seed (based on training results) was selected.</p>
+      </div>
+
+      <!-- Methodology 2 -->
+      <div class="slide-content">
+        <h3 class="slide-header">Methodology 2: Augmenting the Best Previous Model</h3>
+        
+        <div class="methodology-box">
+          <h4>📌 Approach</h4>
+          <p>After generating the lane recovery examples, the <strong>best-performing dataset from Week 40</strong> was taken as the base. Specifically, <strong>Composition 7 with seed 123</strong> was used, which demonstrated the best results in the previous week.</p>
+          <p>The goal was to augment this already successful dataset with additional examples that would enable the trained models to <strong>imitate the lane recovery maneuver</strong>.</p>
+        </div>
+        <p>This methodology allowed us to directly enhance a proven model with recovery capabilities while maintaining the other desirable properties already achieved.</p>
+      </div>
+
+      <!-- Results -->
+      <div class="slide-content">
+        <h3 class="slide-header">Results</h3>
+        
+        <div class="findings-summary">
+          <h4>📊 Benchmark Model</h4>
+          <p>The model trained on <strong>Week 40 – Composition 7 with seed 123</strong> was used as the benchmark. This model was characterized by:</p>
+          <ul>
+            <li>✅ <strong>Stable driving</strong> without oscillations</li>
+            <li>✅ <strong>Proper left and right turns</strong></li>
+            <li>✅ <strong>No road departures</strong> in the tested scenarios</li>
+            <li>❌ <strong>No lane recovery capability</strong></li>
+          </ul>
+        </div>
+
+        <div class="exploration-box">
+          <h4>📌 New Metric: Right-Lane Driving Percentage</h4>
+          <p>With functional models now available, a new metric was defined: <strong>percentage of driving in the right lane</strong>. This metric measures the proportion of frames where the vehicle maintains the correct lane position relative to total frames. Other metrics (e.g., lane departures, time between departures) are still under development.</p>
+        </div>
+
+        <p><strong>Table 2</strong> below presents the best-performing runs for both correct initial position/orientation and random initial conditions:</p>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Dataset/Model</th>
+              <th>Driving Time</th>
+              <th>Collisions</th>
+              <th>Avg. Correct Lane Driving (%)</th>
+              <th>YouTube Video</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Week 40 – Comp 7 (Seed 123)</strong></td>
+              <td>5:01</td>
+              <td>0</td>
+              <td>48%</td>
+              <td><a href="https://youtu.be/OKXYfdhMN4" target="_blank">youtu.be/OKXYfdhMN4</a></td>
+            </tr>
+            <tr class="improved">
+              <td><strong>Week 41 – Comp 4 (Seed 123)</strong></td>
+              <td>2:16</td>
+              <td>1</td>
+              <td><strong>88%</strong></td>
+              <td><a href="https://youtu.be/B34KeG01vMI" target="_blank">youtu.be/B34KeG01vMI</a></td>
+            </tr>
+            <tr>
+              <td><strong>Week 41 – Comp 1 (Seed 456)</strong></td>
+              <td>2:12</td>
+              <td>1</td>
+              <td>52%</td>
+              <td><a href="https://youtu.be/B3VAViXqIXA" target="_blank">youtu.be/B3VAViXqIXA</a></td>
+            </tr>
+            <tr>
+              <td><strong>Week 41 – Comp 1 (Seed 999)</strong></td>
+              <td>1:56</td>
+              <td>1</td>
+              <td>52%</td>
+              <td><a href="https://youtu.be/V3h9LB-J3ts" target="_blank">youtu.be/V3h9LB-J3ts</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note">Table 2: Results for correct initial position/orientation.</div>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Dataset/Model</th>
+              <th>Driving Time</th>
+              <th>Collisions</th>
+              <th>Avg. Correct Lane Driving (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Week 40 – Comp 7 (Seed 123)</strong></td>
+              <td>5:01</td>
+              <td>0</td>
+              <td>42%</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note">Table 3: Results for random initial position/orientation.</div>
+
+        <div class="note">
+          <strong>Note:</strong> No notable difference in driving performance was observed between the two dataset construction methodologies.
+        </div>
+      </div>
+
+      <!-- Conclusions -->
+      <div class="slide-content">
+        <h3 class="slide-header">Conclusions</h3>
+        
+        <div class="findings-summary">
+          <ol>
+            <li>
+              <strong>✅ Lane Recovery Capability Achieved</strong><br>
+              Taking the 3 best-performing models, it is evident that models successfully acquired <strong>lane recovery capability</strong>. In particular, the model trained with <strong>Composition 7 and seed 123</strong> demonstrated correct driving with minimal departures (only in the left-curve plaza where models consistently struggle). This validates the approach of adding recovery examples using a <strong>smooth sigmoid curve</strong> to teach the recovery maneuver.
+            </li>
+            <li>
+              <strong>⚠️ Trade-off: Collisions vs. Robustness</strong><br>
+              While the best recovery-capable models all experienced collisions (unlike the benchmark model without recovery examples), the <strong>percentage of correct lane driving</strong> and <strong>robustness to changing initial position/orientation</strong> were significantly superior in the recovery-trained models.
+            </li>
+          </ol>
+        </div>
+
+        <div class="error-analysis">
+          <h4>⚠️ Remaining Challenge</h4>
+          <p>Although recovery capability was achieved, the models still exhibit confusion in plaza areas and complex intersection scenarios. Future work should address these edge cases.</p>
+        </div>
+      </div>
+
+      <!-- Future Work -->
+      <div class="slide-content">
+        <h3 class="slide-header">Proposed Work for Next Week</h3>
+        
+        <div class="exploration-box">
+          <h4>🔜 Next Steps</h4>
+          <p>For the upcoming week, we plan to generate new datasets with <strong>different compositions</strong> to further improve autonomous driving performance. The focus will be on:</p>
+          <ul>
+            <li>Exploring additional composition variations</li>
+            <li>Addressing remaining confusion in plaza and intersection scenarios</li>
+            <li>Refining the recovery maneuver examples</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week Summary -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 41 SUMMARY – AUGUST 29, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Integrate lane recovery maneuvers into training datasets using smooth sigmoid steering (max ±0.08).</p>
+        <p>🧪 <strong>Methodologies:</strong> (1) Add recovery lane as a new category in dataset compositions; (2) Augment the best Week 40 model (Composition 7, seed 123) with recovery examples.</p>
+        <p>📈 <strong>Top Results:</strong> Week 41 – Composition 4 (seed 123) achieved <strong>88% correct lane driving</strong> (vs. 48% for the benchmark), with a driving time of 2:16.</p>
+        <p>✅ <strong>Achievements:</strong> Lane recovery capability successfully demonstrated; models show increased robustness and significantly higher correct lane driving percentages.</p>
+        <p>❌ <strong>Limitations:</strong> Recovery-capable models experienced collisions; confusion persists in plaza and complex intersection areas.</p>
+        <p>🔜 <strong>Next Steps:</strong> Generate new datasets with varied compositions to improve performance and address remaining collision and confusion issues.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: August 29, 2026 (Week 41)</p>
+  </footer>
+</body>
+</html>
