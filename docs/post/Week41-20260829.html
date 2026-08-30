@@ -167,6 +167,26 @@
       margin: 25px 0;
       border-radius: 4px;
     }
+    .figure-container {
+      text-align: center;
+      margin: 30px 0;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .figure-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      border: 1px solid #e9ecef;
+    }
+    .figure-container .figure-caption {
+      margin-top: 15px;
+      font-size: 0.95em;
+      color: #555;
+      font-style: italic;
+    }
     @media (max-width: 768px) {
       .exp-table { font-size: 0.55em; }
       .exp-table th, .exp-table td { padding: 3px; }
@@ -200,7 +220,14 @@
       <div class="slide-content">
         <h3 class="slide-header">Overview</h3>
         <p>This week's work focused on integrating <strong>"lane recovery"</strong> maneuvers into the training datasets. The recovery driving was implemented as a <strong>smooth sigmoid curve</strong> with steering values limited to approximately <strong>±0.08</strong> (roughly 30 degrees of steering wheel angle). Two distinct methodologies were explored to incorporate these new recovery examples into the training pipeline.</p>
-        <div class="note">Note: A conceptual image of the sigmoid recovery maneuver was included in the original report (Figure 1).</div>
+
+        <!-- Figure 1 -->
+        <div class="figure-container">
+          <img src="W41_fig1.jpeg" alt="Figure 1: Conceptual image of lane recovery maneuver following a sigmoid curve">
+          <div class="figure-caption">
+            <strong>Figure 1.</strong> Conceptual image of lane recovery maneuver following a sigmoid curve.
+          </div>
+        </div>
       </div>
 
       <!-- Methodology 1 -->
@@ -380,14 +407,14 @@
               <td><strong>Week 41 – Comp 1 (Seed 456)</strong></td>
               <td>2:12</td>
               <td>1</td>
-              <td>62%</td>
+              <td>52%</td>
               <td><a href="https://youtu.be/B3VAViXqIXA" target="_blank">youtu.be/B3VAViXqIXA</a></td>
             </tr>
             <tr>
               <td><strong>Week 41 – Comp 1 (Seed 999)</strong></td>
               <td>1:56</td>
               <td>1</td>
-              <td>61%</td>
+              <td>52%</td>
               <td><a href="https://youtu.be/V3h9LB-J3ts" target="_blank">youtu.be/V3h9LB-J3ts</a></td>
             </tr>
           </tbody>
