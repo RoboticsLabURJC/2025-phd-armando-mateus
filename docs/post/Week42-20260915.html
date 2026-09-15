@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report September 15, 2026 (Week 42)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.75em;
+    }
+    .exp-table th, .exp-table td {
+      border: 1px solid #dee2e6;
+      padding: 8px;
+      vertical-align: top;
+      text-align: center;
+    }
+    .exp-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .video-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .video-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      flex: 1 1 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: #1976d2;
+      word-break: break-all;
+    }
+    .badge {
+      display: inline-block;
+      background: #4a6fa5;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box {
+      background: #fff3cd;
+      border-left: 6px solid #ffc107;
+      padding: 18px;
+      border-radius: 4px;
+      margin: 25px 0;
+    }
+    .status-box h4 {
+      margin-top: 0;
+      color: #856404;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.85em;
+    }
+    .results-table th, .results-table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .results-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .results-table .improved { color: #f57c00; font-weight: bold; }
+    .seed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .seed-card {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .seed-card .seed-value {
+      font-size: 2em;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .seed-card .seed-label {
+      font-size: 0.8em;
+      color: #666;
+    }
+    .methodology-box {
+      background-color: #e8f5e9;
+      border-left: 4px solid #2e7d32;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .figure-container {
+      text-align: center;
+      margin: 30px 0;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .figure-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      border: 1px solid #e9ecef;
+    }
+    .figure-container .figure-caption {
+      margin-top: 15px;
+      font-size: 0.95em;
+      color: #555;
+      font-style: italic;
+    }
+    @media (max-width: 768px) {
+      .exp-table { font-size: 0.55em; }
+      .exp-table th, .exp-table td { padding: 3px; }
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+      .seed-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 42 · September 15, 2026</div>
+      <h2>PilotNet PyTorch vs TensorFlow: Root-Cause Diagnosis and Lateral Recovery Fix</h2>
+      <p class="date">September 15, 2026</p>
+
+      <!-- Overview -->
+      <div class="slide-content">
+        <h3 class="slide-header">Overview</h3>
+        <p>This week's work focused on a <strong>deep diagnostic</strong> of the PyTorch PilotNet implementation, which consistently underperformed the existing TensorFlow reference model when driving in <strong>Town02</strong> (an unseen map). What initially looked like a curve-steering problem turned out to be a <strong>chain of hidden bugs</strong>: a broken module import, a silently wrong data augmentation, and misleading offline metrics. This report documents the root causes found and the fix applied.</p>
+
+        <div class="findings-summary">
+          <h4>📌 Context</h4>
+          <ul>
+            <li><strong>Goal:</strong> Imitation learning with PilotNet, trained on Town01+Town04, tested on Town02. Match a pre-existing TF model (<code>train00_datasets_for_models.py</code>) that generalizes to Town02.</li>
+            <li><strong>Environments:</strong> <code>venv_py37</code> (CARLA + PyTorch cu117, CPU inference, also TF 2.11.0) for driving; <code>venv_py310</code> (torch 2.11.0+cu128, RTX 5070) for training.</li>
+            <li><strong>CARLA:</strong> Docker, port <strong>2001</strong>.</li>
+            <li><strong>Documented "solved" recipe:</strong> V3 architecture (BatchNorm+Dropout+tanh, 120×160, normalization <code>[-1,1]</code>), <code>weighted_steering_loss</code> (turn_weight=2.0), augmentation (flip 50%, brightness 40%, lateral translation 30%), camera <code>x=1.5, y=0, z=2.4</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="slide-content">
+        <h3 class="slide-header">§1 Timeline: How We Got Here</h3>
+        <p>The project objective: a PyTorch PilotNet, trained on Town01+Town04, that generalizes to Town02 as well as the reference TensorFlow model. This is how we arrived at the current state.</p>
+        
+        <div class="findings-summary">
+          <ul>
+            <li><strong>The import pointed to the wrong file:</strong> <code>common/pilotnet_model.py</code> had the old architecture (no BatchNorm). The corrected version existed, but in another folder — it was never copied to the location from which it is actually imported.</li>
+            <li><strong>Three fine-tuning experiments, three dead ends:</strong> Increasing <code>turn_weight</code>, matching BatchNorm momentum/epsilon to Keras, matching weight initialization — none significantly moved the bias.</li>
+            <li><strong>Offline comparison did not predict real driving:</strong> <code>validate_curvas.py</code> showed TF with worse frame-to-frame error than PyTorch. But when actually driving in CARLA, TF went much further. We had to compare driving, not just isolated predictions.</li>
+            <li><strong>Driving drivers had their own bugs:</strong> Collisions counted 61 times for a single crash, <code>cross_track_error</code> hidden when it was most needed, third-person camera disabled by default.</li>
+            <li><strong>The real bug: PIL inverts the sign of the recovery correction.</strong> The "recovery" augmentation (lateral translation + steering correction) copied the TF formula, but implemented with a library that moves the image in the opposite direction. The model learned to reinforce drift, not correct it.</li>
+            <li><strong>Current status:</strong> Bias in tight curves dropped ~19% after the fix. The car no longer crashes at the same point — but it still struggles with wide curves. Research ongoing.</li>
+          </ul>
+        </div>
+
+        <div class="findings-summary" style="background-color: #e8f5e9; border-left-color: #2e7d32;">
+          <h4>📊 Quick Stats</h4>
+          <p><strong>56 m</strong> traveled by PyTorch before first crash (original model) · <strong>431 m</strong> traveled by TF before its own crash · <strong>4</strong> implementation bugs found and fixed · <strong>1</strong> underlying problem still unsolved</p>
+        </div>
+      </div>
+
+      <!-- Root Cause 1 -->
+      <div class="slide-content">
+        <h3 class="slide-header">Root Cause 1: Broken Import — The Wrong Architecture Was Training All Along</h3>
+        
+        <div class="error-analysis">
+          <h4>⚠️ The Bug</h4>
+          <p><code>common/pilotnet_model.py</code> — the file actually imported during both training and driving — contained the <strong>old V1 architecture</strong> (no BatchNorm/Dropout/tanh, 66×200 input, normalization <code>[0,1]</code>). The correct <strong>V3</strong> file (BatchNorm, 120×160, <code>[-1,1]</code>) existed in the project root but was <strong>never copied into <code>common/</code></strong>.</p>
+        </div>
+
+        <p><strong>Impact:</strong> Every previous PyTorch training run used the outdated architecture without anyone noticing. The documented "V3 recipe" was never actually executed.</p>
+
+        <div class="methodology-box">
+          <h4>✅ Fix Applied</h4>
+          <p><code>cp pilotnet_model.py common/pilotnet_model.py</code></p>
+          <p>Confirmed with <code>check_model_load.py</code>: old checkpoints, trained unintentionally with V1, stopped loading against the new architecture (as expected).</p>
+          <p>Additionally, <strong>3 more duplicated files</strong> with the same pattern were found and cleaned: <code>entrenar_definitivo.py</code>, <code>check_model_load.py</code>, and <code>driverAgent_PyTorch_fixed.py</code> inside <code>common/</code> (all obsolete).</p>
+        </div>
+      </div>
+
+      <!-- Design Decision -->
+      <div class="slide-content">
+        <h3 class="slide-header">Design Decision: Constant Speed in Curves</h3>
+        
+        <div class="exploration-box">
+          <h4>📌 Decision</h4>
+          <p><code>--curve-speed-factor</code> (braking in curves) was <strong>discarded</strong>. It is not faithful to the reference TF driver, which maintains a fixed target speed (15 km/h) regardless of steering.</p>
+        </div>
+      </div>
+
+      <!-- Failed Experiments -->
+      <div class="slide-content">
+        <h3 class="slide-header">§3 Three Experiments That Did <em>Not</em> Solve the Problem</h3>
+        
+        <p>With the architecture already corrected, three adjustments based on real differences between PyTorch and TF were tested. None resolved the underestimation bias in tight curves — measured with <code>validate_curvas.py</code>, comparing prediction error segmented by steering magnitude.</p>
+
+        <table class="exp-table">
+          <thead>
+            <tr>
+              <th>Change Tested</th>
+              <th>Tight-Curve Bias (before → after)</th>
+              <th>Improvement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>turn_weight</code> 2.0 → 4.0</td>
+              <td>-0.104 → -0.097</td>
+              <td>~7%</td>
+            </tr>
+            <tr>
+              <td>BatchNorm <code>momentum</code>/<code>epsilon</code> = Keras</td>
+              <td>-0.104 → -0.101</td>
+              <td>~3%</td>
+            </tr>
+            <tr>
+              <td>Weight initialization (<code>he_normal</code>/<code>glorot</code>)</td>
+              <td>No significant change</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note">All three started from a reasonable premise: if something differs from TF, matching it should help. The problem is that these differences turned out not to be the cause — architecture, loss, and these hyperparameters were already faithful to TF before touching them. When the design matches and the result doesn't, you have to look for an implementation bug, not keep tuning parameters.</div>
+      </div>
+
+      <!-- Offline Validation -->
+      <div class="slide-content">
+        <h3 class="slide-header">Offline Validation Revealed Systematic Bias</h3>
+        
+        <div class="exploration-box">
+          <h4>📌 Finding</h4>
+          <p><code>validate_curvas.py</code> (custom script measuring error per steering-magnitude bin) showed the PyTorch model <strong>underestimates steering in tight curves</strong> — a consistent bias of roughly <strong>-0.10 to -0.12</strong> across all runs (n=400 samples).</p>
+        </div>
+      </div>
+
+      <!-- Key Turning Point -->
+      <div class="slide-content">
+        <h3 class="slide-header">Key Turning Point: Real Comparison Against TF with Correct Data</h3>
+        
+        <div class="methodology-box">
+          <h4>📌 What Happened</h4>
+          <p>After fixing a dataset mismatch (the reference <code>.h5</code> was from <code>w41_comp4_seed123</code>, not <code>w40_comp7</code>), <code>validate_curvas_tf.py</code> (same methodology, but for TF) was run on the correct dataset.</p>
+          <ul>
+            <li><strong>TF performed worse than PyTorch in all 4 bins</strong>, including "straight" — contradicting the premise that "TF is more accurate frame-to-frame".</li>
+            <li>But in <strong>real CARLA driving</strong> (not just offline validation), TF drove <strong>431 m without crashing</strong>; PyTorch crashed at <strong>56 m</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="error-analysis">
+          <h4>⚠️ Conclusion</h4>
+          <p>Frame-to-frame offline error does <strong>not</strong> predict closed-loop behavior well. Real driving had to be compared, not just <code>validate_curvas.py</code>.</p>
+        </div>
+      </div>
+
+      <!-- Real Crash Comparison -->
+      <div class="slide-content">
+        <h3 class="slide-header">Real Crash-Position Comparison (with <code>loc_x/loc_y/yaw</code> already logged)</h3>
+        
+        <p>Running real driving with recorded position (<code>loc_x</code>, <code>loc_y</code>, <code>yaw</code>) made it possible to pinpoint exactly where and how each model fails — with real data from the runs, not just estimates.</p>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Crash Distance</th>
+              <th>Crash Location</th>
+              <th>Cause</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>TF</strong></td>
+              <td>431 m</td>
+              <td>Guardrail (<code>x≈193, y≈110</code>)</td>
+              <td>Insufficient sustained steering in a curve — even the reference model fails there.</td>
+            </tr>
+            <tr class="fail">
+              <td><strong>PyTorch</strong></td>
+              <td>56 m</td>
+              <td>Pole (<code>x≈10, y≈308</code>)</td>
+              <td>Progressive, sustained lateral drift (0.22 m → 1.34 m in ~17 s) with no active correction, until hitting an obstacle within the tolerated threshold (2.8 m).</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="error-analysis">
+          <h4>⚠️ Diagnosis</h4>
+          <p>It is <strong>not</strong> "PyTorch turns worse in tight curves" in general — it is that <strong>it does not actively correct a lateral drift once it starts</strong>, a classic imitation-learning symptom (the model barely sees "recovery" examples in normal driving data).</p>
+        </div>
+
+        <div class="figure-container">
+          <img src="../images/trajectories_town02.png" alt="Real trajectories in Town02: TF reference (0 crashes in this zone), PyTorch before sign fix, PyTorch after sign fix">
+          <div class="figure-caption">
+            <strong>Real trajectories</strong> taken from each run's CSV (world coordinates <code>loc_x</code>/<code>loc_y</code> from CARLA), in the zone where all three models end up diverging. TF stays on the lane axis the whole stretch. The pre-fix model deviates only ~1.3 m from center — almost imperceptible — but that's enough to hit a pole. The post-fix model corrects the subtle drift, but opens up much more in the following curve: it improved a symptom, not the underlying cause.
+          </div>
+        </div>
+
+        <div class="findings-summary">
+          <h4>📌 Reading the Graph</h4>
+          <p><strong>Before the fix:</strong> PyTorch stayed almost glued to TF's path — the problem was a minimal, progressive lateral deviation, with no correction, just enough to graze a specific obstacle.</p>
+          <p><strong>After the fix:</strong> That behavior changed: the car no longer drifts subtly, but in the next wide curve it underestimates the required turning radius and opens up several meters — a different symptom, with the same underlying root (curves where the required steering is more subtle than an obvious tight turn).</p>
+        </div>
+      </div>
+
+      <!-- Bugs in Drivers -->
+      <div class="slide-content">
+        <h3 class="slide-header">§6 Bugs Found and Fixed in the Driving Drivers</h3>
+        
+        <p>These appeared while instrumenting both drivers to diagnose the above. None change the model's behavior, but without fixing them the diagnostic data was misleading.</p>
+
+        <div class="findings-summary">
+          <ul>
+            <li><strong>Collisions counted up to 61 times for a single crash:</strong> CARLA's collision sensor can re-fire on every tick while the car remains in contact during the post-crash braking window. Without a guard, each re-fire added a collision — one report said "61 collisions" when exactly one crash had occurred. <em>Fixed with an <code>is_first_collision</code> guard in both drivers.</em></li>
+            <li><strong><code>cross_track_error</code> hidden when it mattered most:</strong> The CSV forced that column to <code>0.0</code> whenever <code>is_inside_lane=True</code> — exactly when it was most useful to see how far from center the car was before crossing the alert threshold. It also wasn't updated in the "Against traffic" branch, leaving a previous frame's value. <em>Fixed in both drivers.</em></li>
+            <li><strong>Third-person camera disabled by default (TF driver):</strong> Gated by a <code>run_number >= 2</code> condition that never triggered unless <code>--run</code> was passed explicitly. Reports were also saved to <code>~/Videos/model_reports/</code> without any console notice. <em>Fixed.</em></li>
+            <li><strong>Seed extraction regex failed</strong> on folder names without a trailing separator (<code>w41_comp4_s123</code> → seed lost). <em>Fixed.</em></li>
+          </ul>
+          <p>All four were corrected with guards and explicit logging in both drivers (<code>driverAgent_PyTorch_fixed.py</code> and <code>driverAgent_H5_35-crop_simple_BCK.py</code>).</p>
+        </div>
+      </div>
+
+      <!-- Root Cause 2 -->
+      <div class="slide-content">
+        <h3 class="slide-header">§5 Root Cause 2 (Most Likely): Inverted Sign in Recovery Augmentation</h3>
+        
+        <div class="error-analysis">
+          <h4>⚠️ The Bug</h4>
+          <p>The "recovery" augmentation shifts the image laterally and corrects the steering accordingly — the standard technique to teach an imitation-learning model to return to the lane center. TF implements it with <code>cv2.warpAffine</code>; PyTorch, with <code>PIL.Image.transform</code>. Same formula, same translation sign — but the two libraries interpret that matrix in opposite directions.</p>
+          <p><strong>Empirically verified</strong> with a synthetic image (central white stripe) before touching the code: with the same matrix <code>(1,0,tx,0,1,0)</code> and <code>tx=+5</code>, cv2 shifts the content to the right; PIL shifts it to the left. Opposite directions, same code.</p>
+          <p><strong>Result:</strong> in the ~30% of training frames where this augmentation was applied, the image moved to one side but the steering correction was still calibrated for the opposite side. The model did not learn "I'm off-center, correct toward the center" — it learned, in those frames, exactly the opposite.</p>
+        </div>
+
+        <div class="methodology-box">
+          <h4>✅ Fix Applied</h4>
+          <p>Negate <code>translation</code> in the PIL matrix: <code>(1, 0, -translation, 0, 1, 0)</code>, keeping the steering-correction formula identical to TF.</p>
+        </div>
+
+        <div class="findings-summary" style="background-color: #e8f5e9; border-left-color: #2e7d32;">
+          <h4>📈 Measured Impact</h4>
+          <p>Retraining with the fix (same dataset, same <code>turn_weight=2.0</code>): tight-curve bias dropped from <strong>-0.119 to -0.096</strong> (~19% improvement) — the largest improvement of all changes tested so far, and the first time in the entire investigation that a change is clearly visible in <code>validate_curvas.py</code>.</p>
+        </div>
+      </div>
+
+      <!-- Current Status -->
+      <div class="slide-content">
+        <h3 class="slide-header">Current Status</h3>
+        
+        <div class="status-box">
+          <h4>🔄 Retraining in Progress</h4>
+          <p>Retraining is underway on <code>dataset_w41-74400_Comp4-seed123</code> with the sign fix applied, <code>turn_weight=2.0</code>, and the V3 architecture with BatchNorm/init already matched to TF.</p>
+        </div>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>V3 architecture (BatchNorm/Dropout/tanh) actually running in <code>common/</code></td>
+              <td class="pass">✅ Done</td>
+            </tr>
+            <tr>
+              <td>BatchNorm momentum/epsilon and initialization matched to TF</td>
+              <td class="pass">✅ Done</td>
+            </tr>
+            <tr>
+              <td>Sign bug in recovery augmentation fixed</td>
+              <td class="pass">✅ Done</td>
+            </tr>
+            <tr>
+              <td>Both drivers instrumented with real position and no counting bugs</td>
+              <td class="pass">✅ Done</td>
+            </tr>
+            <tr>
+              <td>Confirm whether new model avoids original crash point (<code>x=10, y=308</code>)</td>
+              <td class="fail">❌ Pending</td>
+            </tr>
+            <tr>
+              <td>Diagnose wide curve where post-fix model still opens ~10 m</td>
+              <td class="fail">❌ Pending</td>
+            </tr>
+            <tr>
+              <td>Capture real camera frame at divergence point for direct visual inspection</td>
+              <td class="fail">❌ Pending</td>
+            </tr>
+            <tr>
+              <td>Try higher <code>--steering-smoothing</code> as additional lever, without retraining</td>
+              <td class="fail">❌ Pending</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Next Steps -->
+      <div class="slide-content">
+        <h3 class="slide-header">Next Steps When Training Finishes</h3>
+        
+        <div class="exploration-box">
+          <h4>🔜 Validation Checklist</h4>
+          <ol>
+            <li><code>check_model_load.py</code> → confirm correct load (58 keys).</li>
+            <li><code>config.json</code> → confirm <code>turn_weight: 2.0</code>, review <code>best_val_loss</code>/epochs.</li>
+            <li><code>validate_curvas.py</code> → check whether the tight-curve bias decreased.</li>
+            <li><strong>The test that really matters:</strong> run <code>driverAgent_PyTorch_fixed.py</code> at the same spawn (<code>--duration 300 --curve-speed-factor 0</code>) and see whether the car corrects the drift before <code>x≈10, y≈308</code> instead of crashing into the pole at 56 m.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Workaround -->
+      <div class="slide-content">
+        <h3 class="slide-header">Workaround: Parallel TensorFlow Training</h3>
+        
+        <div class="status-box">
+          <h4>🔄 Alternative Path While PyTorch Diagnosis Continues</h4>
+          <p>Given that training with PilotNet (PyTorch) still does not produce models with the same performance, models are being trained with <strong>TensorFlow</strong> as a workaround (each one takes approximately <strong>3 hours</strong>). In total, the training of <strong>25 models</strong> has been planned, and they have not yet finished training.</p>
+        </div>
+
+        <div class="methodology-box">
+          <h4>📊 Dataset Composition</h4>
+          <p>Following the training philosophy, <strong>progressive integrations</strong> have been developed with <strong>4,600 / 6,600 / 10,000 / 12,000 / 20,000</strong> lane-recovery examples.</p>
+          <p><strong>Objective:</strong> Find the number of recovery samples with the best performance, aiming to provide recovery capability to the best-performing model obtained so far (<strong>Week 41, comp4 seed 123</strong>).</p>
+        </div>
+
+        <div class="findings-summary">
+          <h4>📌 Rationale</h4>
+          <p>The PyTorch sign bug (PIL vs cv2) was the root cause of the failed recovery behavior. While the retrained PyTorch model is being validated, the TF pipeline is being leveraged to systematically explore the effect of recovery-sample volume on closed-loop performance — isolating the dataset-size variable from the framework-implementation variable.</p>
+        </div>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Recovery Examples</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>4,600</td>
+              <td class="improved">🔄 Training</td>
+            </tr>
+            <tr>
+              <td>6,600</td>
+              <td class="improved">🔄 Training</td>
+            </tr>
+            <tr>
+              <td>10,000</td>
+              <td class="improved">🔄 Training</td>
+            </tr>
+            <tr>
+              <td>12,000</td>
+              <td class="improved">🔄 Training</td>
+            </tr>
+            <tr>
+              <td>20,000</td>
+              <td class="improved">🔄 Training</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note">Estimated training time: ~3 hours per model × 25 models = ~75 hours total. Results pending.</div>
+      </div>
+
+      <!-- Week Summary -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 42 SUMMARY – SEPTEMBER 15, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Diagnose why the PyTorch PilotNet underperforms the TF reference model on the unseen Town02 map, and fix the root causes.</p>
+        <p>🧪 <strong>Methodologies:</strong> (1) Module-import audit and architecture verification; (2) offline curve-error validation against both models; (3) real CARLA closed-loop driving comparison with crash-position logging.</p>
+        <p>📈 <strong>Key Findings:</strong> The wrong (V1) architecture was silently being trained; offline frame-to-frame error does not predict closed-loop driving; the PyTorch model fails due to uncorrected lateral drift, not curve steering per se; PIL and cv2 interpret affine translation matrices in opposite directions, inverting the recovery augmentation signal in ~30% of training frames.</p>
+        <p>✅ <strong>Achievements:</strong> Root cause identified — an inverted sign in PIL-based lateral-translation augmentation was teaching the model to reinforce drift instead of correcting it. Fix applied and retraining started. Tight-curve bias reduced ~19% (from -0.119 to -0.096). Four additional driver bugs fixed.</p>
+        <p>❌ <strong>Limitations:</strong> Real driving performance still being validated; the wide-curve scenario remains challenging for the post-fix model; plaza and complex-intersection scenarios remain difficult for both models.</p>
+        <p>🔜 <strong>Next Steps:</strong> Complete retraining, run the full validation checklist, confirm drift correction in closed-loop CARLA driving, and diagnose the remaining wide-curve weakness.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: September 15, 2026 (Week 42)</p>
+  </footer>
+</body>
+</html>
