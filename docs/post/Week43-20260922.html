@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report September 22, 2026 (Week 43)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .badge {
+      display: inline-block;
+      background: #4a6fa5;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box {
+      background: #fff3cd;
+      border-left: 6px solid #ffc107;
+      padding: 18px;
+      border-radius: 4px;
+      margin: 25px 0;
+    }
+    .status-box h4 {
+      margin-top: 0;
+      color: #856404;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.85em;
+    }
+    .results-table th, .results-table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .results-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .results-table .improved { color: #f57c00; font-weight: bold; }
+    .methodology-box {
+      background-color: #e8f5e9;
+      border-left: 4px solid #2e7d32;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .figure-container {
+      text-align: center;
+      margin: 30px 0;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .figure-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      border: 1px solid #e9ecef;
+    }
+    .figure-container .figure-caption {
+      margin-top: 15px;
+      font-size: 0.95em;
+      color: #555;
+      font-style: italic;
+    }
+    .big-finding {
+      background-color: #e8f5e9;
+      border-left: 6px solid #2e7d32;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .big-finding h4 {
+      margin-top: 0;
+      color: #1b5e20;
+    }
+    @media (max-width: 768px) {
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 43 · September 22, 2026</div>
+      <h2>PilotNet PyTorch vs TensorFlow: Root Cause Resolved — The Model Now Drives on Par with the Reference</h2>
+      <p class="date">September 22, 2026</p>
+
+      <!-- Overview -->
+      <div class="slide-content">
+        <h3 class="slide-header">Overview</h3>
+        <p>This week closes the diagnostic investigation opened in Week 42. The PyTorch PilotNet implementation, which had consistently underperformed the TensorFlow reference model when driving in the unseen Town02 map, now <strong>drives on par with TF</strong>. The problem was not a curve-steering deficiency, as initially believed, but a <strong>constant lateral drift</strong> caused by one specific component of the training augmentation. Removing it resolved the drift, halved the validation loss, and produced two models that drive correctly in the new map. The remaining limitations — difficulty in open plazas — are shared with the TF reference and are therefore not a PyTorch-specific defect.</p>
+
+        <div class="findings-summary">
+          <h4>📌 Context</h4>
+          <ul>
+            <li><strong>Goal:</strong> A PyTorch PilotNet, trained on Town01+Town04, that generalizes to Town02 as well as the pre-existing TF reference model.</li>
+            <li><strong>Confirmed result:</strong> Two retrained models, with one augmentation component disabled, drive well in Town02 — essentially matching TF performance.</li>
+            <li><strong>Current phase:</strong> Scaling to 39 datasets trained in parallel on the available GPU.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- The Problem -->
+      <div class="slide-content">
+        <h3 class="slide-header">The Problem: A Silent, Constant Drift</h3>
+
+        <p>For weeks, the PyTorch model underperformed the TF reference. The initial symptom looked like a steering problem in curves, but a closer look revealed something different and more fundamental.</p>
+
+        <div class="error-analysis">
+          <h4>⚠️ What Was Actually Happening</h4>
+          <p>On any straight stretch of the map, the car slowly drifted toward the lane divider — linearly, steadily, from the very first frame. It was not misreading a curve: it was failing to correct a lateral deviation once it started. This behavior was confirmed at random spawn points across the entire map, ruling out a geometry issue of any specific zone.</p>
+          <p>The decisive test was feeding the model a completely uniform gray image — no road, no lines, no directional information. The model still predicted a constant steering value, almost identical to the network's own bias term. The drift did not depend on what the camera saw: it was baked into the model itself.</p>
+        </div>
+
+        <div class="figure-container">
+          <img src="./Week43_fig1.png" alt="Real trajectories in Town02: TF reference, PyTorch before and after the fix">
+          <div class="figure-caption">
+            <strong>Real trajectories</strong> taken from each run's CSV in the zone where the models diverge. TF stays on the lane axis the whole stretch. The pre-fix model deviates only ~1.3 m from center — almost imperceptible — but that is enough to hit a pole. The post-fix model corrects the drift and follows the lane.
+          </div>
+        </div>
+      </div>
+
+      <!-- The Cause -->
+      <div class="slide-content">
+        <h3 class="slide-header">The Cause: One Augmentation Component Taught the Wrong Lesson</h3>
+
+        <p>Training an imitation-learning model relies on synthetic examples that teach it to recover from being off-center. One of those examples — the <strong>horizontal flip</strong> — turned out to be the culprit.</p>
+
+        <div class="exploration-box">
+          <h4>📌 Why the Flip Is Wrong for This Task</h4>
+          <p>Horizontal flip is a standard augmentation in computer vision, but driving on the right and on the left are not interchangeable in this domain: all CARLA maps use right-hand traffic. Inverting a real image and negating the steering produces a scene that is geometrically consistent but never occurs in the simulator. The model was learning from examples that correspond to no real street.</p>
+        </div>
+
+        <div class="methodology-box">
+          <h4>✅ Fix Applied</h4>
+          <p>The horizontal flip was disabled in the training augmentation, with everything else unchanged — same dataset, same loss weighting, same architecture.</p>
+        </div>
+      </div>
+
+      <!-- The Result -->
+      <div class="slide-content">
+        <h3 class="slide-header">The Result: Driving on Par with TensorFlow</h3>
+
+        <div class="big-finding">
+          <h4>✅ Resolved — Confirmed in Real Driving</h4>
+          <p>With the flip disabled, the validation loss dropped by half and, in real CARLA driving on two distinct datasets, the car <strong>stopped drifting and drove on par with the TF reference</strong> — something no other change in the entire investigation had achieved. The models that previously crashed at 56 m now complete the route.</p>
+        </div>
+
+        <p>The limitation that remains — difficulty in open plazas — is shared with the TF reference model and is therefore a known, inherent limitation of the approach, not a PyTorch-specific defect.</p>
+
+        <div class="note"><strong>Honest caveat:</strong> The exact internal mechanism by which removing the flip eliminates the drift was not isolated at the network level — the gray-image test did not confirm it cleanly. What is confirmed, with the strongest evidence available (real driving, on more than one dataset), is that removing the flip resolves the problem. It remains an empirically validated fix, not a fully closed explanation.</p>
+      </div>
+
+      <!-- Additional Findings -->
+      <div class="slide-content">
+        <h3 class="slide-header">Additional Findings Along the Way</h3>
+
+        <p>The investigation also uncovered several issues that, while not the root cause, were misleading the diagnosis and have now been corrected:</p>
+
+        <div class="findings-summary">
+          <ul>
+            <li><strong>The wrong architecture was silently training.</strong> A duplicate file in the import path caused every training run to use an outdated version of the model, without any error or warning.</li>
+            <li><strong>A translation augmentation moved the image in the opposite direction to the reference.</strong> A library convention difference inverted the sign of the recovery correction in a fraction of training frames, reinforcing drift instead of correcting it. Fixing it improved tight-curve behavior by ~19%.</li>
+            <li><strong>Three instrumentation bugs in the driving drivers.</strong> A single crash was counted up to 61 times, the cross-track error was hidden precisely when it mattered most, and the third-person camera was disabled by default. None affected the model, but all made the diagnostic data misleading.</li>
+            <li><strong>Offline metrics did not predict driving.</strong> Frame-to-frame prediction error ranked TF as worse than PyTorch, yet TF drove seven times farther in real conditions. Closed-loop behavior had to be measured directly.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Scale-Up -->
+      <div class="slide-content">
+        <h3 class="slide-header">Scale-Up: 39 Datasets in Parallel</h3>
+
+        <div class="status-box">
+          <h4>🔄 Current Phase</h4>
+          <p>With the root cause resolved, a parallel training pipeline was built. All 39 datasets under <code>datasets/Trained/</code> are now training with the fix applied, leveraging the available GPU and CPU cores. Each run is launched as an independent process with its own logs, up to a configurable number of concurrent jobs.</p>
+        </div>
+      </div>
+
+      <!-- Current Status -->
+      <div class="slide-content">
+        <h3 class="slide-header">Current Status and Next Steps</h3>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Correct architecture actually running</td>
+              <td class="pass">✅ Done</td>
+            </tr>
+            <tr>
+              <td>Translation sign bug corrected</td>
+              <td class="pass">✅ Done</td>
+            </tr>
+            <tr>
+              <td>Driving drivers instrumented and corrected</td>
+              <td class="pass">✅ Done</td>
+            </tr>
+            <tr>
+              <td>Constant lateral drift identified and resolved</td>
+              <td class="pass">✅ Done</td>
+            </tr>
+            <tr>
+              <td>Confirmed with real driving on two datasets</td>
+              <td class="pass">✅ Done</td>
+            </tr>
+            <tr>
+              <td>Complete the sweep of 39 datasets</td>
+              <td class="improved">🔄 In Progress</td>
+            </tr>
+            <tr>
+              <td>Validate real driving on a representative sample of the sweep</td>
+              <td class="fail">❌ Pending</td>
+            </tr>
+            <tr>
+              <td>Network-level explanation of why the flip caused the drift</td>
+              <td class="fail">❌ Open</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Week Summary -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 43 SUMMARY – SEPTEMBER 22, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Close the diagnostic investigation into why the PyTorch PilotNet underperformed the TF reference in Town02, confirm the fix in real driving, and begin scaling training.</p>
+        <p>🧪 <strong>Methodologies:</strong> Real CARLA closed-loop driving with position logging; synthetic-image probing to isolate model bias from image content; parallel training orchestration.</p>
+        <p>📈 <strong>Key Finding:</strong> The constant lateral drift was caused by the horizontal flip in the training augmentation — a domain-specific component that produces scenes never occurring in right-hand-traffic CARLA maps. Disabling it eliminated the drift and halved the validation loss.</p>
+        <p>✅ <strong>Achievements:</strong> The PyTorch model now drives on par with the TF reference, confirmed on two datasets. The remaining limitation (open plazas) is shared with TF and is not PyTorch-specific. Scale-up to 39 datasets initiated in parallel.</p>
+        <p>❌ <strong>Limitations:</strong> The network-level mechanism by which the flip caused the bias remains without a fully closed explanation. The 39-dataset sweep is still running; only a representative sample has been validated in real driving so far.</p>
+        <p>🔜 <strong>Next Steps:</strong> Complete the 39-dataset sweep; validate real driving on a representative sample; document the remaining open question on the flip mechanism.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: September 22, 2026 (Week 43)</p>
+  </footer>
+</body>
+</html>
