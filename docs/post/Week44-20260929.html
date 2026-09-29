@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report September 29, 2026 (Week 44)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .badge {
+      display: inline-block;
+      background: #4a6fa5;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box {
+      background: #fff3cd;
+      border-left: 6px solid #ffc107;
+      padding: 18px;
+      border-radius: 4px;
+      margin: 25px 0;
+    }
+    .status-box h4 {
+      margin-top: 0;
+      color: #856404;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.85em;
+    }
+    .results-table th, .results-table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .results-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .results-table .improved { color: #f57c00; font-weight: bold; }
+    .methodology-box {
+      background-color: #e8f5e9;
+      border-left: 4px solid #2e7d32;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .figure-container {
+      text-align: center;
+      margin: 30px 0;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .figure-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      border: 1px solid #e9ecef;
+    }
+    .figure-container .figure-caption {
+      margin-top: 15px;
+      font-size: 0.95em;
+      color: #555;
+      font-style: italic;
+    }
+    .big-finding {
+      background-color: #e8f5e9;
+      border-left: 6px solid #2e7d32;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .big-finding h4 {
+      margin-top: 0;
+      color: #1b5e20;
+    }
+    .video-link {
+      display: inline-block;
+      background-color: #c62828;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 15px 0;
+      transition: background-color 0.2s;
+    }
+    .video-link:hover {
+      background-color: #b71c1c;
+    }
+    .metric-def {
+      background-color: #f8f9fa;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+    .metric-def h5 {
+      margin-top: 0;
+      color: #2c3e50;
+      font-size: 1em;
+    }
+    .formula {
+      background-color: #f1f3f5;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+      margin: 8px 0;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 44 · September 29, 2026</div>
+      <h2>Driving Metrics Framework, Best Model to Date, and First Steps with Behavior Metrics</h2>
+      <p class="date">September 29, 2026</p>
+
+      <!-- ========================================================= -->
+      <!-- PART 1: EVALUATION METRICS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">📊 Part 1 — Evaluation Metrics Before Behavior Metrics</h3>
+        <p>Before integrating an external evaluation framework (Behavior Metrics), we consolidated a set of driving quality metrics that we had been developing in-house. These metrics are computed by the <code>LaneMonitor</code> class, which updates every frame in both the PyTorch and TensorFlow drivers. All metrics are identical across frameworks, ensuring fair comparison. This section summarizes the exact definitions and formulas behind each one.</p>
+
+        <div class="findings-summary">
+          <h4>📌 Why This Matters</h4>
+          <p>Closed-loop driving quality cannot be reduced to a single number. A model can stay on the road but oscillate constantly, or take curves well but at dangerous speeds. The <code>LaneMonitor</code> breaks down driving quality into orthogonal dimensions: lane keeping, smoothness, efficiency, curve handling, speed adaptation, and lateral zigzag.</p>
+        </div>
+
+        <!-- Lane Keeping -->
+        <div class="metric-def">
+          <h5>🛣️ Correct Driving / Inside-Lane State</h5>
+          <p>Every frame, <code>LaneMonitor.update()</code> queries CARLA for the nearest waypoint to the driving lane and evaluates three conditions in order:</p>
+          <ol>
+            <li><strong>Is there a <code>Driving</code>-type waypoint?</strong> If not, the frame is marked "outside" (no driving waypoint or wrong lane type).</li>
+            <li><strong>Distance to lane center:</strong> <code>distance_to_center = distance(vehicle, waypoint_center)</code>. If it exceeds <code>lane_width * 0.7</code>, the frame is marked outside ("Outside center").</li>
+            <li><strong>Angle with respect to the lane:</strong> <code>angle_diff = normalize(vehicle_yaw - lane_yaw)</code>. If <code>|angle_diff| &gt; 80°</code>, the vehicle is considered crossing or going against traffic, and also counts as outside.</li>
+          </ol>
+          <p>Only if all three conditions pass is the frame marked <code>is_inside = True</code> with reason "Correct driving". Every transition from inside to outside counts as a lane invasion event (<code>lane_invasion_count</code>).</p>
+        </div>
+
+        <div class="metric-def">
+          <h5>📉 Percentage Outside Lane</h5>
+          <span class="formula">outside_percentage = (outside_time / total_driving_time) * 100</span>
+          <p><code>outside_time</code> accumulates, frame by frame, the real elapsed time (<code>dt</code>) of all frames where <code>is_inside = False</code>. It is <strong>not a frame count</strong>: it is accumulated real time, so a brief exit at high speed does not weigh the same as a long exit at low speed.</p>
+        </div>
+
+        <!-- Smoothness -->
+        <div class="metric-def">
+          <h5>🎯 Driving Smoothness</h5>
+          <span class="formula">smoothness_score = (smooth_steering_events / steering_changes) * 100</span>
+          <p>Each frame computes <code>steering_change = |steering_current - steering_previous|</code>. If that change is less than <code>0.05</code>, it counts as "smooth" (<code>smooth_steering_events</code>); if it exceeds <code>0.3</code>, it counts as "aggressive" (<code>aggressive_steering_events</code>, tracked but not directly printed). Smoothness is the percentage of frames where the steering wheel did not make sudden jumps between consecutive frames.</p>
+        </div>
+
+        <!-- Efficiency -->
+        <div class="metric-def">
+          <h5>⚡ Efficiency (Proposed Metric)</h5>
+          <span class="formula">efficiency_ratio = throttle_accumulated / max(1, brake_accumulated + 0.001)</span>
+          <p>This is a <strong>proposed metric</strong> that is not yet fully validated for this project. <code>throttle_accumulated</code> and <code>brake_accumulated</code> are the frame-by-frame sums of the throttle and brake values applied (0.0–1.0 each) over the entire run. It is a ratio, not a percentage: the higher, the less the vehicle braked relative to how much it accelerated.</p>
+          <div class="note"><strong>Note:</strong> In the current model, a <strong>constant speed of 15 km/h</strong> is maintained throughout the run, so this metric is not yet discriminative between models. It remains a proposal for future evaluations where speed control becomes a variable of interest.</div>
+        </div>
+
+        <!-- Curve Quality -->
+        <div class="metric-def">
+          <h5>🔄 Curve-Taking Quality</h5>
+          <p>A curve episode is defined as a contiguous stretch of frames with <code>|steering| &gt; curve_enter_threshold (0.15)</code>. To avoid fragmenting a curve due to noise, the episode does not end until <code>|steering|</code> drops below <code>curve_exit_threshold (0.05)</code> — hysteresis.</p>
+          <p>During each episode, the following are tracked:</p>
+          <ul>
+            <li><strong><code>max_cross_track_error</code>:</strong> maximum distance to lane center reached in that stretch.</li>
+            <li><strong><code>had_lane_exit</code>:</strong> whether at any frame of the curve <code>is_inside = False</code>.</li>
+            <li><strong><code>oscillations</code>:</strong> every sign inversion of steering within the same curve (while <code>|steering| &gt; 0.05</code>) — a sign of overcorrection.</li>
+          </ul>
+          <p>The final report computes:</p>
+          <span class="formula">turn_success_rate = (1 - curve_episodes_with_lane_exit / curve_episodes_count) * 100</span>
+          <span class="formula">avg_cte_in_turns = curve_max_cte_sum / curve_episodes_count</span>
+          <span class="formula">avg_oscillations_per_turn = curve_oscillations_total / curve_episodes_count</span>
+          <ul>
+            <li><strong>turn_success_rate:</strong> % of curves taken without leaving the lane at any moment.</li>
+            <li><strong>avg_cte_in_turns:</strong> how far from center the vehicle gets, on average, in curves.</li>
+            <li><strong>avg_oscillations_per_turn:</strong> how many times, on average, the model overcorrects (zigzag) within the same curve.</li>
+          </ul>
+        </div>
+
+        <!-- Speed -->
+        <div class="metric-def">
+          <h5>🏎️ Speed in Sharp Curves vs. Straight</h5>
+          <span class="formula">avg_speed_sharp_turns = sharp_turn_speed_sum / sharp_turn_speed_samples  # |steering| &gt; 0.6</span>
+          <span class="formula">avg_speed_straight = straight_speed_sum / straight_speed_samples  # |steering| &lt; 0.05</span>
+          <span class="formula">speed_reduction_in_turns_pct = (1 - avg_speed_sharp_turns / avg_speed_straight) * 100</span>
+          <p>Each frame of <code>update_speed_metrics</code> is classified according to the current steering: if it is a sharp curve (same threshold as "sharp turn", 0.6) it adds to the curve speed accumulator; if it is a straight stretch (<code>|steering| &lt; 0.05</code>) it adds to the straight one. The reduction compares both averages: it measures whether the model actually brakes when turning hard, or maintains the same speed regardless of the curve — which would be a problem even if it takes the curve geometrically well.</p>
+        </div>
+
+        <!-- Zigzag -->
+        <div class="metric-def">
+          <h5>〰️ Lateral Zigzag (Steering Oscillation)</h5>
+          <p>Unlike "per-curve" oscillations, this measures zigzag over the entire run, including straight stretches:</p>
+          <ul>
+            <li><strong>Zero crossings:</strong> every sign inversion of steering (ignoring <code>|steering| &lt; 0.05</code> as normal noise/jitter). The total and the rate are reported: <code>steering_zero_crossings_per_sec = global_zero_crossings / total_driving_time</code>.</li>
+            <li><strong>Steering standard deviation (<code>steering_std</code>):</strong> <code>np.std()</code> of the entire steering history of the run — how much the steering wheel varies in general, regardless of sign.</li>
+            <li><strong>Dominant oscillation frequency (FFT):</strong> the mean is subtracted from the steering history (to discard constant bias) and <code>np.fft.rfft</code> is applied. The frequency-0 component (DC) is ignored and the one with the largest magnitude is taken:</li>
+          </ul>
+          <span class="formula">avg_dt = total_driving_time / (total_frames - 1)</span>
+          <span class="formula">spectrum = |FFT(steering - mean(steering))|</span>
+          <span class="formula">dominant_frequency = frequency with largest magnitude (excluding 0 Hz)</span>
+          <span class="formula">dominant_period = 1 / dominant_frequency</span>
+          <p>This distinguishes a periodic zigzag (a symptom of something systematic, such as an exponential smoother bouncing or an overcorrection repeating every N seconds) from simple random model noise. A high and consistent <code>dominant_oscillation_hz</code> across runs is more concerning than a high <code>steering_std</code> alone, because it indicates a pattern, not just variability.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 2: BEST MODEL TO DATE -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🏆 Part 2 — Best Driving Model to Date</h3>
+
+        <div class="big-finding">
+          <h4>✅ Best Model Achieved: Composition 1, Seed 456 (Week 40)</h4>
+          <p>We have obtained the best driving model to date using <strong>composition 1 with seed 456</strong>, created in Week 40. This model, identified as <code>w40_comp9_seed456</code>, completed a 15-minute continuous drive in CARLA with <strong>zero collisions</strong> and a <strong>lane departure percentage of only 3.73%</strong>. The full demonstration video is available below.</p>
+        </div>
+
+        <a href="https://www.youtube.com/watch?v=FInBhB1mZAY" class="video-link" target="_blank">▶️ Watch the 15-minute continuous driving demonstration</a>
+
+        <h4>📈 Quantitative Results</h4>
+        <p>The following table summarizes the key metrics from the best run (<code>run_number 235</code>, September 28, 2026):</p>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Value</th>
+              <th>Interpretation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Total time</td>
+              <td>900.01 s (15 min)</td>
+              <td class="pass">✅ Continuous driving without interruption</td>
+            </tr>
+            <tr>
+              <td>Collisions</td>
+              <td>0</td>
+              <td class="pass">✅ No collisions in 15 minutes</td>
+            </tr>
+            <tr>
+              <td>Distance traveled</td>
+              <td>3733.9 m</td>
+              <td class="pass">✅ ~3.7 km covered</td>
+            </tr>
+            <tr>
+              <td>Outside lane percentage</td>
+              <td>3.73%</td>
+              <td class="pass">✅ Low lane departure rate</td>
+            </tr>
+            <tr>
+              <td>Smoothness</td>
+              <td>98.9%</td>
+              <td class="pass">✅ Very smooth steering</td>
+            </tr>
+            <tr>
+              <td>Curves taken</td>
+              <td>84</td>
+              <td class="pass">✅ Good curve sample</td>
+            </tr>
+            <tr>
+              <td>Curves with lane exit</td>
+              <td>15</td>
+              <td class="fail">❌ 17.9% of curves had a lane exit</td>
+            </tr>
+            <tr>
+              <td>Curve success rate</td>
+              <td>82.1%</td>
+              <td class="improved">⚠️ 82.1% of curves taken cleanly</td>
+            </tr>
+            <tr>
+              <td>Avg. max CTE in curves</td>
+              <td>0.8 m</td>
+              <td class="improved">⚠️ Moderate deviation in curves</td>
+            </tr>
+            <tr>
+              <td>Avg. oscillations per curve</td>
+              <td>0.0</td>
+              <td class="pass">✅ No overcorrection within curves</td>
+            </tr>
+            <tr>
+              <td>Steering zero crossings</td>
+              <td>510</td>
+              <td class="improved">⚠️ Notable lateral oscillation</td>
+            </tr>
+            <tr>
+              <td>Zero crossings per second</td>
+              <td>0.57 /s</td>
+              <td class="improved">⚠️ ~1 oscillation every 1.75 s</td>
+            </tr>
+            <tr>
+              <td>Steering std</td>
+              <td>0.083</td>
+              <td class="improved">⚠️ Moderate steering variability</td>
+            </tr>
+            <tr>
+              <td>Dominant oscillation frequency</td>
+              <td>0.02 Hz</td>
+              <td class="improved">⚠️ Low-frequency zigzag pattern</td>
+            </tr>
+            <tr>
+              <td>Dominant oscillation period</td>
+              <td>47.37 s</td>
+              <td class="improved">⚠️ Periodic pattern every ~47 s</td>
+            </tr>
+            <tr>
+              <td>Framework</td>
+              <td>PyTorch</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="error-analysis">
+          <h4>⚠️ Observed Limitations</h4>
+          <p>The metrics reveal two clear limitations of this model:</p>
+          <ul>
+            <li><strong>Oscillations on straight stretches:</strong> The model shows 510 steering zero crossings (0.57/s), a steering standard deviation of 0.083, and a dominant oscillation frequency of 0.02 Hz (period ~47 s). This indicates a low-frequency zigzag pattern on straight roads — not random noise, but a systematic periodic correction.</li>
+            <li><strong>Lane exits during curves:</strong> Of the 84 curves taken, 15 (17.9%) involved a lane exit. The average maximum cross-track error in curves is 0.8 m, meaning the vehicle deviates noticeably from the lane center during turns. The curve success rate is 82.1%.</li>
+          </ul>
+        </div>
+
+        <div class="big-finding">
+          <h4>✅ Despite the Limitations: Continuous, Collision-Free Driving</h4>
+          <p>Despite these issues, <strong>the model never leaves the road</strong>. Even when it exits the lane during a curve, it <strong>recovers correctly</strong>, achieving continuous driving without collisions. The demonstration video shows a <strong>15-minute uninterrupted drive</strong> with 3.7 km traveled and zero collisions — the best result obtained to date.</p>
+        </div>
+
+        <div class="status-box">
+          <h4>🔄 New Models Currently in Training</h4>
+          <p>Based on the successful configuration from Week 40 (composition 1, seed 456), <strong>new models are currently being trained</strong> in search of variants that maintain the collision-free performance of the current best model while improving two specific weaknesses:</p>
+          <ul>
+            <li><strong>Reduce lane exits during curves</strong> — currently 17.9% of curves involve a lane departure.</li>
+            <li><strong>Decrease straight-line oscillations</strong> — currently 0.57 steering zero crossings per second with a dominant 47-second periodic pattern.</li>
+          </ul>
+          <p>The goal is to find a configuration that preserves the 15-minute continuous, collision-free driving capability while delivering smoother, more stable lane-keeping behavior.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 3: BEHAVIOR METRICS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🚀 Part 3 — Starting Work with Behavior Metrics</h3>
+
+        <div class="status-box">
+          <h4>🔄 Current Phase: Initial Setup</h4>
+          <p>We have begun the process of integrating <strong>Behavior Metrics</strong> as an external evaluation framework for our driving models. Work is currently focused on <strong>operating system configuration</strong> for installation and operation.</p>
+        </div>
+
+        <div class="methodology-box">
+          <h4>✅ Work Completed So Far</h4>
+          <ul>
+            <li><strong>OS-level configuration:</strong> Preparation of the environment for installing Behavior Metrics dependencies.</li>
+            <li><strong>ROS bridge installation:</strong> Initial setup of the ROS bridge to enable communication between Behavior Metrics and the CARLA simulator.</li>
+          </ul>
+        </div>
+
+        <div class="exploration-box">
+          <h4>📌 Current Bottleneck</h4>
+          <p>No major progress has been made yet due to <strong>version compatibility issues</strong> across all the packages that need to be installed. The ROS bridge, Behavior Metrics, and CARLA all have specific version requirements that must be aligned. This is the main obstacle at the moment.</p>
+        </div>
+
+        <div class="findings-summary">
+          <h4>📌 Next Steps for Behavior Metrics</h4>
+          <ul>
+            <li>Resolve package version compatibility between ROS bridge, Behavior Metrics, and CARLA.</li>
+            <li>Complete the ROS bridge installation and verify communication with CARLA.</li>
+            <li>Run a first test evaluation of the best model (<code>w40_comp9_seed456</code>) using Behavior Metrics.</li>
+            <li>Compare Behavior Metrics results with the in-house <code>LaneMonitor</code> metrics presented in Part 1.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- WEEK SUMMARY -->
+      <!-- ========================================================= -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 44 SUMMARY – SEPTEMBER 29, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Consolidate the driving evaluation metrics, document the best model to date, and begin integration with Behavior Metrics.</p>
+        <p>🧪 <strong>Methodologies:</strong> Frame-by-frame <code>LaneMonitor</code> tracking in both PyTorch and TF drivers; closed-loop CARLA driving with position logging; FFT-based oscillation analysis.</p>
+        <p>📈 <strong>Key Findings:</strong> The evaluation framework captures six orthogonal dimensions of driving quality: lane keeping, smoothness, efficiency, curve handling, speed adaptation, and lateral zigzag. The best model to date (<code>w40_comp9_seed456</code>, composition 1, seed 456, Week 40) completed a 15-minute continuous drive with 0 collisions, 3.73% outside-lane time, and 98.9% smoothness, but exhibits periodic straight-line oscillations (0.57 zero crossings/s, 47.37 s dominant period) and 17.9% curve lane exits.</p>
+        <p>✅ <strong>Achievements:</strong> Best model to date validated with a 15-minute continuous, collision-free drive. Full evaluation metrics documented and formalized. Behavior Metrics installation started with ROS bridge setup. New models based on the Week 40 successful configuration are currently in training.</p>
+        <p>❌ <strong>Limitations:</strong> The best model still oscillates on straight stretches and exits the lane in 17.9% of curves (though it always recovers). Efficiency metric is proposed but not yet discriminative due to constant 15 km/h speed. Behavior Metrics integration is blocked by package version compatibility issues.</p>
+        <p>🔜 <strong>Next Steps:</strong> Resolve Behavior Metrics dependency versions, complete ROS bridge installation, run first external evaluation, and compare with in-house metrics. Continue training new models to reduce curve lane exits and straight-line oscillations while preserving collision-free driving.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: September 29, 2026 (Week 44)</p>
+  </footer>
+</body>
+</html>
