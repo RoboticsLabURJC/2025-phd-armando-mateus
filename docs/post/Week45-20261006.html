@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report October 6, 2026 (Week 45)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .slide-header {
+      color: #2c3e50;
+      border-bottom: 3px solid #4a6fa5;
+      padding-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+    .exploration-box {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .error-analysis {
+      background-color: #ffebee;
+      border-left: 4px solid #c62828;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+    .findings-summary {
+      background-color: #f5f5f5;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .week-banner {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .badge {
+      display: inline-block;
+      background: #4a6fa5;
+      color: white;
+      border-radius: 12px;
+      padding: 2px 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box {
+      background: #fff3cd;
+      border-left: 6px solid #ffc107;
+      padding: 18px;
+      border-radius: 4px;
+      margin: 25px 0;
+    }
+    .status-box h4 {
+      margin-top: 0;
+      color: #856404;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      font-size: 0.85em;
+    }
+    .results-table th, .results-table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .results-table th {
+      background-color: #e9ecef;
+      font-weight: bold;
+    }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .results-table .improved { color: #f57c00; font-weight: bold; }
+    .methodology-box {
+      background-color: #e8f5e9;
+      border-left: 4px solid #2e7d32;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .figure-container {
+      text-align: center;
+      margin: 30px 0;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .figure-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      border: 1px solid #e9ecef;
+    }
+    .figure-container .figure-caption {
+      margin-top: 15px;
+      font-size: 0.95em;
+      color: #555;
+      font-style: italic;
+    }
+    .big-finding {
+      background-color: #e8f5e9;
+      border-left: 6px solid #2e7d32;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .big-finding h4 {
+      margin-top: 0;
+      color: #1b5e20;
+    }
+    .video-link {
+      display: inline-block;
+      background-color: #c62828;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 15px 0;
+      transition: background-color 0.2s;
+    }
+    .video-link:hover {
+      background-color: #b71c1c;
+    }
+    .metric-def {
+      background-color: #f8f9fa;
+      border-left: 4px solid #4a6fa5;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+    .metric-def h5 {
+      margin-top: 0;
+      color: #2c3e50;
+      font-size: 1em;
+    }
+    .formula {
+      background-color: #f1f3f5;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+      margin: 8px 0;
+      display: block;
+    }
+    .code-block {
+      background-color: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      margin: 15px 0;
+      line-height: 1.5;
+    }
+    .code-block .comment { color: #75715e; }
+    .code-block .keyword { color: #66d9ef; }
+    .code-block .string { color: #e6db74; }
+    .problem-solution {
+      background-color: #f3e5f5;
+      border-left: 4px solid #7b1fa2;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+    .problem-solution h5 {
+      margin-top: 0;
+      color: #4a148c;
+      font-size: 1em;
+    }
+    @media (max-width: 768px) {
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 45 · October 6, 2026</div>
+      <h2>CUDA Training Randomness and Behavior Metrics: First Successful Run with CARLA in Docker</h2>
+      <p class="date">October 6, 2026</p>
+
+      <!-- ========================================================= -->
+      <!-- PART 1: CUDA RANDOMNESS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🎲 Part 1 — CUDA Training Randomness: Why the Same Seed Produces Different Models</h3>
+
+        <div class="findings-summary">
+          <h4>📌 The Problem in One Sentence</h4>
+          <p>The training script fixes the PyTorch seed, but the GPU computes convolutions with algorithms that do not guarantee bit-for-bit identical results. That minimal difference grows with every training step until it produces completely different models.</p>
+        </div>
+
+        <h4>🔍 How the Problem Was Found</h4>
+        <p>While running <code>entrenar_definitivo.py</code> with the same dataset and the same <code>--seed 42</code>, we noticed that each run produced a model with different <code>best_val_loss</code> and different driving behavior. At first this seemed impossible: the seed was fixed, so the weights initialization, dropout, and batch order should all be identical. To investigate, we ran the same command twice with a small number of epochs and compared the per-epoch <code>train_mse</code> and <code>val_mse</code> lines:</p>
+
+        <div class="code-block">
+          python entrenar_definitivo.py --csv datasets/&lt;dataset&gt;/data.csv --epochs 3 --seed 42 &gt; a.txt<br>
+          python entrenar_definitivo.py --csv datasets/&lt;dataset&gt;/data.csv --epochs 3 --seed 42 &gt; b.txt<br>
+          diff &lt;(cut -d'(' -f1 a.txt) &lt;(cut -d'(' -f1 b.txt) &amp;&amp; echo "IDÉNTICAS"
+        </div>
+
+        <p>The <code>cut</code> removes the per-epoch time (which always varies). The result was <strong>not</strong> "IDÉNTICAS": the losses diverged starting from the very first epochs, even though the seed was the same. This confirmed that the source of randomness was not in the Python-level seeding but deeper, in the GPU computation itself.</p>
+
+        <div class="error-analysis">
+          <h4>⚠️ What Is Fixed and What Is Not</h4>
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Source of Randomness</th>
+                <th>Status</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Train / val split</td>
+                <td class="pass">✅ Fixed</td>
+                <td>Uses <code>np.random.RandomState(seed)</code></td>
+              </tr>
+              <tr>
+                <td>Initial weights, dropout, batch order</td>
+                <td class="pass">✅ Fixed</td>
+                <td>Depend on <code>torch.manual_seed(args.seed)</code></td>
+              </tr>
+              <tr>
+                <td>Augmentation (flip, brightness, translation)</td>
+                <td class="improved">⚠️ Fixed but fragile</td>
+                <td>Uses Python's <code>random</code>, which the script does not seed. It is saved because PyTorch reseeds <code>random</code> in each DataLoader worker. With <code>num_workers=0</code> it would stop being reproducible.</td>
+              </tr>
+              <tr>
+                <td>GPU convolutions (cuDNN)</td>
+                <td class="fail">❌ Not fixed</td>
+                <td>Some algorithms, especially in gradient computation, sum in an order that varies between runs.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>🧩 How a Minimal Difference Ends in a Different Model</h4>
+        <div class="metric-def">
+          <h5>1. Rounding</h5>
+          <p>In floating point, adding the same numbers in different order gives results that differ in the last decimal, on the order of <code>1e-7</code>. cuDNN does not fix that order because not fixing it is faster.</p>
+        </div>
+        <div class="metric-def">
+          <h5>2. Accumulation</h5>
+          <p>That barely different gradient changes the weights slightly, which changes the next gradient. After thousands of batches, the two runs are already on different paths.</p>
+        </div>
+        <div class="metric-def">
+          <h5>3. Thresholds</h5>
+          <p>The script makes yes/no decisions based on <code>val_mse</code>: saving <code>model_best.pth</code>, lowering the LR (<code>ReduceLROnPlateau</code>), and early stopping, all with <code>min_delta = 1e-4</code>. If one run improves by 0.00011 and another by 0.00009, one resets the patience counter and the other does not. From there they diverge completely: different LR, different number of epochs, different saved model.</p>
+        </div>
+
+        <div class="exploration-box">
+          <h4>📌 Proposed Solution — Three Levels of Determinism</h4>
+          <p>The following is a <strong>proposed solution</strong> to be applied to the training script. It is structured in three levels of increasing strictness.</p>
+        </div>
+
+        <div class="methodology-box">
+          <h4>✅ Level 1 — Seed Everything and Request Deterministic cuDNN Algorithms</h4>
+          <p>In <code>main()</code>, replace the line <code>torch.manual_seed(args.seed)</code> with:</p>
+          <div class="code-block">
+            random.seed(args.seed)<br>
+            np.random.seed(args.seed)<br>
+            torch.manual_seed(args.seed)<br>
+            torch.backends.cudnn.deterministic = True<br>
+            torch.backends.cudnn.benchmark = False
+          </div>
+          <p>For this model, this is usually enough. Training may become somewhat slower.</p>
+        </div>
+
+        <div class="methodology-box">
+          <h4>✅ Level 2 — Strict Mode, If Level 1 Is Not Enough</h4>
+          <p>At the beginning of the file, before importing torch:</p>
+          <div class="code-block">
+            os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+          </div>
+          <p>And in <code>main()</code>, after the Level 1 lines:</p>
+          <div class="code-block">
+            torch.use_deterministic_algorithms(True)
+          </div>
+          <p>In this mode PyTorch raises an error if any operation does not have a deterministic version, and the message says which one. If you prefer a warning instead of an error, use <code>torch.use_deterministic_algorithms(True, warn_only=True)</code>.</p>
+        </div>
+
+        <div class="methodology-box">
+          <h4>✅ Level 3 — Shield the DataLoader</h4>
+          <p>Make augmentation not depend on the internal detail of the workers. In <code>train_one_dataset</code>, before creating the loaders:</p>
+          <div class="code-block">
+            def seed_worker(worker_id):<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;s = torch.initial_seed() % 2**32<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;random.seed(s)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;np.random.seed(s)<br>
+            <br>
+            g = torch.Generator()<br>
+            g.manual_seed(seed)
+          </div>
+          <p>And add to <code>train_loader</code> these two arguments:</p>
+          <div class="code-block">
+            worker_init_fn=seed_worker, generator=g,
+          </div>
+        </div>
+
+        <div class="status-box">
+          <h4>🧪 How to Verify It Worked</h4>
+          <p>Run the same command twice with a few epochs and compare the per-epoch lines:</p>
+          <div class="code-block">
+            python entrenar_definitivo.py --csv datasets/&lt;dataset&gt;/data.csv --epochs 3 --seed 42 &gt; a.txt<br>
+            python entrenar_definitivo.py --csv datasets/&lt;dataset&gt;/data.csv --epochs 3 --seed 42 &gt; b.txt<br>
+            diff &lt;(cut -d'(' -f1 a.txt) &lt;(cut -d'(' -f1 b.txt) &amp;&amp; echo "IDÉNTICAS"
+          </div>
+          <p>If it prints <strong>IDÉNTICAS</strong>, <code>train_mse</code> and <code>val_mse</code> match to the sixth decimal and training is repeatable. If there are differences, move to Level 2.</p>
+        </div>
+
+        <div class="findings-summary">
+          <h4>📌 Limits of This Solution</h4>
+          <ul>
+            <li><strong>Only in the same environment.</strong> Repeatability holds for the same GPU, the same PyTorch, CUDA, and cuDNN versions. If the environment is reinstalled, the same seed may give a different result.</li>
+            <li><strong>Does not recover a previous run.</strong> Training done weeks ago was without determinism, so no seed reproduces it exactly. These changes guarantee that runs from now on can be repeated.</li>
+            <li><strong>Repeatable does not mean better.</strong> Fixing randomness gives you always the same sample of noise. To know if a configuration is good, train it with several seeds (<code>--seed 1</code>, <code>2</code>, <code>3</code>) and compare.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 2: BEHAVIOR METRICS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🚀 Part 2 — Behavior Metrics with CARLA in Docker: First Successful Run</h3>
+
+        <div class="big-finding">
+          <h4>✅ Behavior Metrics Is Now Running on Ubuntu 26.04 with an RTX 5070</h4>
+          <p>Behavior Metrics now drives a Tesla in CARLA 0.9.15 and saves metrics. Two items remain pending: displaying the image in the <code>frame_0</code> panel and connecting the PilotNet model.</p>
+        </div>
+
+        <h4>🔧 How It Works</h4>
+        <p>Behavior Metrics is a JdeRobot tool that puts a "brain" to drive in a simulator and measures how well it does, to compare brains under the same conditions.</p>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Piece</th>
+              <th>What It Does</th>
+              <th>In This Installation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Simulator</td>
+              <td>Provides the world, car, and sensors</td>
+              <td>CARLA 0.9.15 in Docker container <code>carla-bm</code>, port 2000</td>
+            </tr>
+            <tr>
+              <td>Config YAML</td>
+              <td>Defines car, sensors, brain, map, and where to save results</td>
+              <td><code>configs/CARLA/default_carla_api.yml</code></td>
+            </tr>
+            <tr>
+              <td>Driver</td>
+              <td>Reads the YAML, creates the world, and connects everything; <code>-g</code> opens the interface</td>
+              <td><code>driver_carla.py</code></td>
+            </tr>
+            <tr>
+              <td>Brain</td>
+              <td>Python script that receives sensors and returns throttle, steering, and brake</td>
+              <td><code>brain_carla_slow_and_turn_api.py</code> (simple rules, no neural network)</td>
+            </tr>
+            <tr>
+              <td>Metrics</td>
+              <td>Step-by-step log (CSV) and summary (JSON) of each recording</td>
+              <td>Folder with date and time inside <code>behavior_metrics/</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="methodology-box">
+          <h4>✅ Installation Steps Followed</h4>
+          <p>These are the commands that left the environment working; <code>pip check</code> finished without conflicts. They only need to be repeated if reinstalling.</p>
+
+          <h5>1. Clone the repository (<code>noetic-devel</code> branch, the main one):</h5>
+          <div class="code-block">
+            cd ~ &amp;&amp; git clone https://github.com/JdeRobot/BehaviorMetrics
+          </div>
+
+          <h5>2. Environment and base dependencies. PyTorch, TensorFlow, and TensorBoard are excluded because the file versions are incompatible with each other and with the GPU:</h5>
+          <div class="code-block">
+            cd ~/BehaviorMetrics<br>
+            python3.10 -m venv .venv &amp;&amp; source .venv/bin/activate<br>
+            pip install -U pip wheel<br>
+            grep -vE "(torch|torchvision|tensorflow|tensorboard|pathlib)==" requirements.txt &gt; requirements-base.txt<br>
+            pip install -r requirements-base.txt
+          </div>
+
+          <h5>3. ML libraries and CARLA client. numpy stays at 1.26.4 because pandas, scipy, and gym from the repo fail with numpy 2:</h5>
+          <div class="code-block">
+            pip install torch==2.11.0 torchvision==0.26.0 "numpy==1.26.4" \<br>
+            &nbsp;&nbsp;--index-url https://download.pytorch.org/whl/cu128 \<br>
+            &nbsp;&nbsp;--extra-index-url https://pypi.org/simple<br>
+            pip install tensorflow==2.21.0 "numpy==1.26.4"<br>
+            pip install carla==0.9.15
+          </div>
+
+          <h5>4. Bird's-eye view and interface resources:</h5>
+          <div class="code-block">
+            cd ~/BehaviorMetrics/behavior_metrics<br>
+            git clone https://github.com/Qi-Zha0/carla-birdeye-view<br>
+            pyrcc5 -o ui/gui/resources/resources.py ui/gui/resources/resources.qrc
+          </div>
+
+          <h5>5. Simulator image:</h5>
+          <div class="code-block">
+            sudo docker pull carlasim/carla:0.9.15
+          </div>
+
+          <p><strong>Verification obtained:</strong> <code>torch 2.11.0+cu128 True | numpy 1.26.4, tf 2.21.0</code> and <code>No broken requirements found.</code></p>
+        </div>
+
+        <div class="exploration-box">
+          <h4>📌 Patch to Use CARLA in Docker</h4>
+          <p>Without this change, Behavior Metrics closes your simulator on startup. The <code>launch_env</code> function in <code>utils/environment.py</code> does three things:</p>
+          <ol>
+            <li>Calls <code>close_ros_and_simulators()</code>, which runs <code>killall -9</code> on <code>CarlaUE4.sh</code> and <code>CarlaUE4-Linux-Shipping</code>. The container process is visible from the system, so it kills it.</li>
+            <li>Requires the <code>CARLA_ROOT</code> variable, even though it only uses it if it has to launch CARLA on its own.</li>
+            <li>Checks if a CARLA is already running and, if so, does not launch another.</li>
+          </ol>
+          <p>The patch adds an escape hatch controlled by the environment variable <code>BM_EXTERNAL_CARLA=1</code>. It was applied once and left a copy of the original in <code>utils/environment.py.bak</code>:</p>
+          <div class="code-block">
+            cd ~/BehaviorMetrics/behavior_metrics<br>
+            sed -i.bak '/^def close_ros_and_simulators/a\&nbsp;&nbsp;&nbsp;&nbsp;if os.environ.get("BM_EXTERNAL_CARLA") == "1":\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return' environment.py
+          </div>
+          <p>With <code>CARLA_ROOT=/tmp</code>, point 2 is satisfied, and point 3 already plays in our favor: the output shows <code>Carla running: True</code>.</p>
+          <p class="note"><strong>Limitation:</strong> with closing disabled, Behavior Metrics does not clean the world when finished. Restart the container between sessions to start clean.</p>
+        </div>
+
+        <div class="methodology-box">
+          <h4>✅ Session Startup</h4>
+          <p>Two terminals are needed: first the simulator, then Behavior Metrics.</p>
+
+          <h5>Terminal 1: simulator. Stop your CARLA 0.9.14 containers first, because they use conflicting ports. Wait until the CARLA window shows the map.</h5>
+          <div class="code-block">
+            sudo docker rm -f carla-server carla_montado carla-bm 2&gt;/dev/null<br>
+            sudo docker run -d --name carla-bm --privileged --gpus all \<br>
+            &nbsp;&nbsp;--net=host \<br>
+            &nbsp;&nbsp;--env="DISPLAY" \<br>
+            &nbsp;&nbsp;--env="NVIDIA_VISIBLE_DEVICES=all" \<br>
+            &nbsp;&nbsp;--env="NVIDIA_DRIVER_CAPABILITIES=all" \<br>
+            &nbsp;&nbsp;--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \<br>
+            &nbsp;&nbsp;carlasim/carla:0.9.15 ./CarlaUE4.sh -quality-level=Epic -nosound -world-port=2000
+          </div>
+
+          <h5>Terminal 2: Behavior Metrics. Use a new terminal, without venv_py37 active.</h5>
+          <div class="code-block">
+            cd ~/BehaviorMetrics/behavior_metrics &amp;&amp; source ../venv/bin/activate<br>
+            export ROS_VERSION=None BM_EXTERNAL_CARLA=1 CARLA_ROOT=/tmp<br>
+            export OBJECT_PATH=$PWD/configs/CARLA/CARLA_launch_files/CARLA_object_files/parked_car_objects.json<br>
+            python3 driver_carla.py -c configs/CARLA/default_carla_api.yml -g
+          </div>
+
+          <p>Two windows open: <code>pygame window</code>, with the Tesla seen from behind in Town01, and <code>driver_carla.py</code>, the Behavior Metrics interface.</p>
+
+          <p>If the simulator does not start, check its status and its last messages:</p>
+          <div class="code-block">
+            sudo docker ps -a --filter name=carla-bm --format "{{.Names}}: {{.Status}}"<br>
+            sudo docker logs --tail 40 carla-bm
+          </div>
+        </div>
+
+        <div class="methodology-box">
+          <h4>✅ First Test in the Interface</h4>
+          <p>The test consists of letting the example brain drive, recording for a few seconds, and checking that the metrics are saved.</p>
+
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Section</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Panels <code>frame_0</code> to <code>frame_3</code></td>
+                <td>Views where the brain displays images; they must be confirmed before use</td>
+              </tr>
+              <tr>
+                <td>Simulation</td>
+                <td>The large button starts and pauses the brain; the circular arrow restarts; the CARLA logo shows or hides the simulator</td>
+              </tr>
+              <tr>
+                <td>Brain</td>
+                <td>Changes brain with the simulation paused. The one from the config is already loaded</td>
+              </tr>
+              <tr>
+                <td>Stats</td>
+                <td>Its button starts and stops metric recording</td>
+              </tr>
+              <tr>
+                <td>Dataset</td>
+                <td>Records sensor data</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <ol>
+            <li>In the panel <code>id: frame_0</code> (bottom left of the four), type <code>frame_0</code> in <strong>Frame name</strong>, leave <strong>RGB Image</strong>, and press <strong>Confirm</strong>.</li>
+            <li>In <strong>Simulation</strong>, press the large play button. No need to choose a brain.</li>
+            <li>Check in <code>pygame window</code> that the Tesla moves.</li>
+            <li>In <strong>Stats</strong>, press its play button, without touching the paths.</li>
+            <li>Let it drive for 30 to 60 seconds.</li>
+            <li>Press the <strong>Stats</strong> button again to compute and save.</li>
+            <li>Press the large <strong>Simulation</strong> button again to pause.</li>
+            <li>Check the new folder with <code>ls -lt | head -n 8</code> inside <code>behavior_metrics/</code>.</li>
+          </ol>
+        </div>
+
+        <div class="big-finding">
+          <h4>✅ Metrics Recording Was Generated</h4>
+          <p>The first experiment produced a recording in <code>behavior_metrics/20261006-093952/</code>, containing a <code>.csv</code> (step by step) and a <code>.json</code> (summary). The example brain advanced 14.4 m in 55 s, hit the fence, and stayed there. This is expected: it only accelerates and turns without looking at the road, and serves to validate the chain, not to drive.</p>
+        </div>
+
+        <h4>📊 Metrics of the First Experiment</h4>
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Value</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>experiment_total_simulated_time</code></td>
+              <td>55.1 s</td>
+              <td>Duration of the recording</td>
+            </tr>
+            <tr>
+              <td><code>completed_distance</code></td>
+              <td>14.4 m</td>
+              <td>Distance traveled</td>
+            </tr>
+            <tr>
+              <td><code>average_speed</code> / <code>max_speed</code></td>
+              <td>0.97 / 28.98</td>
+              <td>Average and maximum speed</td>
+            </tr>
+            <tr>
+              <td><code>collisions</code></td>
+              <td>2736</td>
+              <td>Collision events, against the fence and the 60 sign</td>
+            </tr>
+            <tr>
+              <td><code>lane_invasions</code></td>
+              <td>2826</td>
+              <td>Lane invasions</td>
+            </tr>
+            <tr>
+              <td><code>position_deviation_mean</code></td>
+              <td>3.16 m</td>
+              <td>Average deviation from the reference route</td>
+            </tr>
+            <tr>
+              <td><code>percentage_completed</code> / <code>completed_laps</code></td>
+              <td>0 / 0</td>
+              <td>Progress on the reference circuit</td>
+            </tr>
+            <tr>
+              <td><code>suddenness_distance_*</code></td>
+              <td>0</td>
+              <td>Brusqueness of control commands</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="exploration-box">
+          <h4>📌 Two Cautions When Reading These Metrics</h4>
+          <ul>
+            <li><strong>Collisions are counted per event, not per crash.</strong> Staying stuck against the fence adds one at every instant, which is why the "per km" figures come out enormous (547,200 collisions per km).</li>
+            <li><strong>Deviation and percentage completed are measured against <code>PerfectLap</code></strong>, the reference route from the config. You must check that it corresponds to the route you want to evaluate.</li>
+          </ul>
+        </div>
+
+        <div class="error-analysis">
+          <h4>⚠️ Problems Found</h4>
+          <p>All have an applied solution except the last one, which is still open.</p>
+
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Symptom</th>
+                <th>Cause</th>
+                <th>Solution</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>virtualenv -p python=3.8</code> from the guide does not work</td>
+                <td>Syntax error in the guide and Python 3.8 not installed</td>
+                <td><code>python3.10 -m venv .venv</code></td>
+              </tr>
+              <tr>
+                <td><code>requirements.txt</code> cannot be installed as is</td>
+                <td><code>torch==2.13.0</code> with <code>torchvision==0.16.0</code> are incompatible; <code>tensorflow==2.14.0</code> does not use the RTX 5070</td>
+                <td>Install the base without those lines and then the versions from your <code>venv_py310</code></td>
+              </tr>
+              <tr>
+                <td>Container exits with <code>Exited (135), Signal 7, Bus error</code></td>
+                <td>Launched without <code>DISPLAY</code>, without <code>NVIDIA_DRIVER_CAPABILITIES=all</code>, and with <code>-RenderOffScreen</code></td>
+                <td>Use your 0.9.14 command changing only version, name, and port</td>
+              </tr>
+              <tr>
+                <td><code>KeyError: 'CARLA_ROOT'</code></td>
+                <td>The driver requires the variable even if CARLA is already running</td>
+                <td><code>export CARLA_ROOT=/tmp</code></td>
+              </tr>
+              <tr>
+                <td>CARLA closes when launching <code>driver_carla.py</code></td>
+                <td><code>close_ros_and_simulators()</code> kills CARLA processes</td>
+                <td>Patch with <code>BM_EXTERNAL_CARLA=1</code></td>
+              </tr>
+              <tr>
+                <td><code>40: CARLA is not supported sensor</code></td>
+                <td>Warning from the sensor reader</td>
+                <td>None; it does not affect</td>
+              </tr>
+              <tr>
+                <td>ROS-free mode is always active</td>
+                <td><code>driver_carla.py</code> reads the <code>'ROS_VERSION'</code> variable with extra spaces and never finds it</td>
+                <td>None; it favors this installation</td>
+              </tr>
+              <tr>
+                <td>No image in <code>frame_0</code></td>
+                <td>Not confirmed; in the first test the panel was renamed to <code>frontal</code></td>
+                <td class="improved">⚠️ Pending, see next section</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="status-box">
+          <h4>🔄 Pending Items</h4>
+          <p>Two things remain: displaying the camera in the interface and having your PilotNet drive.</p>
+
+          <h5>Image in <code>frame_0</code></h5>
+          <p>In the first test the panel was confirmed with the name <code>frontal</code>, and the log shows it stopped being called <code>frame_0</code>. The hypothesis is that this field is the identifier to which the brain sends the image. It remains to confirm whether typing exactly <code>frame_0</code> makes it appear. If it stays blank, this command shows which image the brain sends and to which panel:</p>
+          <div class="code-block">
+            cd ~/BehaviorMetrics/behavior_metrics<br>
+            cat brains/CARLA/brain_carla_slow_and_turn_api.py<br>
+            grep -rnE "update_frame|frame_0" --include=*.py brains/CARLA/brain_carla_slow_and_turn_api.py ui robot | head -n 30
+          </div>
+
+          <h5>Brain for Your PilotNet</h5>
+          <p>A brain must be written that loads a <code>.pth</code> model and replicates your top 35% crop and your normalization, so that it receives the same as during training. Needed:</p>
+          <ul>
+            <li>The content of <code>brains/CARLA/brain_carla_slow_and_turn_api.py</code> and the list of <code>brains/CARLA/pytorch</code></li>
+            <li>Your architecture: <code>~/carla/proyecto_carla/pilotnet_model.py</code></li>
+            <li>Your agent: <code>~/carla/proyecto_carla/driverAgent_PyTorch_35-crop_simple_pth.py</code></li>
+            <li>The path of the <code>.pth</code> model you want to test first</li>
+            <li>The map on which you trained it, to evaluate on the same one</li>
+            <li>Review <code>PerfectLap</code> so that the reference route corresponds to that route</li>
+          </ul>
+          <p class="note">Your models were trained with CARLA 0.9.14 and will be evaluated in 0.9.15. It does not require retraining, but there may be small visual or physics differences.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- WEEK SUMMARY -->
+      <!-- ========================================================= -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 45 SUMMARY – OCTOBER 6, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Diagnose the non-reproducibility of training on CUDA and document the full setup of Behavior Metrics with CARLA in Docker, up to the first metrics recording.</p>
+        <p>🧪 <strong>Methodologies:</strong> Reproducibility testing by running the same training command twice and diffing per-epoch losses; native Python 3.10 environment without ROS; CARLA 0.9.15 in Docker with X11 passthrough; Behavior Metrics driver connected to an external CARLA via a patched <code>launch_env</code>.</p>
+        <p>📈 <strong>Key Findings:</strong> Training is not reproducible even with a fixed seed because cuDNN does not guarantee bit-for-bit identical convolution results; the difference is amplified by floating-point accumulation and by <code>min_delta=1e-4</code> thresholds in early stopping and LR scheduling. A three-level solution is proposed (seed everything + deterministic cuDNN; strict mode with <code>use_deterministic_algorithms</code>; shielded DataLoader). Behavior Metrics now runs on Ubuntu 26.04 with an RTX 5070, drives a Tesla in CARLA 0.9.15, and produced its first recording in <code>behavior_metrics/20261006-093952/</code> (CSV + JSON).</p>
+        <p>✅ <strong>Achievements:</strong> Root cause of CUDA non-reproducibility identified and documented with a concrete, verifiable solution. Behavior Metrics fully installed and operational with an external CARLA in Docker. First metrics recording generated successfully. All installation problems resolved except the <code>frame_0</code> image display.</p>
+        <p>❌ <strong>Limitations:</strong> The determinism solution only holds within the same GPU, PyTorch, CUDA, and cuDNN environment; it does not recover previous runs. The first Behavior Metrics recording used a trivial rule-based brain (14.4 m in 55 s, 2736 collision events), so it validates the pipeline but not driving quality. The <code>frame_0</code> panel still shows no image. The PilotNet brain has not yet been connected.</p>
+        <p>🔜 <strong>Next Steps:</strong> Apply and verify the three-level determinism solution in <code>entrenar_definitivo.py</code>. Confirm the <code>frame_0</code> panel name so the camera image appears. Write the PilotNet brain that loads the <code>.pth</code> model with the top 35% crop and the training normalization. Review <code>PerfectLap</code> for the route to evaluate. Run the first Behavior Metrics evaluation of the best model (<code>w40_comp9_seed456</code>) and compare it with the in-house <code>LaneMonitor</code> metrics.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: October 6, 2026 (Week 45)</p>
+  </footer>
+</body>
+</html>
