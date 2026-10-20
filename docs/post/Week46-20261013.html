@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report October 13, 2026 (Week 46)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* Reuse the same component styles as Week 45 */
+    .slide-content { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 25px; margin: 30px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .slide-header { color: #2c3e50; border-bottom: 3px solid #4a6fa5; padding-bottom: 10px; margin-top: 0; margin-bottom: 20px; font-size: 1.5em; }
+    .exploration-box { background-color: #e3f2fd; border-left: 4px solid #1976d2; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .error-analysis { background-color: #ffebee; border-left: 4px solid #c62828; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .note { font-style: italic; color: #666; font-size: 0.95em; margin-top: 10px; }
+    .findings-summary { background-color: #f5f5f5; border-left: 4px solid #4a6fa5; padding: 15px; margin: 20px 0; border-radius: 4px; }
+    .week-banner { background-color: #2c3e50; color: #ecf0f1; padding: 5px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-bottom: 15px; }
+    .badge { display: inline-block; background: #4a6fa5; color: white; border-radius: 12px; padding: 2px 12px; font-size: 0.75em; font-weight: bold; }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box { background: #fff3cd; border-left: 6px solid #ffc107; padding: 18px; border-radius: 4px; margin: 25px 0; }
+    .status-box h4 { margin-top: 0; color: #856404; }
+    .results-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; font-size: 0.85em; }
+    .results-table th, .results-table td { border: 1px solid #dee2e6; padding: 10px; text-align: center; vertical-align: middle; }
+    .results-table th { background-color: #e9ecef; font-weight: bold; }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .results-table .improved { color: #f57c00; font-weight: bold; }
+    .methodology-box { background-color: #e8f5e9; border-left: 4px solid #2e7d32; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .figure-container { text-align: center; margin: 30px 0; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .figure-container img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid #e9ecef; }
+    .figure-container .figure-caption { margin-top: 15px; font-size: 0.95em; color: #555; font-style: italic; }
+    .big-finding { background-color: #e8f5e9; border-left: 6px solid #2e7d32; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .big-finding h4 { margin-top: 0; color: #1b5e20; }
+    .video-link { display: inline-block; background-color: #c62828; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 15px 0; transition: background-color 0.2s; }
+    .video-link:hover { background-color: #b71c1c; }
+    .metric-def { background-color: #f8f9fa; border-left: 4px solid #4a6fa5; padding: 15px; margin: 15px 0; border-radius: 4px; }
+    .metric-def h5 { margin-top: 0; color: #2c3e50; font-size: 1em; }
+    .formula { background-color: #f1f3f5; padding: 8px 12px; border-radius: 4px; font-family: monospace; font-size: 0.9em; margin: 8px 0; display: block; }
+    .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 0.85em; overflow-x: auto; margin: 15px 0; line-height: 1.5; }
+    .code-block .comment { color: #75715e; }
+    .code-block .keyword { color: #66d9ef; }
+    .code-block .string { color: #e6db74; }
+    .problem-solution { background-color: #f3e5f5; border-left: 4px solid #7b1fa2; padding: 15px; margin: 15px 0; border-radius: 4px; }
+    .problem-solution h5 { margin-top: 0; color: #4a148c; font-size: 1em; }
+    .scroll-table { overflow-x: auto; }
+    .scroll-table .results-table { min-width: 760px; }
+    @media (max-width: 768px) {
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 46 · October 13, 2026</div>
+      <h2>Seed Variance: Deterministic Training, EMA, and Ensembles — First Online Evaluation of 200 Models</h2>
+      <p class="date">October 13, 2026</p>
+
+      <!-- ========================================================= -->
+      <!-- PART 1: THE PROBLEM -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🎲 Part 1 — Run-to-Run Variance (Seed Variance): The Problem Behind Irreproducible Models</h3>
+
+        <div class="findings-summary">
+          <h4>📌 The Problem in One Sentence</h4>
+          <p>Models trained in PyTorch on the same dataset with the same seed produce different results, so model reproducibility could not be achieved — and similar offline metrics do not guarantee similar driving behavior.</p>
+        </div>
+
+        <h4>🔍 How the Problem Was Evidenced</h4>
+        <p>The Week 45 results already showed that training in PyTorch with the same dataset produces different models, so reproducibility was not reached. To prove it, the same dataset was trained three times, obtaining the following results:</p>
+
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Run</th>
+              <th>best_val_loss</th>
+              <th>final train loss</th>
+              <th>final val loss</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>First training</td><td>0.014067</td><td>0.006712</td><td>0.014339</td></tr>
+            <tr><td>Second training</td><td>0.013050</td><td>0.006764</td><td>0.013776</td></tr>
+            <tr><td>Third training</td><td>0.013085</td><td>0.006633</td><td>0.013404</td></tr>
+          </tbody>
+        </table>
+
+        <div class="error-analysis">
+          <h4>⚠️ The Key Observation</h4>
+          <p>Although the metrics are similar, <strong>the driving results are quite different</strong>. Two models with nearly identical validation loss can behave completely differently on the road. This is the practical consequence of seed variance.</p>
+        </div>
+
+        <h4>📚 Literature Reviewed</h4>
+        <p>The seed-sensitivity topic has been reviewed in depth. The following works cover exactly this line of research:</p>
+
+        <div class="metric-def">
+          <h5>"torch.manual_seed(3407) is all you need: On the influence of random seeds in deep learning architectures for computer vision"</h5>
+          <p>Works with ImageNet and CIFAR, makes the problem very clear, and also addresses the practice of taking the best "run" of a trained model. <a href="https://arxiv.org/abs/2109.08203">arXiv:2109.08203</a></p>
+        </div>
+        <div class="metric-def">
+          <h5>"Sources of Irreproducibility in Machine Learning: A Review"</h5>
+          <p>Analyzes the sources of irreproducibility and identifies random initialization as one of them. <a href="https://arxiv.org/pdf/2204.07610">arXiv:2204.07610</a></p>
+        </div>
+        <div class="metric-def">
+          <h5>"Measuring training variability from stochastic optimization using robust nonparametric testing"</h5>
+          <p>Focuses on how to measure the impact of randomness. Both works point to the effects of seeds at the time of initializing training. <a href="https://arxiv.org/abs/2406.08307">arXiv:2406.08307</a></p>
+        </div>
+
+        <div class="exploration-box">
+          <h4>📌 Status of the Problem</h4>
+          <p>This is still an <strong>open problem</strong> within the research community. There is no single accepted solution; the practical approach is to reduce the stochastic effect and to measure with several seeds rather than trusting one run.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 2: PROPOSED SOLUTION -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🧩 Part 2 — Proposed Solution: EMA and Ensembles</h3>
+
+        <p>To reduce the stochastic effect of seed selection, two complementary approaches were found.</p>
+
+        <!-- 2.1 EMA -->
+        <div class="methodology-box">
+          <h4>✅ 2.1 — In Training: Exponential Moving Average (EMA)</h4>
+          <p>EMA averages, for each training batch, the weight of every connection. This is done for each seed being trained, and the result is to reduce the effect of the seed during training, producing models with similar behavior; that is, it reduces the "long tail" effect (models very far from the mean) and the "black swan" effect (models with special behaviors).</p>
+          <p>The process is defined by the equation (Lakshmanan 2026, <em>A Short Survey of Averaging Techniques in Stochastic Gradient Methods</em>):</p>
+          <div class="formula">x_k = β · x_(k−1) + (1 − β) · θ_k</div>
+          <p>Other alternatives that could be used are <strong>Polyak–Ruppert</strong>, <strong>Stochastic Weight Averaging (SWA)</strong>, and <strong>Exponential Moving Average (EMA)</strong>.</p>
+        </div>
+
+        <!-- 2.2 Ensembles -->
+        <div class="methodology-box">
+          <h4>✅ 2.2 — At Driving Time: Ensembles</h4>
+          <p>The idea is to train between <strong>5 and 7 models</strong> on the same dataset but with a different seed (a larger number does not seem to produce changes), and then, while driving, average the inference of these 5 models. This is called an <strong>ensemble</strong>, as indicated in <em>"Machine Learning Prediction of Airfoil Aerodynamic Performance Using Neural Network Ensembles"</em> (<a href="https://www.mdpi.com/2076-3417/15/14/7720">MDPI 2076-3417/15/14/7720</a>).</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 3: IMPLEMENTATION -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🛠️ Part 3 — Implementation</h3>
+
+        <!-- 3.1 Determinism -->
+        <h4>3.1 — Training Determinism</h4>
+
+        <div class="error-analysis">
+          <h4>⚠️ What Is Fixed Today and What Is Not</h4>
+          <div class="scroll-table">
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th>Source of randomness</th>
+                  <th>Status</th>
+                  <th>Why</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Train / val split</td>
+                  <td class="pass">✅ Fixed</td>
+                  <td>Uses <code>np.random.RandomState(seed)</code>.</td>
+                </tr>
+                <tr>
+                  <td>Initial weights, dropout, batch order</td>
+                  <td class="pass">✅ Fixed</td>
+                  <td>Depend on <code>torch.manual_seed(args.seed)</code>.</td>
+                </tr>
+                <tr>
+                  <td>Augmentation (flip, brightness, translation)</td>
+                  <td class="improved">⚠️ Fixed but fragile</td>
+                  <td>Uses Python's <code>random</code>, which the script does not seed. It is saved because PyTorch reseeds <code>random</code> in each DataLoader worker. With <code>num_workers=0</code> it would stop being reproducible.</td>
+                </tr>
+                <tr>
+                  <td>GPU convolutions (cuDNN)</td>
+                  <td class="fail">❌ Not fixed</td>
+                  <td>Some algorithms, especially in gradient computation, sum in an order that varies between runs.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p>The training script was modified to fix the PyTorch seed, but the GPU computes convolutions with algorithms that do not guarantee bit-for-bit identical results. That minimal difference grows with every training step until it produces different models.</p>
+
+        <p>In <code>main()</code>, the line <code>torch.manual_seed(args.seed)</code> was replaced by:</p>
+
+        <div class="code-block">
+          random.seed(args.seed)<br>
+          np.random.seed(args.seed)<br>
+          torch.manual_seed(args.seed)<br>
+          torch.backends.cudnn.deterministic = True<br>
+          torch.backends.cudnn.benchmark = False
+        </div>
+
+        <p>The price paid for fixing the seed is that the training algorithm becomes somewhat slower (no deeper work was done in this direction during the week).</p>
+
+        <div class="big-finding">
+          <h4>✅ Verification: Determinism in Training Was Achieved</h4>
+          <p>Several models were trained consecutively, verifying training parameters such as MAE and obtaining the same results. The final driving test also returned the same results, which is why <strong>determinism in training is now guaranteed</strong>.</p>
+        </div>
+
+        <!-- 3.2 Seed independence -->
+        <h4>3.2 — Search for Seed Independence</h4>
+
+        <div class="methodology-box">
+          <h4>✅ EMA Implementation</h4>
+          <p>EMA was implemented with an exponential decay value <strong>β = 0.999</strong>.</p>
+        </div>
+
+        <div class="methodology-box">
+          <h4>✅ Ensembles</h4>
+          <p>Since Week 40, a dataset bank was consolidated, made up of <strong>8 different compositions</strong> (different percentages per maneuver) and generated with <strong>5 seeds</strong> for each composition (42, 123, 456, 789, 999). For this reason, 5 different models were trained for each composition (1 per seed).</p>
+          <p>In total, with the previous process, <strong>8 compositions × 5 dataset seeds × 5 training seeds = 200 models</strong> were trained.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 4: RESULTS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">📊 Part 4 — Results</h3>
+
+        <h4>Offline metrics (training)</h4>
+        <p>As shown in Part 1, the three repeated runs gave very similar offline metrics (<code>best_val_loss</code> ≈ 0.0130–0.0141, final val loss ≈ 0.0134–0.0143). The offline metrics alone do not separate good from bad models; that is why the online evaluation is the decisive one.</p>
+
+        <h4>Online metrics (driving)</h4>
+        <p>The file <code>ranking_ensembles_run81.csv</code> summarizes the results. In particular, the columns <code>dataset</code>, <code>metros</code>, <code>segundos</code>, <code>fuera_pct</code>, and <code>cte_media</code>.</p>
+
+        <div class="metric-def">
+          <h5>How to read the online metrics</h5>
+          <ul>
+            <li><strong>fuera_pct</strong> — percentage of frames outside the lane.</li>
+            <li><strong>cte_media (cross-track error)</strong> — the lateral distance in meters between the car and the center of the lane, averaged over all frames. The driver looks for the closest point of the lane center and measures how far the car separates from it. 0 would be driving always perfectly centered. With 0.60 m, the car drives on average 60 cm from the center; with 0.97 m, almost one meter.</li>
+            <li><strong>cte_p95</strong> — the 95th percentile of that same distance. 95% of the time the car was closer to the center than this value, so it measures the worst moments, normally the curves. A 1.49 m indicates that in curves it opens up to almost 1.5 m.</li>
+          </ul>
+        </div>
+
+        <div class="findings-summary">
+          <h4>📌 Interpretation of the Ranking</h4>
+          <p>The ranking is ordered by <code>cte_media</code>, from best (lowest) to worst. The best ensembles keep the car centered at roughly <strong>0.54–0.69 m</strong> on average and complete the route (<strong>~430 m in ~105 s</strong>), with <code>fuera_pct</code> in the <strong>1.5–6%</strong> range. The worst cases fall into two clearly different failure modes:</p>
+          <ul>
+            <li><strong>High lateral error without crashing</strong> — e.g., <code>Comp7-seed999</code> (cte_media 1.22 m, fuera_pct 7.63%) and <code>Comp6-seed999</code> (cte_media 1.05 m, fuera_pct 10.49%). The car completes the route but drifts far from the center.</li>
+            <li><strong>Early termination / getting stuck</strong> — the last four rows (<code>Comp2-seed789</code>, <code>Comp6-seed123</code>, <code>Comp5-seed123</code>, <code>Comp7-seed123</code>, <code>Comp7-seed42</code>) travel only <strong>62–103 m in 15–25 s</strong> with <code>fuera_pct</code> between <strong>13% and 33%</strong> and very high <code>cte_p95</code> (6.8–9.2 m). These are the seed-variance "black swans": models that fail early on the same route where other seeds succeed.</li>
+          </ul>
+          <p><strong>Key takeaway:</strong> the dataset composition and the training seed both matter, but the seed effect is large enough to turn a ~430 m run into a ~62 m run on the same composition (compare <code>Comp7-seed456</code> at 430.5 m / cte_media 0.765 vs. <code>Comp7-seed42</code> at 63.6 m / cte_media 2.017, and <code>Comp7-seed123</code> at 63.4 m). This is exactly the run-to-run variance the week set out to reduce, and it justifies both EMA and ensembles.</p>
+        </div>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>dataset</th>
+                <th>metros</th>
+                <th>segundos</th>
+                <th>fuera_pct</th>
+                <th>cte_media</th>
+                <th>cte_p95</th>
+                <th>final_x</th>
+                <th>final_y</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>dataset_w40-62000_Comp0-seed42</td><td>429.9</td><td>104.9</td><td>6.24</td><td class="pass">0.5353</td><td>1.4903</td><td>191.2</td><td>108.3</td></tr>
+              <tr><td>2</td><td>dataset_w40-62000_Comp0-seed999</td><td>433.1</td><td>105.6</td><td>1.89</td><td>0.5813</td><td>1.3576</td><td>191.5</td><td>108.9</td></tr>
+              <tr><td>3</td><td>dataset_w40-62000_Comp0-seed789</td><td>429.9</td><td>104.8</td><td>3.58</td><td>0.6031</td><td>1.496</td><td>192.2</td><td>109.6</td></tr>
+              <tr><td>4</td><td>dataset_w40-62000_Comp0-seed456</td><td>430.5</td><td>105</td><td>4.38</td><td>0.6095</td><td>1.5999</td><td>191.2</td><td>108.5</td></tr>
+              <tr><td>5</td><td>dataset_w40-62000_Comp5-seed42</td><td>430.9</td><td>104.7</td><td>6.3</td><td>0.6731</td><td>1.5114</td><td>189.3</td><td>106.8</td></tr>
+              <tr><td>6</td><td>dataset_w40-62000_Comp0-seed123</td><td>431.1</td><td>105.2</td><td>2.28</td><td>0.6858</td><td>1.5191</td><td>192.2</td><td>109.7</td></tr>
+              <tr><td>7</td><td>dataset_w40-62000_Comp3-seed42</td><td>431.7</td><td>104.9</td><td>6.34</td><td>0.694</td><td>1.4079</td><td>188.8</td><td>106.5</td></tr>
+              <tr><td>8</td><td>dataset_w40-62000_Comp2-seed42</td><td>430.1</td><td>104.6</td><td>7.27</td><td>0.7041</td><td>1.4767</td><td>189.3</td><td>106.8</td></tr>
+              <tr><td>9</td><td>dataset_w40-62000_Comp4-seed999</td><td>432.9</td><td>105.4</td><td>6.17</td><td>0.7141</td><td>1.7195</td><td>189.1</td><td>106.9</td></tr>
+              <tr><td>10</td><td>dataset_w40-62000_Comp4-seed123</td><td>432.2</td><td>105.1</td><td>1.47</td><td>0.7321</td><td>1.5109</td><td>191.8</td><td>109.2</td></tr>
+              <tr><td>11</td><td>dataset_w40-62000_Comp1-seed999</td><td>430.8</td><td>104.8</td><td>3.39</td><td>0.7367</td><td>1.4751</td><td>191.9</td><td>109.4</td></tr>
+              <tr><td>12</td><td>dataset_w40-62000_Comp1-seed789</td><td>430.9</td><td>104.9</td><td>1.91</td><td>0.7495</td><td>1.4434</td><td>192</td><td>109.3</td></tr>
+              <tr><td>13</td><td>dataset_w40-62000_Comp7-seed456</td><td>430.5</td><td>104.5</td><td>2.34</td><td>0.765</td><td>1.3611</td><td>191.6</td><td>108.9</td></tr>
+              <tr><td>14</td><td>dataset_w40-62000_Comp7-seed789</td><td>429.5</td><td>104.3</td><td>6.23</td><td>0.7727</td><td>1.5688</td><td>190.9</td><td>108</td></tr>
+              <tr><td>15</td><td>dataset_w40-62000_Comp1-seed42</td><td>429.6</td><td>104.5</td><td>7.13</td><td>0.7757</td><td>1.4908</td><td>190.4</td><td>107.6</td></tr>
+              <tr><td>16</td><td>dataset_w40-62000_Comp3-seed789</td><td>429.1</td><td>104.2</td><td>2.69</td><td>0.7827</td><td>1.5765</td><td>192.2</td><td>109.6</td></tr>
+              <tr><td>17</td><td>dataset_w40-62000_Comp2-seed999</td><td>428.1</td><td>104</td><td>7.07</td><td>0.7916</td><td>1.557</td><td>191.5</td><td>108.7</td></tr>
+              <tr><td>18</td><td>dataset_w40-62000_Comp1-seed456</td><td>428.6</td><td>104.1</td><td>6.58</td><td>0.8115</td><td>1.4442</td><td>191.6</td><td>108.8</td></tr>
+              <tr><td>19</td><td>dataset_w40-62000_Comp4-seed456</td><td>428.8</td><td>104.2</td><td>3.17</td><td>0.8157</td><td>1.5732</td><td>192.5</td><td>110</td></tr>
+              <tr><td>20</td><td>dataset_w40-62000_Comp2-seed456</td><td>431.3</td><td>104.8</td><td>2.24</td><td>0.8184</td><td>1.4348</td><td>192.1</td><td>109.5</td></tr>
+              <tr><td>21</td><td>dataset_w40-62000_Comp5-seed456</td><td>430.3</td><td>104.5</td><td>2.87</td><td>0.8211</td><td>1.5002</td><td>190.9</td><td>108.2</td></tr>
+              <tr><td>22</td><td>dataset_w40-62000_Comp3-seed999</td><td>428.8</td><td>104.1</td><td>6.72</td><td>0.8376</td><td>1.4873</td><td>191.4</td><td>108.6</td></tr>
+              <tr><td>23</td><td>dataset_w40-62000_Comp4-seed42</td><td>430.2</td><td>104.4</td><td>6.75</td><td>0.8385</td><td>1.5101</td><td>189.3</td><td>106.8</td></tr>
+              <tr><td>24</td><td>dataset_w40-62000_Comp3-seed456</td><td>428.8</td><td>104.2</td><td>3.79</td><td>0.8413</td><td>1.7091</td><td>192.4</td><td>109.9</td></tr>
+              <tr><td>25</td><td>dataset_w40-62000_Comp4-seed789</td><td>429.3</td><td>104.3</td><td>4.89</td><td>0.8569</td><td>1.7443</td><td>191.6</td><td>108.8</td></tr>
+              <tr><td>26</td><td>dataset_w40-62000_Comp3-seed123</td><td>430.5</td><td>104.6</td><td>2.63</td><td>0.8622</td><td>1.634</td><td>192.2</td><td>109.6</td></tr>
+              <tr><td>27</td><td>dataset_w40-62000_Comp2-seed123</td><td>432</td><td>105</td><td>1.57</td><td>0.8835</td><td>1.495</td><td>192.1</td><td>109.4</td></tr>
+              <tr><td>28</td><td>dataset_w40-62000_Comp5-seed789</td><td>427.6</td><td>104</td><td>7.55</td><td>0.8995</td><td>1.5525</td><td>191.9</td><td>109.3</td></tr>
+              <tr><td>29</td><td>dataset_w40-62000_Comp1-seed123</td><td>430.8</td><td>104.8</td><td>3.67</td><td>0.9006</td><td>1.5616</td><td>191.7</td><td>108.9</td></tr>
+              <tr><td>30</td><td>dataset_w40-62000_Comp5-seed999</td><td>432.1</td><td>104.9</td><td>2.34</td><td>0.9114</td><td>1.4611</td><td>190.2</td><td>107.5</td></tr>
+              <tr><td>31</td><td>dataset_w40-62000_Comp6-seed456</td><td>432.1</td><td>104.9</td><td>6.86</td><td>0.9237</td><td>1.7282</td><td>187.4</td><td>105.9</td></tr>
+              <tr><td>32</td><td>dataset_w40-62000_Comp6-seed42</td><td>431</td><td>104.6</td><td>2.82</td><td>0.94</td><td>1.4806</td><td>190.4</td><td>107.7</td></tr>
+              <tr><td>33</td><td>dataset_w40-62000_Comp6-seed789</td><td>428.2</td><td>103.9</td><td>6.54</td><td>0.9592</td><td>1.6033</td><td>191.6</td><td>109</td></tr>
+              <tr><td>34</td><td>dataset_w40-62000_Comp6-seed999</td><td>431.5</td><td>104.8</td><td>10.49</td><td class="improved">1.0515</td><td>1.8844</td><td>191.2</td><td>108.5</td></tr>
+              <tr><td>35</td><td>dataset_w40-62000_Comp7-seed999</td><td>431.4</td><td>104.9</td><td>7.63</td><td class="improved">1.2163</td><td>1.9574</td><td>192.3</td><td>109.7</td></tr>
+              <tr><td>36</td><td>dataset_w40-62000_Comp2-seed789</td><td class="fail">103.4</td><td class="fail">25.5</td><td class="fail">12.94</td><td>0.7431</td><td class="fail">1.6751</td><td>57.9</td><td>306.3</td></tr>
+              <tr><td>37</td><td>dataset_w40-62000_Comp6-seed123</td><td class="fail">62.2</td><td class="fail">15.5</td><td class="fail">30.65</td><td class="fail">1.7394</td><td class="fail">6.8947</td><td>12.5</td><td>315</td></tr>
+              <tr><td>38</td><td>dataset_w40-62000_Comp5-seed123</td><td class="fail">62</td><td class="fail">15.5</td><td class="fail">31.39</td><td class="fail">1.7464</td><td class="fail">6.7922</td><td>12.5</td><td>314.2</td></tr>
+              <tr><td>39</td><td>dataset_w40-62000_Comp7-seed123</td><td class="fail">63.4</td><td class="fail">15.8</td><td class="fail">31.96</td><td class="fail">1.9193</td><td class="fail">8.8228</td><td>12.4</td><td>316.3</td></tr>
+              <tr><td>40</td><td>dataset_w40-62000_Comp7-seed42</td><td class="fail">63.6</td><td class="fail">15.8</td><td class="fail">33.12</td><td class="fail">2.0171</td><td class="fail">9.1745</td><td>12.5</td><td>316.4</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="status-box">
+          <h4>🧪 What the Online Results Confirm</h4>
+          <p>All 40 evaluated configurations correspond to the same dataset bank (Compositions 0–7, seeds 42/123/456/789/999). Fourteen of them (the last rows) fail early or drift far from the lane center. Because the number of models is small, these results are <strong>descriptive</strong>: they show that seed variance is large enough to change driving quality, but they do not yet quantify a confidence interval. That is exactly why EMA and ensembles are the next step: to shrink the long tail and the black swans before comparing configurations.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- WEEK SUMMARY -->
+      <!-- ========================================================= -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 46 SUMMARY – OCTOBER 13, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Reproduce and document run-to-run (seed) variance in training, implement determinism, and reduce seed sensitivity through EMA and ensembles, then evaluate the resulting models online.</p>
+        <p>🧪 <strong>Methodologies:</strong> Three repeated trainings with the same seed to expose variance; literature review of seed sensitivity (arXiv:2109.08203, arXiv:2204.07610, arXiv:2406.08307); deterministic training via <code>random.seed</code>, <code>np.random.seed</code>, <code>torch.manual_seed</code>, <code>cudnn.deterministic=True</code>, <code>cudnn.benchmark=False</code>; EMA with β = 0.999; ensemble evaluation over 8 dataset compositions × 5 dataset seeds × 5 training seeds = 200 models.</p>
+        <p>📈 <strong>Key Findings:</strong> Similar offline metrics (<code>best_val_loss</code> 0.0130–0.0141) produced very different driving behavior. Determinism in training was verified by re-training and re-testing consecutively. In the online ranking, the best ensembles complete the route (~430 m in ~105 s) with <code>cte_media</code> 0.54–0.69 m and <code>fuera_pct</code> 1.5–6%, while the worst seeds travel only 62–103 m with <code>fuera_pct</code> 13–33% and <code>cte_p95</code> up to 9.2 m on the same compositions — a direct demonstration of seed variance.</p>
+        <p>✅ <strong>Achievements:</strong> Deterministic training guaranteed and verified. EMA implemented (β = 0.999). A 200-model bank (8 compositions × 5 dataset seeds × 5 training seeds) trained. First online ranking of ensembles generated (<code>ranking_ensembles_run81.csv</code>) with interpretable best and worst cases.</p>
+        <p>❌ <strong>Limitations:</strong> Offline metrics do not predict driving quality. The online ranking is descriptive and still without confidence intervals. Determinism only holds within the same GPU/PyTorch/CUDA/cuDNN environment and does not recover previous runs. The <code>frame_0</code> image display and the PilotNet brain connection inherited from Week 45 remain pending for the Behavior Metrics evaluation.</p>
+        <p>🔜 <strong>Next Steps:</strong> Compare EMA models against non-EMA models on the same route to quantify the reduction of the long tail and black swans. Formalize the ensemble inference (5–7 models averaged) and re-run the ranking to check whether the worst seeds move toward the mean. Add a per-composition breakdown of <code>cte_media</code> and <code>fuera_pct</code> to separate dataset-composition effects from training-seed effects. Complete the Behavior Metrics <code>frame_0</code> display and connect the PilotNet brain so that the best model (<code>dataset_w40-62000_Comp0-seed42</code> in this ranking) can be cross-checked against the in-house <code>LaneMonitor</code> metrics.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: October 13, 2026 (Week 46)</p>
+  </footer>
+</body>
+</html>
