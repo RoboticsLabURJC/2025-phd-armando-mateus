@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report October 20, 2026 (Week 47)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* Reuse the same component styles as Week 46 */
+    .slide-content { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 25px; margin: 30px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .slide-header { color: #2c3e50; border-bottom: 3px solid #4a6fa5; padding-bottom: 10px; margin-top: 0; margin-bottom: 20px; font-size: 1.5em; }
+    .exploration-box { background-color: #e3f2fd; border-left: 4px solid #1976d2; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .error-analysis { background-color: #ffebee; border-left: 4px solid #c62828; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .note { font-style: italic; color: #666; font-size: 0.95em; margin-top: 10px; }
+    .findings-summary { background-color: #f5f5f5; border-left: 4px solid #4a6fa5; padding: 15px; margin: 20px 0; border-radius: 4px; }
+    .week-banner { background-color: #2c3e50; color: #ecf0f1; padding: 5px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-bottom: 15px; }
+    .badge { display: inline-block; background: #4a6fa5; color: white; border-radius: 12px; padding: 2px 12px; font-size: 0.75em; font-weight: bold; }
+    .badge-success { background: #2e7d32; }
+    .badge-warning { background: #f57c00; }
+    .badge-danger { background: #c62828; }
+    .status-box { background: #fff3cd; border-left: 6px solid #ffc107; padding: 18px; border-radius: 4px; margin: 25px 0; }
+    .status-box h4 { margin-top: 0; color: #856404; }
+    .results-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; font-size: 0.85em; }
+    .results-table th, .results-table td { border: 1px solid #dee2e6; padding: 10px; text-align: center; vertical-align: middle; }
+    .results-table th { background-color: #e9ecef; font-weight: bold; }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .results-table .improved { color: #f57c00; font-weight: bold; }
+    .methodology-box { background-color: #e8f5e9; border-left: 4px solid #2e7d32; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .figure-container { text-align: center; margin: 30px 0; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .figure-container img { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid #e9ecef; }
+    .figure-container .figure-caption { margin-top: 15px; font-size: 0.95em; color: #555; font-style: italic; }
+    .big-finding { background-color: #e8f5e9; border-left: 6px solid #2e7d32; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .big-finding h4 { margin-top: 0; color: #1b5e20; }
+    .video-link { display: inline-block; background-color: #c62828; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 15px 0; transition: background-color 0.2s; }
+    .video-link:hover { background-color: #b71c1c; }
+    .metric-def { background-color: #f8f9fa; border-left: 4px solid #4a6fa5; padding: 15px; margin: 15px 0; border-radius: 4px; }
+    .metric-def h5 { margin-top: 0; color: #2c3e50; font-size: 1em; }
+    .formula { background-color: #f1f3f5; padding: 8px 12px; border-radius: 4px; font-family: monospace; font-size: 0.9em; margin: 8px 0; display: block; }
+    .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 0.85em; overflow-x: auto; margin: 15px 0; line-height: 1.5; }
+    .code-block .comment { color: #75715e; }
+    .code-block .keyword { color: #66d9ef; }
+    .code-block .string { color: #e6db74; }
+    .problem-solution { background-color: #f3e5f5; border-left: 4px solid #7b1fa2; padding: 15px; margin: 15px 0; border-radius: 4px; }
+    .problem-solution h5 { margin-top: 0; color: #4a148c; font-size: 1em; }
+    .scroll-table { overflow-x: auto; }
+    .scroll-table .results-table { min-width: 760px; }
+    @media (max-width: 768px) {
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 47 · October 20, 2026</div>
+      <h2>Behavior Metrics: Right-Lane Percentage and Steering Zero-Crossings per Second — First PilotNet Run in Town02</h2>
+      <p class="date">October 20, 2026</p>
+
+      <!-- ========================================================= -->
+      <!-- PART 1: OVERVIEW -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">📊 Part 1 — Overview: Two New Metrics Added to Behavior Metrics</h3>
+
+        <div class="findings-summary">
+          <h4>📌 What Was Added</h4>
+          <p>Two per-experiment metrics were added to Behavior Metrics: the <strong>percentage of frames in the right lane</strong> (<code>right_lane_percentage</code>) and the <strong>steering zero-crossings per second</strong> (<code>steering_zero_crossings_per_second</code>). Both are computed in the <strong>Python API backend</strong> from the CSV that the controller writes at every CARLA tick, and are stored in the experiment's summary JSON.</p>
+        </div>
+
+        <p>The process has two halves:</p>
+
+        <div class="methodology-box">
+          <h4>1. During recording (<code>utils/controller_carla.py</code>)</h4>
+          <p>At each simulator tick, one CSV row is written. The patch adds <strong>five columns</strong> describing the lane the ego vehicle is in at that instant.</p>
+        </div>
+
+        <div class="methodology-box">
+          <h4>2. At recording stop (<code>utils/metrics_carla.py</code>)</h4>
+          <p><code>get_metrics_python_api()</code> reads the CSV and now calls <code>_bm_extra_metrics()</code>, which aggregates those columns together with the already existing <code>steer</code> column into the two metrics.</p>
+        </div>
+
+        <p>As extras, the summary JSON also keeps <code>off_driving_lane_percentage</code>, <code>steering_zero_crossings</code> (the total), and <code>steering_zero_crossings_deadband</code> (the deadband used).</p>
+
+        <div class="figure-container">
+          <img src="../images/behavior_metrics_flow.png" alt="Flow diagram: from CARLA tick to the JSON summary" />
+          <div class="figure-caption">New metrics travel from the CARLA tick to the JSON. Top: at each tick. Bottom: when recording stops. Blue: patch code.</div>
+        </div>
+
+        <div class="exploration-box">
+          <h4>📌 Why Python API and Not ROS</h4>
+          <ul>
+            <li><strong>No ROS on this machine.</strong> The team uses Ubuntu 26.04.1 and ROS is not installed. The <code>poetic-devel</code> branch of Behavior Metrics and its <code>carla-ros-bridge</code> target ROS 1 Noetic, which corresponds to Ubuntu 20.04. Without ROS there is no bridge, no <code>/carla/ego_vehicle/*</code> topics, and no rosbags.</li>
+            <li><strong>The ROS backend depends on rosbags.</strong> With <code>ROS_VERSION</code> set to 1 or 2, <code>ControllerCarla.record_metrics()</code> launches <code>rosbag record</code> / <code>ros2 bag record</code> on the bridge topics, and <code>metrics_carla.get_metrics()</code> processes the bag. None of that can run here.</li>
+            <li><strong>The Python API backend already existed and is the one that runs.</strong> With <code>ROS_VERSION=None</code>, the controller subscribes to <code>world.on_tick</code>, writes the CSV with <code>_sample_row()</code>, and finally calls <code>get_metrics_python_api()</code> (line 597 of the controller). The new metrics are inserted exactly on that path.</li>
+            <li><strong><code>driver_carla.py</code> forces this mode anyway.</strong> It reads <code>os.environ.get('ROS_VERSION ')</code> with trailing spaces, so it always falls into Python API. <code>controller_carla.py</code> reads the variable correctly, which is why <code>ROS_VERSION=None</code> must be exported.</li>
+            <li><strong>The map is at hand.</strong> The controller already has <code>self.carla_map</code> and <code>self.ego_vehicle</code>, so the lane is queried with <code>carla_map.get_waypoint()</code> at the same tick. On the ROS path it would have to be reconstructed from the bag odometry.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 2: MODIFICATIONS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🛠️ Part 2 — Modifications</h3>
+
+        <p>The patch touches two files and is applied by the <code>aplicar_metricas.py</code> script. Line counts were measured applying the script on the actual files: <code>controller_carla.py</code> goes from 847 to 887 lines, and <code>metrics_carla.py</code> from 1777 to 1825. All new code carries the <code>BM_EXTRA_METRICS</code> marker, so <code>grep -n BM_EXTRA_METRICS</code> locates it.</p>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>File</th>
+                <th>Function</th>
+                <th>Original anchor line</th>
+                <th>Lines after patch</th>
+                <th>Change</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>utils/controller_carla.py</code></td>
+                <td><code>stop_recording_metrics()</code></td>
+                <td>651 (# Guardar)</td>
+                <td>651–665</td>
+                <td>Copies the new metrics to the summary if <code>build_json_summary</code> did not include them</td>
+              </tr>
+              <tr>
+                <td><code>utils/controller_carla.py</code></td>
+                <td><code>_metrics_headers()</code></td>
+                <td>723 ("weather_fog")</td>
+                <td>739–744</td>
+                <td>Five new CSV headers</td>
+              </tr>
+              <tr>
+                <td><code>utils/controller_carla.py</code></td>
+                <td><code>_sample_row()</code></td>
+                <td>766 (w.fog_density, )</td>
+                <td>788</td>
+                <td><code>*self._bm_lane_info(t)</code> appends the five values to the row</td>
+              </tr>
+              <tr>
+                <td><code>utils/controller_carla.py</code></td>
+                <td><code>_bm_lane_info()</code> (new)</td>
+                <td>770 (before <code>_csv_open</code>)</td>
+                <td>792–809</td>
+                <td>Queries the ego lane from the map</td>
+              </tr>
+              <tr>
+                <td><code>utils/metrics_carla.py</code></td>
+                <td><code>_bm_extra_metrics()</code> (new)</td>
+                <td>1612 (before <code>get_metrics_python_api</code>)</td>
+                <td>1612–1654</td>
+                <td>Computes the metrics from the CSV</td>
+              </tr>
+              <tr>
+                <td><code>utils/metrics_carla.py</code></td>
+                <td><code>get_metrics_python_api()</code></td>
+                <td>1723 (setdefault("percentage_completed"))</td>
+                <td>1767–1771</td>
+                <td>Calls <code>_bm_extra_metrics()</code> inside a <code>try</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><code>driver_carla.py</code> was not touched: its metric list (lines 250–340) is only used in <code>-s</code> mode and could fail with old JSONs missing the new keys. Neither was the GUI Metrics window, which still does not display the new metrics.</p>
+
+        <h4>New CSV columns</h4>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Column</th>
+                <th>Type</th>
+                <th>Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>lane_road_id</code></td><td>integer or empty</td><td>road_id of the waypoint under the car</td></tr>
+              <tr><td><code>lane_id</code></td><td>integer or empty</td><td>CARLA lane_id (the sign indicates the side of the road)</td></tr>
+              <tr><td><code>lane_heading_diff</code></td><td>degrees, −180 to 180</td><td>Car yaw minus lane yaw; negative = pointing to the left of the lane</td></tr>
+              <tr><td><code>on_driving_lane</code></td><td>0/1</td><td>1 if the car center is over a Driving-type lane</td></tr>
+              <tr><td><code>in_right_lane</code></td><td>0/1</td><td>1 if that lane also runs in the car's direction</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Lane at each tick: <code>_bm_lane_info()</code> (controller_carla.py)</h4>
+
+        <p><code>get_waypoint(..., project_to_road=False)</code> returns <code>None</code> if the car center is not over a driving lane. If it is, the frame counts as right lane when the heading difference with the lane is less than 90° (right-hand traffic). With <code>BM_RIGHT_LANE_MODE=rightmost</code> it also requires that there is no other Driving lane to its right.</p>
+
+        <div class="code-block">
+<span class="comment"># --- BM_EXTRA_METRICS: lane of the ego at each step ---</span><br>
+<span class="keyword">def</span> _bm_lane_info(self, t):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"""[road_id, lane_id, heading_diff, on_driving_lane, in_right_lane] for transform t."""</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wp = self.carla_map.get_waypoint(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.location, project_to_road=<span class="keyword">False</span>, lane_type=carla.LaneType.Driving<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> wp <span class="keyword">is</span> <span class="keyword">None</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> [<span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>, 0, 0]  <span class="comment"># outside a driving lane</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;diff = (t.rotation.yaw - wp.transform.rotation.yaw + 180.0) % 360.0 - 180.0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok = abs(diff) &lt; 90.0  <span class="comment"># same direction as the lane (right-hand traffic)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> ok <span class="keyword">and</span> os.environ.get(<span class="string">"BM_RIGHT_LANE_MODE"</span>, <span class="string">"direction"</span>) == <span class="string">"rightmost"</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right = wp.get_right_lane()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok = right <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">or</span> right.lane_type != carla.LaneType.Driving<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> [wp.road_id, wp.lane_id, round(diff, 2), 1, int(ok)]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">except</span> Exception:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> [<span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>, 0, 0]
+        </div>
+
+        <h4>Metric computation: <code>_bm_extra_metrics()</code> (metrics_carla.py)</h4>
+
+        <div class="metric-def">
+          <h5>Right-lane percentage, with N CSV rows:</h5>
+          <div class="formula">right_lane_percentage = (100 / N) · Σᵢ in_right_laneᵢ</div>
+
+          <h5>Steering zero-crossings per second:</h5>
+          <p>Each <code>steer</code> value (the one applied to the vehicle, <code>get_control().steer</code>) is converted into a sign <code>sᵢ</code>. Values inside the deadband <code>d</code> (0.02 by default, <code>BM_STEER_DEADBAND</code>) have no sign and are discarded. Changes between consecutive remaining signs are counted (K values) and divided by the simulated time T:</p>
+          <div class="formula">sᵢ = sign(steerᵢ) if |steerᵢ| ≥ d ; discarded otherwise<br>crossings/s = (1/T) · Σₖ₌₂ᴷ [sₖ ≠ sₖ₋₁]</div>
+          <p>Thus, a sequence +0.10 → 0.01 → −0.10 counts as a single crossing, and noise around 0 on straight sections does not add up.</p>
+        </div>
+
+        <div class="code-block">
+<span class="comment"># -- BM_EXTRA_METRICS --</span><br>
+<span class="keyword">def</span> _bm_extra_metrics(df, experiment_metrics):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"""Right lane (% of frames) and steering zero-crossings per second."""</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deadband = float(os.environ.get(<span class="string">"BM_STEER_DEADBAND"</span>, <span class="string">"0.02"</span>))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">except</span> ValueError:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deadband = 0.02<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Right lane: fraction of CSV rows with in_right_lane == 1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> <span class="string">"in_right_lane"</span> <span class="keyword">in</span> df.columns <span class="keyword">and</span> len(df) &gt; 0:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right = pd.to_numeric(df[<span class="string">"in_right_lane"</span>], errors=<span class="string">"coerce"</span>).fillna(0).to_numpy()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;experiment_metrics[<span class="string">"right_lane_percentage"</span>] = float(100.0 * right.mean())<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> <span class="string">"on_driving_lane"</span> <span class="keyword">in</span> df.columns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on = pd.to_numeric(df[<span class="string">"on_driving_lane"</span>], errors=<span class="string">"coerce"</span>).fillna(0).to_numpy()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;experiment_metrics[<span class="string">"off_driving_lane_percentage"</span>] = float(100.0 * (1.0 - on.mean()))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;experiment_metrics[<span class="string">"right_lane_percentage"</span>] = <span class="keyword">None</span>  <span class="comment"># old CSV without the column</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Zero-crossings with deadband and hysteresis</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;steer = pd.to_numeric(df[<span class="string">"steer"</span>], errors=<span class="string">"coerce"</span>).fillna(0.0).to_numpy()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;signs = np.where(np.abs(steer) &gt;= deadband, np.sign(steer), 0.0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;firm = signs[signs != 0]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;crossings = int(np.count_nonzero(firm[1:] != firm[:-1])) <span class="keyword">if</span> len(firm) &gt; 1 <span class="keyword">else</span> 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;duration = float(experiment_metrics.get(<span class="string">"experiment_total_simulated_time"</span>, 0.0) <span class="keyword">or</span> 0.0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;experiment_metrics[<span class="string">"steering_zero_crossings"</span>] = crossings<br>
+&nbsp;&nbsp;&nbsp;&nbsp;experiment_metrics[<span class="string">"steering_zero_crossings_per_second"</span>] = (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crossings / duration <span class="keyword">if</span> duration &gt; 0 <span class="keyword">else</span> 0.0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;experiment_metrics[<span class="string">"steering_zero_crossings_deadband"</span>] = deadband<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print(<span class="string">"[BM_EXTRA_METRICS] right lane: ... | zero crossings: ..."</span>)  <span class="comment"># console summary</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> experiment_metrics
+        </div>
+
+        <p>Call added in <code>get_metrics_python_api()</code>, right after <code>experiment_metrics.setdefault("percentage_completed", 0.0)</code>:</p>
+
+        <div class="code-block">
+<span class="comment"># BM_EXTRA_METRICS</span><br>
+<span class="keyword">try</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_bm_extra_metrics(df, experiment_metrics)<br>
+<span class="keyword">except</span> Exception <span class="keyword">as</span> _bm_e:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print(f<span class="string">"[BM_EXTRA_METRICS] Error computing extra metrics: {_bm_e}"</span>)
+        </div>
+
+        <h4>The <code>aplicar_metricas.py</code> script</h4>
+
+        <ul>
+          <li><strong>Backup:</strong> saves <code>controller_carla.py.metricas.bak</code> and <code>metrics_carla.py.metricas.bak</code> only the first time.</li>
+          <li><strong>Idempotent:</strong> if a file already contains <code>BM_EXTRA_METRICS</code>, it does not touch it.</li>
+          <li><strong>All or nothing:</strong> checks all anchors before writing; if one is missing, it does not modify any file.</li>
+          <li><strong>Compilation:</strong> compiles each file after the patch and restores the original if it fails.</li>
+          <li><strong>Revert:</strong> <code>python3 aplicar_metricas.py --revertir</code> restores the backups.</li>
+          <li><strong>Path:</strong> uses <code>~/BehaviorMetrics/behavior_metrics</code> by default, or the one indicated by <code>BM_DIR</code>.</li>
+        </ul>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Environment variable</th><th>Default</th><th>Effect</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>BM_STEER_DEADBAND</code></td><td>0.02</td><td>Steering deadband for counting crossings</td></tr>
+              <tr><td><code>BM_RIGHT_LANE_MODE</code></td><td>direction</td><td><code>rightmost</code> also requires the rightmost lane</td></tr>
+              <tr><td><code>BM_DIR</code></td><td>~/BehaviorMetrics/behavior_metrics</td><td>Code path for the script</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 3: STEP-BY-STEP -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🚀 Part 3 — Step-by-Step to Run the Test</h3>
+
+        <p>Three terminals are used: Terminal 1 for the simulator, Terminal 2 for Behavior Metrics, and Terminal 3 for checks. Step 0 is done only once.</p>
+
+        <div class="problem-solution">
+          <h5>Step 0 — Apply the patch (Terminal 3, once)</h5>
+          <p>With Behavior Metrics closed, copy <code>aplicar_metricas.py</code> to <code>~/BehaviorMetrics</code> and run it. Running it again does nothing if already applied.</p>
+          <div class="code-block">cd ~/BehaviorMetrics && python3 aplicar_metricas.py</div>
+          <p>Check that in <code>configs/CARLA/pilotnet_town02.yml</code> the <code>Model</code> parameter points to the real <code>.pth</code> and not to <code>'CAMBIAR/ruta/al/modelo.pth'</code>.</p>
+        </div>
+
+        <div class="problem-solution">
+          <h5>Step 1 — Start CARLA 0.9.15 headless (Terminal 1)</h5>
+          <p>The first command removes the containers occupying port 2000, including those from the training project (CARLA 0.9.14).</p>
+          <div class="code-block">
+sudo docker rm -f carla-server carla_montado carla-bm 2>/dev/null<br>
+sudo docker run -d --name carla-bm --privileged --gpus all --net=host \<br>
+&nbsp;&nbsp;--env="NVIDIA_VISIBLE_DEVICES=all" --env="NVIDIA_DRIVER_CAPABILITIES=all" \<br>
+&nbsp;&nbsp;carlasim/carla:0.9.15 ./CarlaU4.sh -RenderOffScreen -quality-level=Epic -nosound -world-port=2000
+          </div>
+          <p>Check that the container is still alive after about 20 s:</p>
+          <div class="code-block">
+sudo docker ps -a --filter name=carla-bm --format '{{.Names}} {{.Status}}'<br>
+sudo docker logs --tail 20 carla-bm
+          </div>
+          <p>If the status is <code>Exited (135) (Signal 7)</code>, headless mode did not start. Go back to windowed mode, which does work: add <code>--env="DISPLAY" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw"</code> and remove <code>-RenderOffScreen</code> (you may need <code>xhost +local:</code> beforehand).</p>
+        </div>
+
+        <div class="problem-solution">
+          <h5>Step 2 — Confirm that CARLA responds (Terminal 3)</h5>
+          <div class="code-block">
+cd ~/BehaviorMetrics/behavior_metrics && source ../venv/bin/activate<br>
+python3 -c "import carla; c=carla.Client('localhost',2000); c.set_timeout(20); print('Server', c.get_server_version(), '| map', c.get_world().get_map().name)"
+          </div>
+          <p>It must print version 0.9.15 and a map. If it times out, wait a few more seconds and repeat.</p>
+        </div>
+
+        <div class="problem-solution">
+          <h5>Step 3 — Launch Behavior Metrics (Terminal 2)</h5>
+          <div class="code-block">
+cd ~/BehaviorMetrics/behavior_metrics && source ../venv/bin/activate<br>
+export ROS_VERSION=None BM_EXTERNAL_CARLA=1 CARLA_ROOT=/tmp<br>
+export OBJECT_PATH=$PWD/configs/CARLA/CARLA_launch_files/CARLA_object_files/parked_car_objects.json<br>
+# Optional:<br>
+export BM_STEER_DEADBAND=0.02 BM_RIGHT_LANE_MODE=direction<br>
+python3 driver_carla.py -c configs/CARLA/pilotnet_town02.yml -g
+          </div>
+          <p>The output must show <code>Controller CARLA ROS VERSION: None</code> and <code>[PilotNet] model_best.pth | architecture=v3 | ... | cuda</code>. The controller waits about 10 s for the map to load and the <code>ego_vehicle</code> to appear.</p>
+        </div>
+
+        <div class="problem-solution">
+          <h5>Step 4 — Confirm the weather (Terminal 3)</h5>
+          <div class="code-block">grep BM_WEATHER /tmp/.worldgen_stdout.log</div>
+          <p>It must show <code>[BM_WEATHER] Weather applied</code>.</p>
+        </div>
+
+        <div class="problem-solution">
+          <h5>Step 5 — Record the experiment (GUI)</h5>
+          <ol>
+            <li>In the GUI, start the metrics recording and let the model drive for about 60 s.</li>
+            <li>Stop the recording. The GUI freezes for a few seconds while computing metrics: this is normal.</li>
+            <li>In Terminal 2, a line like <code>[BM_EXTRA_METRICS] right lane: ... % | zero crossings: ... in ... s -> .../s</code> must appear.</li>
+          </ol>
+          <p>The results are stored in a <code>YYYYMMDD-HHMMSS</code> folder inside <code>behavior_metrics/</code> (because <code>Stats.Out</code> is <code>'./'</code>), with the CSV, the <code>.meta.json</code>, and the summary <code>.json</code>.</p>
+        </div>
+
+        <div class="problem-solution">
+          <h5>Step 6 — Review the new metrics (Terminal 3)</h5>
+          <div class="code-block">
+cd ~/BehaviorMetrics/behavior_metrics && source ../venv/bin/activate<br>
+D=$(ls -td ./20*/| head -1); echo $D<br>
+grep -E "right_lane|off_driving|zero_cross" $D*[0-9].json<br>
+python3 -c "import pandas as pd,glob;df=pd.read_csv(glob.glob('$D*[0-9].csv')[0]);print(df[['steer','on_driving_lane','in_right_lane','lane_heading_diff']].describe())"
+          </div>
+          <p>If <code>steer</code> comes out with standard deviation 0, the motor commands are overriding the steering and <code>robot/interfaces/carla_api_motors.py</code> must be checked. To separate the stopped time after a crash, the following breakdown gives the full metrics, before the first crash, only while moving, and in 5 s segments:</p>
+          <div class="code-block">
+python3 - "$D" &lt;&lt;'EOF'<br>
+import sys, glob, pandas as pd, numpy as np<br>
+df = pd.read_csv(glob.glob(sys.argv[1] + '*-[0-9].csv')[0])<br>
+df['t'] = df.time_stamp - df.time_stamp.iloc[0]<br>
+c = df.index[df.collision_impulse &gt; 0.1]<br>
+t_col = df.t[c[0]] if len(c) else df.t.iloc[-1]<br>
+print(f"First crash: t={t_col:.2f} s" + (f" with {df.collision_with[c[0]]}" if len(c) else " (none)"))<br>
+def resumen(nombre, d):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;s = d.steer.to_numpy(); f = np.sign(s[np.abs(s) &gt;= 0.02])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dur = d.t.iloc[-1] - d.t.iloc[0]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print(f"{nombre:28s} rows={len(d):5d} dur={dur:5.1f}s right_lane={100*d.in_right_lane.mean():5.1f}% "<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f"off={100*(1-d.on_driving_lane.mean()):5.1f}% steer_mean={s.mean():+.3f} "<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f"crossings/s={np.count_nonzero(f[1:] != f[:-1])/dur if dur&gt;0 else 0:.2f}")<br>
+resumen("All", df)<br>
+resumen("Before crash", df[df.t &lt; t_col])<br>
+resumen("Moving (&gt;0.5 m/s)", df[df.speed_mps &gt; 0.5])<br>
+for a, b in [(0,5),(5,10),(10,15),(15,20),(20,30)]:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resumen(f" t {a}-{b} s", df[(df.t &gt;= a) &amp; (df.t &lt; b)])<br>
+EOF
+          </div>
+        </div>
+
+        <div class="problem-solution">
+          <h5>Step 7 — Close</h5>
+          <ul>
+            <li>Terminal 2: <code>Ctrl+C</code> to close Behavior Metrics.</li>
+            <li>Terminal 1: <code>sudo docker stop carla-bm</code> to stop the simulator, or leave it running for another test.</li>
+            <li>To undo the patch (Terminal 3): <code>cd ~/BehaviorMetrics && python3 aplicar_metricas.py --revertir</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 4: FIRST RUN RESULTS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">📈 Part 4 — First Run: PilotNet in Town02</h3>
+
+        <p>Run <code>20261020-101251</code> shows a model that steers smoothly but with a constant left bias, which ends up taking it off the road and crashing around second 20. It lasted 26.95 simulated seconds and produced 2372 rows (about 88 ticks per second); it traveled 66.6 m at an average of 9.1 km/h.</p>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+                <th>Reading</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>right_lane_percentage</code></td><td>53.5%</td><td>In its lane and in the correct direction a little more than half the time</td></tr>
+              <tr><td><code>off_driving_lane_percentage</code></td><td>41.9%</td><td>Outside any driving lane (sidewalk, shoulder, or off the road)</td></tr>
+              <tr><td>In oncoming lane (58.1 − 53.5)</td><td>≈ 4.6%</td><td>Frames with <code>lane_heading_diff</code> near ±180°</td></tr>
+              <tr><td><code>steering_zero_crossings</code></td><td>8</td><td>Steering side changes over the whole run</td></tr>
+              <tr><td><code>steering_zero_crossings_per_second</code></td><td>0.30</td><td>No zigzagging</td></tr>
+              <tr><td><code>steer_mean</code> / median</td><td>−0.084 / −0.067</td><td>Left bias; 75% of the values are &lt; 0.008</td></tr>
+              <tr><td><code>lane_heading_diff_median</code> (IQR)</td><td>−1.76° (−3.6° to −0.24°)</td><td>Inside the lane it always points slightly left</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="findings-summary">
+          <h4>📌 Interpretation</h4>
+          <p><strong>Lane.</strong> When the car is on the roadway, it is in the correct lane 92% of the time (53.5 / 58.1). The main problem is not invading the oncoming lane but going off the road.</p>
+          <p><strong>Careful with the 41.9%.</strong> It is a percentage of frames, not of distance, and the CSV keeps writing with the car stopped. The collision impulse was active in the last 564 rows (about 6.4 s), so the car was stopped after the crash. If it was outside the lane, that segment alone contributes about 24 points. The time off the road while moving is probably around 18%; the Step 6 breakdown confirms it.</p>
+          <p><strong>Steering.</strong> In CARLA the yaw grows clockwise and a negative steer turns left. The negative mean steering and negative heading inside the lane indicate lateral drift to the left. Without the trajectory, it cannot be ruled out that part of it is a legitimate left curve of the route.</p>
+          <p><strong>Zero crossings.</strong> 0.30/s means the model does not oscillate, but a low value is not good by itself: a biased model that always corrects to the same side also crosses little. It must be read together with the right-lane percentage. In addition, the brain smoothing (0.7 previous + 0.3 new) filters part of the network's oscillation: the metric measures the car, not the raw output.</p>
+        </div>
+
+        <div class="status-box">
+          <h4>🧪 What the First Run Shows</h4>
+          <p>The two new metrics are correct and capture a real behavior: a smooth but biased controller that drifts left and leaves the road. The next step is to use them as an objective comparison tool across models and seeds, together with the existing <code>cte_media</code> and <code>fuera_pct</code> from the offline/online ranking.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 5: LIMITATIONS AND NEXT STEPS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">⚠️ Part 5 — Limitations and Next Steps</h3>
+
+        <p>The two new metrics are correct, but collisions and lane invasions in the Python API backend are still inflated by two bugs in the original code:</p>
+
+        <div class="error-analysis">
+          <h4>🐞 Known Bugs That Affect the Metrics</h4>
+          <ul>
+            <li><strong>Sticky collisions.</strong> <code>_last_collision_impulse</code> never returns to 0, so after the first crash every row counts as a collision (564 in this run).</li>
+            <li><strong>Phantom invasions.</strong> An empty <code>_last_lane_invasion</code> is saved as an empty field; pandas reads it as NaN, <code>astype(str)</code> turns it into <code>"nan"</code>, and every row counts as an invasion (2372 of 2372).</li>
+            <li><strong>Percentage by frames.</strong> The CSV keeps writing with the car stopped, so an early crash inflates <code>off_driving_lane_percentage</code>. Versions "while moving" and "up to the first crash" should also be computed.</li>
+            <li><strong>Lane by car center.</strong> <code>on_driving_lane</code> looks only at the vehicle center: with half the car outside the lane it still counts as inside.</li>
+            <li><strong>GUI.</strong> The Metrics window still does not show the new metrics; they are in the JSON and the console.</li>
+          </ul>
+        </div>
+
+        <div class="methodology-box">
+          <h4>🔜 Pending</h4>
+          <ul>
+            <li>Run the Step 6 breakdown to separate the stopped time after the crash.</li>
+            <li>Patch: reset collision and invasion after recording them and count them per event.</li>
+            <li>Patch: "while moving" and "up to the first crash" metrics.</li>
+            <li>Locate the Metrics window file (<code>grep -rln "suddenness_distance_speed_per_km" --include=*.py ui/ utils/</code>) and add the new metrics.</li>
+            <li>Own reference route for Town02 instead of <code>lap-simple-circuit</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- WEEK SUMMARY -->
+      <!-- ========================================================= -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 47 SUMMARY – OCTOBER 20, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Add two per-experiment metrics to Behavior Metrics — right-lane percentage and steering zero-crossings per second — computed in the Python API backend, and validate them with a first PilotNet run in Town02.</p>
+        <p>🧪 <strong>Methodologies:</strong> Patch applied by <code>aplicar_metricas.py</code> to <code>controller_carla.py</code> and <code>metrics_carla.py</code> (marked <code>BM_EXTRA_METRICS</code>). Five new CSV columns describing the lane at each tick: <code>lane_road_id</code>, <code>lane_id</code>, <code>lane_heading_diff</code>, <code>on_driving_lane</code>, <code>in_right_lane</code>. Right-lane percentage = fraction of rows with <code>in_right_lane = 1</code>. Steering zero-crossings per second = sign changes of <code>steer</code> outside a deadband (0.02 by default) divided by simulated time T. CARLA 0.9.15 headless in Docker, Behavior Metrics with <code>ROS_VERSION=None</code> and <code>BM_EXTERNAL_CARLA=1</code>.</p>
+        <p>📈 <strong>Key Findings:</strong> The first run (<code>20261020-101251</code>) shows a smooth but left-biased model: <code>right_lane_percentage</code> = 53.5%, <code>off_driving_lane_percentage</code> = 41.9% (inflated by ~6.4 s stopped after the crash), <code>steering_zero_crossings</code> = 8, <code>steering_zero_crossings_per_second</code> = 0.30 (no zigzagging), mean steer −0.084 (left bias), median <code>lane_heading_diff</code> −1.76° inside the lane. When on the roadway, the car is in the correct lane 92% of the time. The main failure is going off the road, not invading the oncoming lane.</p>
+        <p>✅ <strong>Achievements:</strong> Two new metrics integrated into the Python API backend and stored in the summary JSON. Patch is idempotent, all-or-nothing, compiles the files after patching, and supports revert. First PilotNet run in Town02 completed and analyzed.</p>
+        <p>❌ <strong>Limitations:</strong> Collisions and lane invasions are inflated by two original bugs (sticky collision impulse, phantom invasions). <code>off_driving_lane_percentage</code> is computed by frames and includes stopped time after a crash. Lane detection uses only the vehicle center. The GUI Metrics window does not yet display the new metrics.</p>
+        <p>🔜 <strong>Next Steps:</strong> Apply the collision/invasion reset patch and the "while moving" / "up to the first crash" metrics. Run the Step 6 breakdown to separate stopped time. Display the new metrics in the GUI Metrics window. Define an own reference route for Town02. Compare the new lane and steering metrics across seeds and against the Week 46 ranking (<code>cte_media</code>, <code>fuera_pct</code>) to quantify seed variance from a second, independent measurement path.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: October 20, 2026 (Week 47)</p>
+  </footer>
+</body>
+</html>
