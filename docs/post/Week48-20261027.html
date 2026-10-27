@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report October 27, 2026 (Week 48)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 25px; margin: 30px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .slide-header { color: #2c3e50; border-bottom: 3px solid #4a6fa5; padding-bottom: 10px; margin-top: 0; margin-bottom: 20px; font-size: 1.5em; }
+    .findings-summary { background-color: #f5f5f5; border-left: 4px solid #4a6fa5; padding: 15px; margin: 20px 0; border-radius: 4px; }
+    .week-banner { background-color: #2c3e50; color: #ecf0f1; padding: 5px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-bottom: 15px; }
+    .status-box { background: #fff3cd; border-left: 6px solid #ffc107; padding: 18px; border-radius: 4px; margin: 25px 0; }
+    .status-box h4 { margin-top: 0; color: #856404; }
+    .results-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; font-size: 0.85em; }
+    .results-table th, .results-table td { border: 1px solid #dee2e6; padding: 10px; text-align: center; vertical-align: middle; }
+    .results-table th { background-color: #e9ecef; font-weight: bold; }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .methodology-box { background-color: #e8f5e9; border-left: 4px solid #2e7d32; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .error-analysis { background-color: #ffebee; border-left: 4px solid #c62828; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .checklist { list-style: none; padding-left: 0; }
+    .checklist li { padding: 4px 0 4px 26px; position: relative; }
+    .checklist li::before { content: "☐"; position: absolute; left: 0; color: #4a6fa5; font-weight: bold; }
+    .scroll-table { overflow-x: auto; }
+    .scroll-table .results-table { min-width: 680px; }
+    @media (max-width: 768px) {
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 48 · October 27, 2026</div>
+      <h2>PilotNet in Behavior Metrics: Brain v2 vs. Own Driver — Seed Independence with EMA</h2>
+      <p class="date">October 27, 2026</p>
+
+      <!-- ========================================================= -->
+      <!-- PART 1: OVERVIEW -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">📊 Part 1 — Overview</h3>
+
+        <div class="findings-summary">
+          <h4>📌 Two Questions Closed This Week</h4>
+          <ul>
+            <li><strong>PilotNet in Behavior Metrics.</strong> Models that drove well in the training pipeline crashed quickly inside Behavior Metrics. A new brain (v2) replicates the own driver's semantics and was validated in Town02.</li>
+            <li><strong>Seed independence with EMA.</strong> Whether an EMA of the weights can make single models independent of the training seed, as the 5-seed ensemble had achieved.</li>
+          </ul>
+          <p>Short answer: brain v2 works (428 m before understeering into a guardrail), but EMA 0.9999 does not deliver seed independence (14 of 60 single models still fail).</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 2: DIAGNOSIS AND BRAIN V2 -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🛠️ Part 2 — Diagnosis and Brain v2</h3>
+
+        <p>The initial hypothesis (FPS and sync/async mode) was only partly right. Three differences carried the weight:</p>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Aspect</th><th>Own driver</th><th>Previous brain in BM</th><th>Weight</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Simulation mode</td><td>Synchronous, <code>fixed_delta_seconds = 0.05</code>, one <code>tick()</code> per decision</td><td>Asynchronous; brain decides every 50 ms real time</td><td>High</td></tr>
+              <tr><td>Image seen by model</td><td>From the current tick, via a frame-indexed queue</td><td>Last image delivered by callback, variable delay</td><td>High</td></tr>
+              <tr><td>Speed control</td><td>PID in simulated time (Kp 0.18, Ki 0.05, Kd 0.03), slows in curves, throttle up to 1.0</td><td>Fixed thresholds of the old agent; throttle max 0.6; no braking in curves</td><td>High</td></tr>
+              <tr><td>Start-up</td><td>60 ticks braked so the car settles</td><td>Drives from the first instant</td><td>Medium</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="error-analysis">
+          <h4>🐞 Three Additional Findings</h4>
+          <ul>
+            <li><strong>FPS do not matter.</strong> The driver enables sync mode and imposes 0.05 s per tick (20 Hz simulated).</li>
+            <li><strong>Speed control was a bug in the previous brain</strong>, which copied the old agent. Without braking in curves, the car enters fast and opens the arc.</li>
+            <li><strong>Behavior Metrics' sync mode does not work here.</strong> With <code>AsyncMode: False</code> it enables sync mode without fixing <code>fixed_delta_seconds</code>, and two processes call <code>tick()</code> at once: the pilot and the world generator.</li>
+          </ul>
+        </div>
+
+        <div class="methodology-box">
+          <h4>Solution: brain v2</h4>
+          <p>Sync mode was moved into the brain. The YAML keeps <code>AsyncMode: True</code>; the brain is the only one advancing the simulator. Per step:</p>
+          <ol>
+            <li>On first play, enables <code>synchronous_mode</code> with <code>fixed_delta_seconds = 0.05</code> and creates its own 800×600 camera with a frame-indexed queue.</li>
+            <li>Keeps the car braked for 60 ticks (3 s simulated) so it settles.</li>
+            <li>At each decision calls <code>tick()</code>, takes the image from that same frame and predicts steering.</li>
+            <li>Smooths steering and computes throttle/brake with the same PID as the own driver.</li>
+            <li>Sends all three values in a single <code>apply_control</code>.</li>
+          </ol>
+          <p>Files added: <code>brain_carla_pilotnet_pth.py</code> (v2, supports ensembles), <code>pilotnet_town02_sync.yml</code> (same parameters as own driver, ClearNoon at 0 % cloudiness), and <code>carla_async.py</code> (restores async mode if CARLA is left frozen after an abrupt close).</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 3: RUN RESULTS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">📈 Part 3 — Run Results (20261027-012354)</h3>
+
+        <p>Model <code>run_20261025_233957_011743_1505f6_dataset_w40-62000_Comp0-seed0/model_best.pth</code>. The car covered <strong>428 m in 104.3 simulated seconds</strong> at a stable ~15 km/h, then hit a guardrail in a Town02 curve.</p>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Datum</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Map and weather</td><td>Town02; ClearNoon, sun at 90°, cloudiness 0 %, rain 0 %</td></tr>
+              <tr><td>Simulation step</td><td>Exactly 0.05 s in all 2186 rows, consecutive frames</td></tr>
+              <tr><td>Up to first crash</td><td>104.25 s and 428.4 m</td></tr>
+              <tr><td>Speed before crash</td><td>Mean 14.8 km/h; percentiles 5–95: 14.2–15.2 km/h</td></tr>
+              <tr><td>Crash</td><td><code>static.guardrail</code> at (191.7, 108.9), at 13.5 km/h</td></tr>
+              <tr><td>Off right lane</td><td>125 ticks (6.3 s) in 2 stretches; broken-line crossings in 45 % of rows</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>The last 3 seconds before the crash</h4>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Time before crash</th><th>Speed (km/h)</th><th>Applied steering</th><th>Difference vs. lane heading</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>3.0 s</td><td>14.9</td><td>-0.03</td><td>-4°</td></tr>
+              <tr><td>2.1 s</td><td>14.7</td><td>-0.09</td><td>-6°</td></tr>
+              <tr><td>1.5 s</td><td>14.9</td><td>0.00</td><td>3°</td></tr>
+              <tr><td>0.9 s</td><td>14.2</td><td>0.23</td><td>22°</td></tr>
+              <tr><td>0.3 s</td><td>14.5</td><td>0.16</td><td>38°</td></tr>
+              <tr><td>0 s</td><td>2.9</td><td>0.20</td><td>48°</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="findings-summary">
+          <h4>📌 Interpretation</h4>
+          <ul>
+            <li><strong>Synchrony works.</strong> Every row advances exactly 0.05 s and one frame, same as the own driver.</li>
+            <li><strong>Speed control works.</strong> Speed stays between 14.2 and 15.2 km/h around the 15 km/h target.</li>
+            <li><strong>The car no longer crashes quickly.</strong> It covers 428 m and several curves before failing.</li>
+            <li><strong>The crash is understeer in a curve.</strong> In the last second the car's heading separates 48° from the lane, but applied steering never exceeds 0.23; the model asks for little wheel and the 0.3 smoothing delays the response further.</li>
+            <li><strong>The car tends to ride the center line.</strong> The broken line appears in 45 % of rows, matching the lateral bias toward the dividing line mentioned when describing <code>--random-spawn</code>.</li>
+          </ul>
+        </div>
+
+        <div class="error-analysis">
+          <h4>🐞 Caveats When Reading the Metrics</h4>
+          <ul>
+            <li><strong>Collisions are inflated.</strong> Behavior Metrics does not stop the run on crash, and the PID keeps accelerating against the guardrail; the 101 collision rows are a single crash.</li>
+            <li><strong><code>lane_invasion</code> may carry its value across events.</strong> The 45 % is an indication of the bias, not an exact measure; <code>in_right_lane</code> is more reliable.</li>
+          </ul>
+        </div>
+
+        <h4>Next steps</h4>
+        <ul>
+          <li>Run this same model in the own driver on CARLA 0.9.14 and compare meters, seconds and end point with Behavior Metrics: 428 m, 104 s, crash at (191.7, 108.9).</li>
+          <li>Run the own driver against the 0.9.15 container, to measure the CARLA version effect.</li>
+          <li>Stop the run at the first crash inside the brain, as the own driver does.</li>
+          <li>Check whether <code>PerfectLap</code> should point to a Town02 route.</li>
+          <li>Test the 5-seed ensemble with <code>EnsembleModels</code> and compare with the ensemble ranking.</li>
+        </ul>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th></th><th>Behavior Metrics</th><th>Own script (0.9.14)</th><th>Own script (0.9.15)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Run</strong></td><td>428 m; crash at (191.7, 108.9)</td><td>Pending</td><td>Pending</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 4: UPSTREAM INTEGRATION PLAN -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🔀 Part 4 — Upstream Integration Plan</h3>
+
+        <p>Four independent contributions, each with its issue, branch and PR against <code>noetic-devel</code>, following <code>CONTRIBUTING.md</code>. The two smallest go first; sync mode, the most valuable and largest, goes last.</p>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Order</th><th>Change</th><th>Files</th><th>Suggested branch</th><th>Current state</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Fix <code>ROS_VERSION</code> reading (trailing spaces in the variable name)</td><td><code>driver_carla.py</code></td><td><code>fix/NNN-ros-version-env</code></td><td>Detected, unfixed</td></tr>
+              <tr><td>2</td><td>Use an external or Docker CARLA without Behavior Metrics closing it (<code>BM_EXTERNAL_CARLA</code>) and without requiring <code>CARLA_ROOT</code></td><td><code>utils/environment.py</code></td><td><code>feature/NNN-external-carla</code></td><td>Local patch working</td></tr>
+              <tr><td>3</td><td>Configurable weather from YAML (Simulation > Weather)</td><td><code>utils/carla_world_generator.py</code> and an example YAML</td><td><code>feature/NNN-weather-config</code></td><td>Local patch working</td></tr>
+              <tr><td>4</td><td>Real sync mode in Python API: fix <code>fixed_delta_seconds</code>, a single process calling <code>tick()</code>, frame-synchronized image</td><td><code>pilot_carla.py</code>, <code>utils/carla_world_generator.py</code>, <code>utils/traffic.py</code>, <code>utils/configuration.py</code></td><td><code>fix/NNN-python-api-sync-mode</code></td><td>Solved inside the brain only; still to be moved to the core</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-style: italic; color: #666; font-size: 0.95em;">NNN is the GitHub issue number.</p>
+
+        <div class="methodology-box">
+          <h4>Phase 0 — Prepare the dev environment (once)</h4>
+          <p>Work in a clean clone of the fork, separate from <code>~/BehaviorMetrics</code>, so the working install is not mixed with branches.</p>
+          <ul class="checklist">
+            <li>Fork at <code>https://github.com/JdeRobot/BehaviorMetrics/fork</code>.</li>
+            <li>Clone it separately and link the original repository:
+              <div style="background-color: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.85em; overflow-x: auto; margin: 10px 0; line-height: 1.5;">
+                git clone https://github.com/TU_USUARIO/BehaviorMetrics ~/BehaviorMetrics-dev<br>
+                cd ~/BehaviorMetrics-dev<br>
+                git remote add upstream https://github.com/JdeRobot/BehaviorMetrics<br>
+                git fetch upstream
+              </div>
+            </li>
+            <li>Check the issue tracker for existing reports on each change.</li>
+          </ul>
+        </div>
+
+        <div class="methodology-box">
+          <h4>Phase 1 — Cycle per change (repeat for 1, 2, 3)</h4>
+          <ol>
+            <li>Issue with the six sections required by <code>CONTRIBUTING.md</code>: expected behavior, current behavior, reproduction steps, environment, possible cause, possible solution.</li>
+            <li>Branch from the most recent version:
+              <div style="background-color: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.85em; overflow-x: auto; margin: 10px 0; line-height: 1.5;">
+                git fetch upstream<br>
+                git checkout -b feature/NNN-external-carla upstream/noetic-devel
+              </div>
+            </li>
+            <li>Port the change without copying <code>.bak</code> or unrelated files.</li>
+            <li>Test with <code>default_carla_api.yml</code> (example brain) and with <code>pilotnet_town02_sync.yml</code>, and record the results for the PR.</li>
+            <li>Commit and push, file by file:
+              <div style="background-color: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.85em; overflow-x: auto; margin: 10px 0; line-height: 1.5;">
+                git add behavior_metrics/utils/environment.py<br>
+                git commit -m "Allow using an external CARLA server without killing it"<br>
+                git push origin feature/NNN-external-carla
+              </div>
+            </li>
+            <li>Pull request against <code>noetic-devel</code>, with <code>Fixes #NNN</code>, how it was tested and in which environment (Ubuntu 26.04, Python 3.10, CARLA 0.9.15 in Docker, no ROS).</li>
+            <li>Answer review in days or weeks, not months.</li>
+          </ol>
+        </div>
+
+        <div class="methodology-box">
+          <h4>Phase 2 — Sync mode in the core (change 4)</h4>
+          <p>This change touches central behavior, so agree on the approach with maintainers in the issue before coding.</p>
+          <ul class="checklist">
+            <li>Issue with the evidence: with <code>AsyncMode: False</code> <code>fixed_delta_seconds</code> is not fixed, pilot and world generator call <code>tick()</code> at once, and the brain receives the last image instead of the current tick's. Cite PR #719, which addressed asynchrony but not this.</li>
+            <li>Propose the design: a <code>FixedDelta</code> key in YAML; only the pilot calls <code>tick()</code>; the world generator stops calling it; the camera delivers the current frame's image.</li>
+            <li>Implement using the v2 brain logic as reference.</li>
+            <li>Validate with the trace: step of exactly 0.05 s, consecutive frames and two identical runs giving the same trajectory.</li>
+            <li>Once integrated, simplify the PilotNet brain to use Behavior Metrics' sync mode instead of its own.</li>
+          </ul>
+        </div>
+
+        <div class="error-analysis">
+          <h4>🐞 Not Proposed to the Repository</h4>
+          <ul>
+            <li>The PilotNet brain as-is, because it depends on the project's <code>pilotnet_model.py</code>; at most a generic version could be offered as an example.</li>
+            <li>Local install adjustments: PyTorch versions for the RTX 5070, <code>requirements-base.txt</code> and pinned numpy.</li>
+          </ul>
+        </div>
+
+        <div class="status-box">
+          <h4>⚠️ Limitations</h4>
+          <ul>
+            <li>No ROS on Ubuntu 26.04, so the changes cannot be tested in ROS mode; this must be stated in every PR.</li>
+            <li>Review and integration depend on maintainers; meanwhile, the local installation keeps working with the current patches.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 5: EMA AND SEED INDEPENDENCE -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🌱 Part 5 — Independence of the Training Seed with EMA</h3>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Property</th><th>Meaning</th><th>State</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Determinism</td><td>Same seed and data give the same model, bit for bit</td><td class="pass">Solved</td></tr>
+              <tr><td>Seed independence</td><td>Different seeds give models that drive the same</td><td class="fail">Not solved: the seed decides whether the car passes certain points of the route</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>The symptom is a lottery: with the same dataset, one model passes point A (~60 m) and another, trained with a different seed, crashes there. The 5-seed ensemble had already attenuated this. Question: could EMA achieve the same for a single model?</p>
+
+        <div class="methodology-box">
+          <h4>Hypothesis: EMA as a filter</h4>
+          <p>EMA keeps an exponential moving average of the weights and validates/saves that average, not the raw weights. It is a first-order IIR low-pass filter with pole at z = β:</p>
+          <div style="background-color: #f1f3f5; padding: 8px 12px; border-radius: 4px; font-family: monospace; font-size: 0.9em; margin: 8px 0; display: block;">θ̄ₜ = β θ̄ₜ₋₁ + (1 − β) θₜ</div>
+          <p>The seed injects high-frequency noise; the filter attenuates it. With batch 32 and 52,700 images, one epoch is 1646 steps: β = 0.9999 has a ~6-epoch window. Expected limitation: the filter averages within one trajectory; if two seeds lead to different minima, it does not bring them together.</p>
+        </div>
+
+        <h4>Experiment 1: β sweep</h4>
+
+        <p>100 Comp0 datasets × β ∈ {0.99, 0.999, 0.9999} × 1 seed (42), cap 200 epochs; paired comparison dataset by dataset. It measured quality, not seed dependence.</p>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Metric (v2, common pool)</th><th>0.99</th><th>0.999</th><th>0.9999</th><th>0.9999 vs. 0.999</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>MAE</td><td>0.0429</td><td>0.0429</td><td>0.0424</td><td>−1.2 %, better in 82/100</td></tr>
+              <tr><td>R²</td><td>0.872</td><td>0.872</td><td>0.874</td><td>+0.0025, better in 84/100</td></tr>
+              <tr><td>Slope</td><td>0.879</td><td>0.877</td><td>0.878</td><td>+0.0016, no practical effect</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="error-analysis">
+          <h4>🐞 Defect Found and Fixed</h4>
+          <p>The average started from the random weights of the freshly created model: with 0.9999 those weights still weighed 85 % after 1 epoch and 19 % after 10, lengthening early stopping and delaying the LR drops of the plateau scheduler. A bias correction was added (Adam-style, dividing by 1 − βᵗ); the average was verified to match Adam's formula and training remains reproducible bit for bit.</p>
+        </div>
+
+        <h4>Experiment 2: 12 datasets × 5 seeds on the track</h4>
+
+        <p>With β = 0.9999 and bias correction, <strong>46 of 60 single models reached the gas station</strong>; the other 14 failed at point A (~60 m) or at a new point C (~230–250 m). 11 Comp0 datasets of 62,000 images and one of 309,000, seeds 42, 1, 2, 3, 4, cap 300 epochs, each model driven alone in Town02.</p>
+
+        <div class="findings-summary">
+          <h4>📌 Headline</h4>
+          <p><strong>14 of 60 single models do not reach the gas station; in 10 of 12 datasets at least one seed fails.</strong> Only two datasets arrived with all 5 seeds: Comp0-seed0 and the 309,000-image one.</p>
+        </div>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Dataset (Comp0)</th><th>s42</th><th>s1</th><th>s2</th><th>s3</th><th>s4</th><th>Reach</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>seed0</td><td>431 m</td><td>434 m</td><td>430 m</td><td>427 m</td><td>434 m</td><td class="pass">5/5</td></tr>
+              <tr><td>seed1</td><td>C·229 m</td><td>431 m</td><td>433 m</td><td>435 m</td><td>C·228 m</td><td>3/5</td></tr>
+              <tr><td>seed2</td><td class="fail">A·58 m</td><td>437 m</td><td>431 m</td><td>430 m</td><td>433 m</td><td>4/5</td></tr>
+              <tr><td>seed3</td><td>435 m</td><td>434 m</td><td>432 m</td><td>433 m</td><td class="fail">A·57 m</td><td>4/5</td></tr>
+              <tr><td>seed4</td><td class="fail">A·67 m</td><td>432 m</td><td>435 m</td><td>428 m</td><td class="fail">A·67 m</td><td>3/5</td></tr>
+              <tr><td>seed5</td><td>431 m</td><td>433 m</td><td>C·249 m</td><td>431 m</td><td>429 m</td><td>4/5</td></tr>
+              <tr><td>seed6</td><td>435 m</td><td class="fail">A·63 m</td><td>433 m</td><td>434 m</td><td>433 m</td><td>4/5</td></tr>
+              <tr><td>seed7</td><td>434 m</td><td>434 m</td><td>433 m</td><td>434 m</td><td class="fail">A·59 m</td><td>4/5</td></tr>
+              <tr><td>seed8</td><td>432 m</td><td>C·228 m</td><td>431 m</td><td>431 m</td><td>C·229 m</td><td>3/5</td></tr>
+              <tr><td>seed9</td><td>434 m</td><td>426 m</td><td class="fail">A·61 m</td><td>433 m</td><td>C·253 m</td><td>3/5</td></tr>
+              <tr><td>seed42</td><td>431 m</td><td class="fail">A·67 m</td><td>432 m</td><td>436 m</td><td>434 m</td><td>4/5</td></tr>
+              <tr><td>309 k images</td><td>433 m</td><td>437 m</td><td>431 m</td><td>430 m</td><td>435 m</td><td class="pass">5/5</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-style: italic; color: #666; font-size: 0.95em; margin-top: 10px;">Same data and parameters; only the seed changes. Unmarked = reaches B (~430 m); <code>C</code> = fails at C (~230–250 m); <span class="fail">A</span> = fails at A (~60 m).</p>
+
+        <h4>Analysis</h4>
+
+        <ul>
+          <li><strong>Reaching the gas station.</strong> A single model reaches B 75 % of the time. The expected distribution if each seed were a fair coin matches the observed one: there are no "bad" datasets (5-of-5: 2.5 expected vs. 1; 4-of-5: 4.36 vs. 3; 3-of-5: 3.04 vs. 4; 2-or-fewer: 1.2 vs. 0).</li>
+          <li><strong>Centering.</strong> |cte| varies ±0.11 m between seeds of the same dataset and ±0.05 m between dataset means (ANOVA p = 0.56). The seed explains ~77 % of the variation and the dataset ~23 %.</li>
+          <li><strong>The large dataset.</strong> Its 5 seeds reached B and are well centered (|cte| 0.596 m). Suggests more data reduces seed dependence, but it is a single case and 5 of 5 by chance has a 27 % probability.</li>
+          <li><strong>By seed.</strong> s3 reached B in all 12 datasets and s4 in 6. With 12 datasets this may be coincidence; a seed is not good in itself.</li>
+        </ul>
+
+        <div class="error-analysis">
+          <h4>🐞 Why EMA is not enough</h4>
+          <ul>
+            <li><strong>It attenuates high frequency, not the trajectory.</strong> The seed fixes initialization and data order, which decide which minimum training heads to; the filter averages within that trajectory and does not bring two trajectories together.</li>
+            <li><strong>Threshold decisions remain.</strong> Early stopping and the plateau scheduler cross their thresholds at different moments per seed, and from there the models diverge.</li>
+            <li><strong>Minimal offline differences, binary effect on the track.</strong> Slope changed ±0.002 between β values; in closed loop, a small difference in a critical curve decides between continuing and crashing.</li>
+            <li><strong>Points A and C are weak zones of the data.</strong> Any seed variation pushes the model one way or the other.</li>
+          </ul>
+        </div>
+
+        <h4>What follows</h4>
+        <ul>
+          <li>Review the ranking of the 12 ensembles (<code>ranking_ensembles_run81_ema0.9999bc.csv</code>): if datasets with 2 failing seeds still reach B as ensembles, the ensemble confirms itself as the solution.</li>
+          <li>Watch the failure videos at A and C to understand what the model sees there.</li>
+          <li>Add data from stretches A and C, and from the gas station (B).</li>
+          <li>Test whether more data reduces seed dependence with more than one large dataset.</li>
+          <li>Try a cosine scheduler, which does not depend on validation and removes one of the threshold decisions.</li>
+        </ul>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- WEEK SUMMARY -->
+      <!-- ========================================================= -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 48 SUMMARY – OCTOBER 27, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Validate the new Behavior Metrics brain (v2) against the training pipeline, and determine whether EMA can make model quality independent of the training seed.</p>
+        <p>🧪 <strong>Methodologies:</strong> Brain v2 replicating the own driver's semantics inside Behavior Metrics (sync mode, frame-indexed camera queue, settle ticks, PID in simulated time, single <code>apply_control</code>), with <code>AsyncMode: True</code> in YAML. Upstream integration planned as four independent issues/branches/PRs against <code>noetic-devel</code>. EMA β sweep over 100 datasets, then 12 datasets × 5 seeds with bias correction.</p>
+        <p>📈 <strong>Key Findings:</strong> Brain v2 reproduces the own driver's conditions: exact 0.05 s steps, consecutive frames, correct weather and model. The model covered 428 m in 104.3 s before understeering into a guardrail at 48° heading error, with applied steering never above 0.23. Speed control works (14.2–15.2 km/h around a 15 km/h target). FPS do not influence behavior; sync mode, speed control and start-up settling were the real differences. EMA 0.9999 with bias correction is a minor quality gain (MAE −1.2 %, R² +0.0025) but does not deliver seed independence: 14 of 60 single models fail, and in 10 of 12 datasets at least one seed fails. The seed explains ~77 % of centering variation, the dataset ~23 %.</p>
+        <p>✅ <strong>Achievements:</strong> Behavior Metrics now drives under the same conditions as the training pipeline; the remaining gap is model behavior, to be compared with the own driver. Upstream contribution plan defined with four scoped changes. EMA bias-correction defect found and fixed; training remains reproducible bit for bit.</p>
+        <p>❌ <strong>Limitations:</strong> Collisions in Behavior Metrics are inflated (run does not stop on crash); <code>lane_invasion</code> may carry across events. The 0.9.14 vs. 0.9.15 comparison is still pending. No ROS on Ubuntu 26.04, so upstream changes cannot be tested in ROS mode. The large-dataset evidence for reduced seed dependence is a single case (5 of 5 by chance has 27 % probability).</p>
+        <p>🔜 <strong>Next Steps:</strong> Run the same model in the own driver on 0.9.14 and 0.9.15 and compare distance, time and crash point. Stop the run at first crash inside the brain. Open the first two upstream issues (ROS_VERSION fix, external CARLA). Review the 12-ensemble ranking and the failure videos at A and C. Add data at points A, B and C. Test a cosine scheduler and whether more data reduces seed dependence across multiple large datasets.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: October 27, 2026 (Week 48)</p>
+  </footer>
+</body>
+</html>
