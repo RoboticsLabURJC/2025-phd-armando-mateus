@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armando Mateus – Report November 10, 2026 (Week 50)</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .slide-content { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 25px; margin: 30px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .slide-header { color: #2c3e50; border-bottom: 3px solid #4a6fa5; padding-bottom: 10px; margin-top: 0; margin-bottom: 20px; font-size: 1.5em; }
+    .findings-summary { background-color: #f5f5f5; border-left: 4px solid #4a6fa5; padding: 15px; margin: 20px 0; border-radius: 4px; }
+    .week-banner { background-color: #2c3e50; color: #ecf0f1; padding: 5px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-bottom: 15px; }
+    .status-box { background: #fff3cd; border-left: 6px solid #ffc107; padding: 18px; border-radius: 4px; margin: 25px 0; }
+    .status-box h4 { margin-top: 0; color: #856404; }
+    .results-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; font-size: 0.85em; }
+    .results-table th, .results-table td { border: 1px solid #dee2e6; padding: 10px; text-align: center; vertical-align: middle; }
+    .results-table th { background-color: #e9ecef; font-weight: bold; }
+    .results-table .pass { color: #2e7d32; font-weight: bold; }
+    .results-table .fail { color: #c62828; font-weight: bold; }
+    .methodology-box { background-color: #e8f5e9; border-left: 4px solid #2e7d32; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .error-analysis { background-color: #ffebee; border-left: 4px solid #c62828; padding: 20px; margin: 25px 0; border-radius: 4px; }
+    .checklist { list-style: none; padding-left: 0; }
+    .checklist li { padding: 4px 0 4px 26px; position: relative; }
+    .checklist li::before { content: "☐"; position: absolute; left: 0; color: #4a6fa5; font-weight: bold; }
+    .scroll-table { overflow-x: auto; }
+    .scroll-table .results-table { min-width: 680px; }
+    .diagram { margin: 25px 0; background: white; border: 1px solid #dee2e6; border-radius: 8px; padding: 16px; }
+    .diagram-scroll { overflow-x: auto; }
+    .diagram-scroll svg { min-width: 600px; width: 100%; height: auto; }
+    .diagram figcaption { font-size: 0.85em; color: #666; font-style: italic; margin-top: 8px; }
+    @media (max-width: 768px) {
+      .results-table { font-size: 0.7em; }
+      .results-table th, .results-table td { padding: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <img src="../images/logo.png" alt="Logo" class="logo">
+      <div class="header-text">
+        <h1>Robotics Lab URJC</h1>
+        <p>Programming Robot Intelligence</p>
+      </div>
+    </div>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <div class="week-banner">Week 50 · November 10, 2026</div>
+      <h2>Distillation Confirmed, and New Data for the Corners Where Models Fail</h2>
+      <p class="date">November 10, 2026</p>
+
+      <!-- ========================================================= -->
+      <!-- PART 1: OVERVIEW -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">📊 Part 1 — Overview</h3>
+
+        <div class="findings-summary">
+          <h4>📌 What Changed This Week</h4>
+          <ul>
+            <li><strong>Distillation is confirmed and adopted.</strong> Teaching each model to imitate the average answer of a group of five reduced the difference between seeds on three datasets, and those models also drive better: 14 of 15 reach the end of the route, against 12 of 15 without it.</li>
+            <li><strong>Two explanations were ruled out.</strong> The failures are not caused by the smoothing of the steering wheel, and the shape of the training data (its steering histogram) does not explain why one dataset drives better than another.</li>
+            <li><strong>The weak spot was found.</strong> The three hard places on the test route are left-hand corners without a junction, a situation that almost never appears in the training data. New data was captured for exactly that situation, and the models that use it are training now.</li>
+          </ul>
+          <p>Short answer: the seed problem now has a working solution, and the remaining failures point to missing data rather than to the training method.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 2: DISTILLATION -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🌱 Part 2 — Distillation, Confirmed on Three Datasets</h3>
+
+        <p>Last week, distillation was the only idea that made models trained with different seeds more alike, but it had been tried on a single dataset and nobody had checked whether those models drive well. This week it was repeated on three datasets, with five seeds each, and every model was put to drive the test route in Town02. The route has two difficult points (A at about 60 m and C at about 240 m) and ends at a gas station (B, about 430 m). Reaching B means completing the route.</p>
+
+        <figure class="diagram">
+          <div class="diagram-scroll"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 372" role="img" aria-label="The student learns the average answer of 5 models and is still one model" font-size="13" style="font-family:inherit;max-width:100%;height:auto;display:block">
+<defs><marker id='dist-arrow-report' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0 0L10 5L0 10z' fill='#8a96a3'/></marker></defs>
+<text x="24" y="30" font-size="15" font-weight="600" fill="#2c3e50">The student learns the average answer of 5 models and is still one model</text>
+<g>
+<rect x="20" y="140" width="130" height="64" rx="8" fill="none" stroke="#8a96a3" stroke-width="1.25"/>
+<text x="85" y="166" text-anchor="middle" font-weight="600" fill="#2c3e50">Dataset</text>
+<text x="85" y="186" text-anchor="middle" font-size="11.5" fill="#6c757d">62,000 images</text>
+</g>
+<text x="190" y="52" font-size="11.5" font-weight="600" fill="#6c757d">1 · Normal training</text>
+<g>
+<rect x="190" y="60" width="120" height="32" rx="8" fill="none" stroke="#8a96a3" stroke-width="1.25"/>
+<text x="250" y="80" text-anchor="middle" fill="#2c3e50">Control s42</text>
+<rect x="190" y="102" width="120" height="32" rx="8" fill="none" stroke="#8a96a3" stroke-width="1.25"/>
+<text x="250" y="122" text-anchor="middle" fill="#2c3e50">Control s1</text>
+<rect x="190" y="144" width="120" height="32" rx="8" fill="none" stroke="#8a96a3" stroke-width="1.25"/>
+<text x="250" y="164" text-anchor="middle" fill="#2c3e50">Control s2</text>
+<rect x="190" y="186" width="120" height="32" rx="8" fill="none" stroke="#8a96a3" stroke-width="1.25"/>
+<text x="250" y="206" text-anchor="middle" fill="#2c3e50">Control s3</text>
+<rect x="190" y="228" width="120" height="32" rx="8" fill="none" stroke="#8a96a3" stroke-width="1.25"/>
+<text x="250" y="248" text-anchor="middle" fill="#2c3e50">Control s4</text>
+</g>
+<g>
+<path d="M150 172L188 76" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M310 76L358 172" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M150 172L188 118" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M310 118L358 172" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M150 172L188 160" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M310 160L358 172" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M150 172L188 202" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M310 202L358 172" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M150 172L188 244" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M310 244L358 172" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M510 172H568" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+<path d="M85 204V320H540V204H568" fill="none" stroke="#8a96a3" stroke-width="1.25" stroke-dasharray="5 4" marker-end="url(#dist-arrow-report)"/>
+<path d="M655 216V250" fill="none" stroke="#8a96a3" stroke-width="1.25" marker-end="url(#dist-arrow-report)"/>
+</g>
+<text x="360" y="118" font-size="11.5" font-weight="600" fill="#6c757d">2 · Teacher</text>
+<g>
+<rect x="360" y="128" width="150" height="88" rx="8" fill="none" stroke="#8a96a3" stroke-width="1.25"/>
+<text x="435" y="156" text-anchor="middle" font-weight="600" fill="#2c3e50">Teacher</text>
+<text x="435" y="178" text-anchor="middle" font-size="11.5" fill="#6c757d">average of the 5</text>
+<text x="435" y="194" text-anchor="middle" font-size="11.5" fill="#6c757d">answers per image</text>
+</g>
+<text x="539" y="164" text-anchor="middle" font-size="11.5" fill="#6c757d">target</text>
+<text x="570" y="118" font-size="11.5" font-weight="600" fill="#6c757d">3 · Student (×5 seeds)</text>
+<g>
+<rect x="570" y="128" width="170" height="88" rx="8" fill="#4a6fa5" fill-opacity="0.12" stroke="#4a6fa5" stroke-width="2"/>
+<text x="655" y="156" text-anchor="middle" font-weight="600" fill="#2c3e50">Student (seed s)</text>
+<text x="655" y="178" text-anchor="middle" font-size="11.5" fill="#2c3e50">imitates the teacher</text>
+<text x="655" y="194" text-anchor="middle" font-size="11.5" fill="#2c3e50">α = 1</text>
+</g>
+<g>
+<rect x="570" y="252" width="170" height="52" rx="8" fill="none" stroke="#8a96a3" stroke-width="1.25"/>
+<text x="655" y="274" text-anchor="middle" font-weight="600" fill="#2c3e50">One single model</text>
+<text x="655" y="292" text-anchor="middle" font-size="11.5" fill="#6c757d">as fast as before when driving</text>
+</g>
+<text x="312" y="312" text-anchor="middle" font-size="11.5" fill="#6c757d">same training images</text>
+<text x="24" y="356" font-size="11.5" fill="#6c757d">α = 1: imitates the teacher only (14/15 reach B) · α = 0.5: half label, half teacher (0/5)</text>
+</svg></div>
+          <figcaption>How distillation works: five normally trained models form the teacher; each student is trained on the same images to reproduce the teacher&#8217;s average steering, and only the student is used for driving.</figcaption>
+        </figure>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Group (3 datasets × 5 seeds)</th><th>Reach the end (B)</th><th>Difference between seeds</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Week 48 models</td><td>11/15</td><td>reference</td></tr>
+              <tr><td>Normal training (controls)</td><td>12/15</td><td>reference for the teacher</td></tr>
+              <tr><td><strong>Distillation, full imitation (α = 1)</strong></td><td class="pass">14/15</td><td class="pass">11 % to 23 % lower</td></tr>
+              <tr><td>Distillation, half imitation (α = 0.5)</td><td class="fail">0/5</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>The "difference between seeds" is the fine measure introduced last week: all models look at the same 2,122 images of the route, and we measure how much their steering decisions disagree. Full imitation works; mixing the original label and the teacher's answer half and half breaks the model completely. The code was checked and is correct, so this is a real effect of the mixture.</p>
+
+        <div class="methodology-box">
+          <h4>Is it just a noisy steering wheel?</h4>
+          <p>The driver softens the model's steering with a smoothing filter. One possibility was that the filter made the car react too late in the corners. The same models were driven again without the filter, and the result was identical: 12 of 15. The failures are not noise. The models make the same wrong decision in the same places.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 3: DATA VS DRIVING -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🔍 Part 3 — Does the Data Explain the Driving?</h3>
+
+        <p>Two questions were asked about the training data. First, whether the dataset whose steering histogram is most "typical" gives the best drivers. Second, whether changing the proportions of each type of situation (straight roads, turns, recoveries) gives better drivers.</p>
+
+        <div class="methodology-box">
+          <h4>1. The histograms of our datasets only differ by chance</h4>
+          <p>The distance between the steering histograms of the different datasets (Wasserstein distance, 0.0006 to 0.0016) is about the same size as the difference expected from random sampling alone (median 0.0009, 95th percentile 0.0014). Differences that small cannot explain why one dataset drives better than another. The large dataset (309,000 images) looked the most "typical" only because more samples means less random variation.</p>
+        </div>
+
+
+        <p>For the second question, three new mixtures were built with 62,000 images each, three versions each and five seeds per version, and compared with the current mixture (Comp0):</p>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Mixture</th><th>Change from Comp0</th><th>Reach the end</th><th>Fail at A</th><th>Fail at C</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Comp0</strong></td><td>current mixture</td><td class="pass">12/15</td><td>2</td><td>1</td></tr>
+              <tr><td>Comp2</td><td>symmetric: as many left as right turns, more straight road</td><td>11/15</td><td>—</td><td>—</td></tr>
+              <tr><td>Comp3</td><td>20 % lane recoveries</td><td>10/15</td><td class="fail">5</td><td class="pass">0</td></tr>
+              <tr><td>Comp4</td><td>less straight road, more right turns</td><td class="fail">7/15</td><td>4</td><td>4</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="error-analysis">
+          <h4>2. No new mixture beats the current one</h4>
+          <p>More lane recoveries fixes point C but makes point A worse; less straight road makes both worse. Rebalancing what already exists only moves the problem from one corner to another. This suggested that something was missing from the data, not badly proportioned.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 4: THE MISSING SITUATION -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🧭 Part 4 — The Missing Situation: Left-Hand Corners</h3>
+
+        <p>Looking closely at the route, A, C and the gas station have the same shape: a 90° left-hand corner with no junction, an "L". In our training maps the driving rule at junctions is "turn right if you can; otherwise go straight; turn left only if there is no other option". As a result, the models had seen very few left L-corners and had never seen how to recover from a bad entry into one.</p>
+
+        <p>Instead of copying the gas station area into other maps, new examples were recorded in the training maps (Town01 and Town04), leaving the test map untouched:</p>
+
+        <ol>
+          <li><strong>Find the corners.</strong> A tool now lists every left L-corner of a map, respecting the driving rule. Town01 has four useful corners and Town04 two.</li>
+          <li><strong>Record recoveries.</strong> The capture tool places the car directly at a corner. A short push of the steering wheel (reduced from 0.7 to 0.15) or random noise of 0.15 knocks the car off its line, and the human driver brings it back. Only the recovery is kept.</li>
+          <li><strong>Get twice the data from the same work.</strong> Each corner was also driven on the left side of the road, British style, and those images were mirrored: a right-hand British corner becomes a normal left-hand corner.</li>
+          <li><strong>Prepare the images</strong> exactly like the rest of the data (remove frames under 10 km/h, crop, resize).</li>
+        </ol>
+
+        <p>The result is <strong>445 recordings and 33,431 new images</strong> of left-corner recoveries, a type of data the models did not have until now.</p>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 5: IN PROGRESS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">⏳ Part 5 — In Progress: Comp5 with Distillation</h3>
+
+        <p>The new mixture, Comp5, adds 10 % of the new left-corner recoveries. It follows the same design as before (62,000 images, three versions, five seeds), so it can be compared directly with Comp0:</p>
+
+        <div class="scroll-table">
+          <table class="results-table">
+            <thead>
+              <tr><th>Straight road</th><th>Gentle weaving</th><th>Right turns</th><th>Left turns</th><th>Left-corner recoveries (new)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>35 %</td><td>25 %</td><td>20 %</td><td>10 %</td><td><strong>10 %</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="status-box">
+          <h4>⚠️ Where We Are</h4>
+          <p>The 15 normal models (the teachers) and the 15 distilled models are being trained in a single queue that ends today. Then they will drive the test route. The question is whether the new data removes the failures at A and C. If it does, distilled Comp5 becomes the new reference. A larger version with all available images (about 309,000) was postponed, because it needs almost a full day of training.</p>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PART 6: PROJECT AND BEHAVIOR METRICS -->
+      <!-- ========================================================= -->
+      <div class="slide-content">
+        <h3 class="slide-header">🗂️ Part 6 — Project Housekeeping and Behavior Metrics</h3>
+
+        <ul>
+          <li><strong>Order.</strong> The scripts are now grouped by role (common model, training, driving, analysis, archive), with a single definition of the network shared by all of them.</li>
+          <li><strong>Reproducibility.</strong> The project is in a private GitHub repository with restore points; the simulator runs from our own Docker image, backed up; both Python environments are frozen in requirement files; and a command guide documents how to drive, build datasets, train and evaluate.</li>
+          <li><strong>Behavior Metrics.</strong> The maintainers reviewed both proposals. For #742 (already-running simulator) they ask to send one small timing fix as a separate proposal to their main ROS branch. For #747 (new metrics) they ask to compute the lane percentages over simulated time instead of over the number of samples. The replies are drafted and the decision on how to proceed is being taken this week.</li>
+        </ul>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- WEEK SUMMARY -->
+      <!-- ========================================================= -->
+      <div class="online-results" style="background-color: #f8f9fa; border-left: 4px solid #1976d2; padding: 15px; margin: 20px 0;">
+        <h4>📌 WEEK 50 SUMMARY – NOVEMBER 10, 2026</h4>
+        <p>🎯 <strong>Objective:</strong> Confirm distillation as the solution to seed dependence, understand why models fail at the hard points of the test route, and give them the data they lack, while organizing and documenting the project.</p>
+        <p>🧪 <strong>Methodologies:</strong> Distillation (α = 1 and α = 0.5) on three datasets with five seeds each, evaluated with the fine seed-difference measure and by driving the Town02 route. Driving without steering smoothing. Wasserstein distance between steering histograms compared with the sampling-noise floor. Three new data mixtures (Comp2–Comp4), 15 models each. A corner finder and an improved capture tool to record left-corner recoveries in Town01 and Town04, with British-side driving and mirroring.</p>
+        <p>📈 <strong>Key Findings:</strong> Distillation with full imitation reduces the difference between seeds by 11–23 % and improves driving from 12/15 to 14/15; half imitation fails (0/5). The failures are systematic decisions, not steering noise. Histogram differences between our datasets are at sampling-noise level and cannot explain driving. No new mixture beats Comp0: lane recoveries fix C but hurt A. A, C and the gas station are left L-corners without a junction, a situation almost absent from training.</p>
+        <p>✅ <strong>Achievements:</strong> Distillation adopted. 445 recordings and 33,431 new images of left-corner recoveries. Comp5 built; its 15 normal and 15 distilled models in training. Project reorganized, on GitHub, in a Docker image and documented. Review answers for Behavior Metrics drafted.</p>
+        <p>❌ <strong>Limitations:</strong> Comp5 driving results are not available yet. The large Comp5 version was postponed. The capture tool leaves the car still for 3–14 s after it appears. The histogram analysis has only been done within one mixture.</p>
+        <p>🔜 <strong>Next Steps:</strong> Drive the distilled Comp5 models and compare them with distilled Comp0. Train and distill the large Comp5 version. Repeat the histogram analysis across mixtures. Answer the reviews of #742 and #747. Fix the capture tool's start-up delay.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 – Academic Blog by Armando Mateus | Updated: November 10, 2026 (Week 50)</p>
+  </footer>
+</body>
+</html>
